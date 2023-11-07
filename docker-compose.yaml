@@ -1,0 +1,56 @@
+version: '3'
+
+networks:
+  team4ukf-api:
+
+services:
+  team4ukf-php:
+    build:
+      context: .
+      dockerfile: config/docker/Dockerfile
+    image: ppsdocker/team4ukf-php
+    container_name: team4ukfPhp
+    expose:
+      - 9000
+    networks:
+      - team4ukf-api
+    volumes:
+      - ./src:/var/www/html
+
+  team4ukf-web:
+    image: library/nginx:1.20.1
+    container_name: team4ukfWeb
+    ports:
+      - "8086:80"
+    networks:
+      - team4ukf-api
+    depends_on:
+      - team4ukf-php
+    volumes:
+      - ./src:/var/www/html
+      - ./config/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+  db:
+    build:
+      context: .
+      dockerfile: config/db/Dockerfile
+    image: db
+    platform: 'linux/x86_64'
+    container_name: DB
+    restart: unless-stopped
+    volumes:
+      - dev_db:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      MYSQL_ROOT_PASSWORD: docker
+    command: mysqld --innodb-flush-method=littlesync --innodb-use-native-aio=OFF --log_bin=ON --skip-innodb-file-per-table --server-id=1 --lower_case_table_names=1
+    networks:
+      - team4ukf-api
+
+volumes:
+  dev_db:
+    driver: local
