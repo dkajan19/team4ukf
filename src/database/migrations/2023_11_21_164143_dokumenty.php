@@ -9,21 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-    Schema::create('studijny_program', function (Blueprint $table) {
-        $table->id();
-        $table->string('nazov');
-        $table->string('skratka');
-        $table->timestamps();
-    });
-    }   
+        Schema::create('dokumenty', function (Blueprint $table) {
+            $table->id();
+            $table->string("typ_dokumentu");
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('studijny_program');
+        Schema::dropIfExists('dokumenty');
     }
 };
