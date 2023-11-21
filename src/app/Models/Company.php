@@ -19,4 +19,8 @@ class Company extends Model
         'email',
         'tel_cislo',
     ];
+    public function contracts(): HasMany
+    {
+        return $this->hasMany(Contract::class);
+    }
 }
