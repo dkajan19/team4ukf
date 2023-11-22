@@ -20,6 +20,7 @@ class User extends Authenticatable
      */
     protected $table = 'pouzivatel';
 
+
     protected $fillable = [
         'meno',
         'priezvisko',
@@ -27,7 +28,8 @@ class User extends Authenticatable
         'email',
         'password',
     ];
-
+     
+    
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -46,4 +48,24 @@ class User extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    public function user_roles(): BelongsTo
+    {
+        return $this->belongsTo(UserRole::class,'rola_pouzivatela_id');
+    }
+    public function companyy(): BelongsTo
+    {
+        return $this->belongsTo(Company::class,'firma_id');
+    }
+
+    public function praxesss(): HasMany
+    {
+        return[ 
+            $this->hasMany(Internship::class, 'student_id'),
+            $this->hasMany(Internship::class, 'veduci_pracoviska_id'),
+            $this->hasMany(Internship::class, 'pracovnik_fpvai_id'),
+            $this->hasMany(Internship::class, 'kontaktna_osoba_id'),
+        ];
+    }
+    
 }

@@ -21,6 +21,12 @@ class Company extends Model
     ];
     public function contracts(): HasMany
     {
-        return $this->hasMany(Contract::class);
+        return[ 
+            $this->hasMany(Contract::class),
+            $this->hasMany(Address::class),
+            $this->hasMany(User::class),
+        ];
     }
+
+    
 }

@@ -21,4 +21,9 @@ class Contract extends Model
     {
         return $this->belongsTo(Company::class, 'firma_id');
     }
+
+    public function praxee(): HasOne
+    {
+        return $this->hasOne(Internship::class);
+    }
 }

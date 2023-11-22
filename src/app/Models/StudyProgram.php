@@ -16,5 +16,8 @@ class StudyProgram extends Model
         'skratka',
         // Add other fields if needed
     ];
-
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class);
+    }
 }

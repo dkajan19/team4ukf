@@ -15,4 +15,10 @@ class UserRole extends Model
         'rola',
       
     ];
+    
+    public function userss(): HasMany
+    {
+        return $this->hasMany(User::class);
+    }
+    
 }

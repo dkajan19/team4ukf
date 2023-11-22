@@ -16,4 +16,13 @@ class SchoolSubject extends Model
         'skratka',
       
     ];
+    public function study_programs(): BelongsTo
+    {
+        return $this->belongsTo(StudyProgram::class,'studijny_program_id');
+    }
+    public function praxess(): HasMany
+    {
+        return $this->hasMany(Internship::class);
+    }
 }
+

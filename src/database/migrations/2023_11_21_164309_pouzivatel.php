@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string("tel_cislo");
             $table->string('email')->unique();
             $table->string('password');
+            $table->unsignedBigInteger('rola_pouzivatela_id');
+            $table->foreign('rola_pouzivatela_id')->references('id')->on('rola_pouzivatela')->onDelete('cascade');
+            $table->unsignedBigInteger('firma_id')->nullable();
+            $table->foreign('firma_id')->references('id')->on('firma')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

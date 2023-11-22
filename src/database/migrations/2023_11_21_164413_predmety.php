@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string("nazov");
             $table->string("skratka");
+            $table->unsignedBigInteger('studijny_program_id');
+            $table->foreign('studijny_program_id')->references('id')->on('studijny_program')->onDelete('cascade');
             $table->timestamps();
         });
     }

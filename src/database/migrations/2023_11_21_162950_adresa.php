@@ -17,6 +17,8 @@ return new class extends Migration
             $table->integer("PSČ");
             $table->string("ulica");
             $table->string("č_domu");
+            $table->unsignedBigInteger('firma_id');
+            $table->foreign('firma_id')->references('id')->on('firma')->onDelete('cascade');
             $table->timestamps();
         });
     }

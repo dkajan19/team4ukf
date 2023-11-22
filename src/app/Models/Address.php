@@ -18,4 +18,8 @@ class Address extends Model
         'č_domu',
     ];
 
+    public function companiess(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'firma_id');
+    }
 }

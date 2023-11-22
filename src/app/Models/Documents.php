@@ -15,4 +15,9 @@ class Documents extends Model
         'typ_dokumentu',
         
     ];
+
+    public function praxe(): HasMany
+    {
+        return $this->hasMany(Internship::class);
+    }
 }
