@@ -1,0 +1,8 @@
+diff a/src/app/Models/UserRole.php b/src/app/Models/UserRole.php	(rejected hunks)
+@@ -21,4 +21,4 @@
+         return $this->hasMany(User::class);
+     }
+     
+-}
++}
+\ No newline at end of file
