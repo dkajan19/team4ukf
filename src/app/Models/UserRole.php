@@ -21,8 +21,4 @@ class UserRole extends Model
         return $this->hasMany(User::class);
     }
     
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> feature/rola_pouzivatela
