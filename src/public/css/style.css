@@ -1,10 +1,33 @@
-/* public/css/style.css */
-
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
+}
+
+.navbar {
+    background-color: #e0e0e0;
+    padding: 10px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .nav-brand {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.navbar .nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar .nav-links li {
+    margin-right: 20px;
 }
 
 .container {
@@ -36,7 +59,7 @@ select {
 }
 
 button {
-    background-color: #4caf50;
+    background-color: #00a357;
     color: #fff;
     padding: 10px 15px;
     border: none;
@@ -45,7 +68,8 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #e0e0e0;
+    color: #00a357;
 }
 
 a {
@@ -59,4 +83,49 @@ a:hover {
 
 #create-form {
     display: none;
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+}
+
+.user-actions img {
+    width: 24px;
+    height: auto;
+    margin-right: 5px;
+}
+
+.user-actions a, .user-actions button {
+    display: flex;
+    align-items: center;
+    background-color: #00a357;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.user-actions a:hover, .user-actions button:hover {
+    background-color: #00a357;
+}
+
+.logout-button {
+    margin-top: 20px;
+}
+
+.navbar .nav-logo {
+    width: 300px;
+    height: auto;
+}
+
+a {
+    color:#00a357;
+}
+
+.navbar button:hover {
+    background-color: white;
+    color: #00a357;
 }
