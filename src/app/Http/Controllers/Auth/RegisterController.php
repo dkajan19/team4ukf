@@ -13,7 +13,7 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         if (Auth::check()) {
-            return redirect('/dashboard'); // Presmerovanie na dashboard, ak je už používateľ prihlásený
+            return redirect('/dashboard');
         }
 
         return view('auth.register');
@@ -29,6 +29,11 @@ class RegisterController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
+        // Kontrola, či email už existuje
+        if (User::where('email', $request->email)->exists()) {
+            return back()->withErrors(['email' => 'Táto e-mailová adresa je už zaregistrovaná.']);
+        }
+
         User::create([
             'meno' => $request->meno,
             'priezvisko' => $request->priezvisko,
@@ -37,6 +42,6 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('login')->with('success', 'Registration successful. You can now login.');
+        return redirect()->route('login')->with('success', 'Registrácia úspešná. Teraz sa môžete prihlásiť.');
     }
 }

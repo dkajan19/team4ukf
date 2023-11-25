@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
     <title>Študijné programy</title>
 </head>
 <body>
@@ -23,7 +24,7 @@
         </ul>
 
         <div class="user-actions">
-            <img src="{{ asset('images/user_icon.png') }}" alt="User Icon" class="user-icon">
+            <a href="{{ route('profile.index') }}"><img src="{{ asset('images/user_icon.png') }}" alt="User Icon" class="user-icon"></a>
             <div class="logout-button">
                 <form action="{{ route('logout') }}" method="post">
                     @csrf

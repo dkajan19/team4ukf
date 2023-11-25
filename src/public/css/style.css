@@ -96,7 +96,7 @@ a:hover {
     margin-right: 5px;
 }
 
-.user-actions a, .user-actions button {
+.user-actions button {
     display: flex;
     align-items: center;
     background-color: #00a357;
@@ -108,7 +108,7 @@ a:hover {
     text-decoration: none;
 }
 
-.user-actions a:hover, .user-actions button:hover {
+.user-actions button:hover {
     background-color: #00a357;
 }
 

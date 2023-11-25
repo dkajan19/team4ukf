@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
     <title>Role používateľov</title>
 </head>
 <body>
@@ -22,7 +23,7 @@
         </ul>
 
         <div class="user-actions">
-            <img src="{{ asset('images/user_icon.png') }}" alt="User Icon" class="user-icon">
+            <a href="{{ route('profile.index') }}"><img src="{{ asset('images/user_icon.png') }}" alt="User Icon" class="user-icon"></a>
             <div class="logout-button">
                 <form action="{{ route('logout') }}" method="post">
                     @csrf
