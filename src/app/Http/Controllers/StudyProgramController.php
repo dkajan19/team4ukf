@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\StudyProgram;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StudyProgramController extends Controller
 {
@@ -11,7 +12,11 @@ class StudyProgramController extends Controller
     public function index()
     {
         $studyPrograms = StudyProgram::all();
-        return view('study_program.index', compact('studyPrograms'));
+
+        $user = Auth::user();
+        $role = $user->user_roles->rola;
+
+        return view('study_program.index', compact('studyPrograms'),compact('role'));
     }
 
     public function show($id)

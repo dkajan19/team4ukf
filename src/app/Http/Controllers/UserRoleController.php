@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\UserRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserRoleController extends Controller
 {
     public function index()
     {
         $userRole = UserRole::all();
+        
+        $user = Auth::user();
+        $role = $user->user_roles->rola;
 
-        return view('user_role.index', compact('userRole'));
+        return view('user_role.index', compact('userRole'),compact('role'));
     }
 
     public function store(Request $request)

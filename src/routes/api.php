@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StudyProgramController;
 use App\Http\Controllers\UserRoleController;
 
 /*
@@ -18,6 +19,12 @@ use App\Http\Controllers\UserRoleController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/study-program', [StudyProgramController::class, 'index']);
+Route::get('/study-program/{id}', [StudyProgramController::class, 'show']);
+Route::post('/study-program', [StudyProgramController::class, 'store']);
+Route::put('/study-program/{id}', [StudyProgramController::class, 'update']);
+Route::delete('/study-program/{id}', [StudyProgramController::class, 'destroy']);
 
 Route::get('/user-role', [UserRoleController::class, 'index']);
 Route::post('/user-role', [UserRoleController::class, 'store']);
