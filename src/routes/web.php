@@ -10,6 +10,7 @@ use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\ContractController;
 
 
 
@@ -47,8 +48,8 @@ Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name(
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-Route::post('/profile/updatePassword', [ProfileController::class, 'updatePassword'])->name('profile.updatePassword');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/updatePassword', [ProfileController::class, 'updatePassword'])->name('profile.updatePassword');
 });
 
 Route::middleware(['admin'])->group(function () {
@@ -64,4 +65,10 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/user_role/{id}/edit', [UserRoleController::class, 'edit'])->name('user_role.edit');
     Route::put('/user_role/{id}', [UserRoleController::class, 'update'])->name('user_role.update');
     Route::delete('/user_role/{id}', [UserRoleController::class, 'destroy'])->name('user_role.destroy');
+    Route::get('/contract', [ContractController::class, 'index'])->name('contract.index');
+    Route::get('/contract/{id}', [ContractController::class, 'show'])->name('contract.show');
+    Route::get('/contract/{id}/edit', [ContractController::class, 'edit'])->name('contract.edit');
+    Route::put('/contract/{id}', [ContractController::class, 'update'])->name('contract.update');
+    Route::delete('/contract/{id}', [ContractController::class, 'destroy'])->name('contract.destroy');
+    Route::post('/contract', [ContractController::class, 'store'])->name('contract.store');
 });

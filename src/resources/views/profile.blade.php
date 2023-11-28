@@ -19,6 +19,7 @@
             @if($role == 'admin')
                 <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
                 <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
+                <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
             @endif
         </ul>
 
