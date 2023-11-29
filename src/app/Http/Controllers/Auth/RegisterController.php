@@ -29,7 +29,6 @@ class RegisterController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        // Kontrola, či email už existuje
         if (User::where('email', $request->email)->exists()) {
             return back()->withErrors(['email' => 'Táto e-mailová adresa je už zaregistrovaná.']);
         }
@@ -40,6 +39,7 @@ class RegisterController extends Controller
             'tel_cislo' => $request->tel_cislo,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'rola_pouzivatela_id' => 8,
         ]);
 
         return redirect()->route('login')->with('success', 'Registrácia úspešná. Teraz sa môžete prihlásiť.');
