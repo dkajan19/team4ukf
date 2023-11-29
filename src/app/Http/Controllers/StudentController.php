@@ -14,9 +14,10 @@ class StudentController extends Controller
         $studijneProgramy = StudyProgram::all();
         $selectedProgram = null;
         $student = auth()->user();
+        $role = $student->user_roles->rola;
         $prax = $student->prax()->first();
 
-        return view('student.program_and_subject', compact('studijneProgramy', 'selectedProgram', 'student','prax'));
+        return view('student.program_and_subject', compact('studijneProgramy', 'selectedProgram', 'student','prax','role'));
     }
 
     public function selectProgram(Request $request)
@@ -24,9 +25,10 @@ class StudentController extends Controller
         $selectedProgram = StudyProgram::find($request->studijny_program);
         $studijneProgramy = StudyProgram::all();
         $student = auth()->user();
+        $role = $student->user_roles->rola;
         $prax = $student->prax()->first();
 
-        return view('student.program_and_subject', compact('studijneProgramy', 'selectedProgram', 'student','prax'));
+        return view('student.program_and_subject', compact('studijneProgramy', 'selectedProgram', 'student','prax','role'));
     }
 
     public function assignSubject(Request $request)

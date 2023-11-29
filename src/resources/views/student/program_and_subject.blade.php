@@ -16,7 +16,14 @@
         </a>
         <ul class="nav-links">
             <li><a href="{{ route('dashboard') }}">Domov</a></li>
-            <li><a href="{{ route('contract.index') }}">Predmet</a></li>
+            @if($role == 'admin')
+                <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
+                <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
+                <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
+            @endif
+            @if($role == 'Študent')
+                <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
+            @endif
         </ul>
 
         <div class="user-actions">
