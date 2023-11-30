@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudyProgramController;
 use App\Http\Controllers\UserRoleController;
+use App\Http\Controllers\DocumentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,3 +32,9 @@ Route::post('/user-role', [UserRoleController::class, 'store']);
 Route::get('/user-role/{id}', [UserRoleController::class, 'show']);
 Route::put('/user-role/{id}', [UserRoleController::class, 'update']);
 Route::delete('/user-roles/{id}', [UserRoleController::class, 'destroy']);
+
+Route::get('/documents', [DocumentsController::class, 'index']);
+Route::post('/documents', [DocumentsController::class, 'store']);
+Route::get('/documents/{id}', [DocumentsController::class, 'show']);
+Route::put('/documents/{id}', [DocumentsController::class, 'update']);
+Route::delete('/documents/{id}', [DocumentsController::class, 'destroy']);

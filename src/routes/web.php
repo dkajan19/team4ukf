@@ -12,6 +12,10 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\StudentController;
+<<<<<<< HEAD
+=======
+use App\Http\Controllers\DocumentsController;
+>>>>>>> feature/dokumenty
 
 
 
@@ -62,3 +66,14 @@ Route::middleware(['admin'])->group(function () {
     Route::delete('/contract/{id}', [ContractController::class, 'destroy'])->name('contract.destroy');
     Route::post('/contract', [ContractController::class, 'store'])->name('contract.store');
 });
+<<<<<<< HEAD
+=======
+
+Route::get('/documents', [DocumentsController::class, 'index'])->name('documents.index');
+Route::post('/documents', [DocumentsController::class, 'store'])->name('documents.store');
+Route::get('/documents/{id}', [DocumentsController::class, 'show'])->name('documents.show');
+Route::get('/documents/{id}/edit', [DocumentsController::class, 'edit'])->name('documents.edit');
+Route::put('/documents/{id}', [DocumentsController::class, 'update'])->name('documents.update');
+Route::delete('/documents/{id}', [DocumentsController::class, 'destroy'])->name('documents.destroy');
+Route::get('/download/{id}', [DocumentsController::class, 'download'])->name('download');
+>>>>>>> feature/dokumenty
