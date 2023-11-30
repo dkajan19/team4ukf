@@ -34,12 +34,12 @@
     </nav>
 
     <div class="container">
-        <h1>Zobrazenie študijného programu</h1>
+        <h1>Zobrazenie predmetu</h1>
 
-        <p><strong>Názov:</strong> {{ $studyProgram->nazov }}</p>
-        <p><strong>Skratka:</strong> {{ $studyProgram->skratka }}</p>
+        <p><strong>Názov:</strong> {{ $schoolSubject->nazov }}</p>
+        <p><strong>Skratka:</strong> {{ $schoolSubject->skratka }}</p>
 
-        <a href="{{ route('study_program.index') }}">Naspäť na Študijné programy</a>
+        <a href="{{ route('school_subject.index') }}">Naspäť na predmety</a>
     </div>
 
 </body>

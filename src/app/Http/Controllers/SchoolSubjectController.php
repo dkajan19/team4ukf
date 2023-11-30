@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SchoolSubject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\SchoolSubject;
+use App\Models\StudyProgram;
 
 class SchoolSubjectController extends Controller
 {
@@ -24,7 +25,25 @@ class SchoolSubjectController extends Controller
         return view('school_subject.show', compact('schoolSubject'));
     }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nazov' => 'required|string|max:255',
+            'skratka' => 'required|string|max:10',
+            'study_program_id' => 'required|exists:study_programs,id',
+        ]);
 
+        $schoolSubject = SchoolSubject::create([
+            'nazov' => $request->input('nazov'),
+            'skratka' => $request->input('skratka'),
+        ]);
+
+        // Priradenie k študijnému programu
+        $schoolSubject->studyPrograms()->attach($request->input('study_program_id'));
+
+        return redirect()->route('school_subject.index')->with('success', 'School Subject created successfully.');
+    }
+    /*
     public function store(Request $request)
     {
         $request->validate([
@@ -38,7 +57,15 @@ class SchoolSubjectController extends Controller
         ]);
 
         return redirect()->route('school_subject.index')->with('success', 'School Subject created successfully.');
+    }*/
+
+    public function create()
+    {
+        $studyPrograms = StudyProgram::all(); // Získanie všetkých študijných programov
+        return view('school_subject.create', compact('studyPrograms'));
     }
+
+
 
     public function edit($id)
     {

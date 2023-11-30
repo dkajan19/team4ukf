@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Zobrazenie študijného programu</title>
+    <title>Upraviť predmet</title>
 </head>
 <body>
 
@@ -34,12 +34,28 @@
     </nav>
 
     <div class="container">
-        <h1>Zobrazenie študijného programu</h1>
+        <h1>Upraviť predmet</h1>
 
-        <p><strong>Názov:</strong> {{ $studyProgram->nazov }}</p>
-        <p><strong>Skratka:</strong> {{ $studyProgram->skratka }}</p>
+        @if(session('success'))
+            <div style="color: green;">
+                {{ session('success') }}
+            </div>
+        @endif
 
-        <a href="{{ route('study_program.index') }}">Naspäť na Študijné programy</a>
+        <form method="post" action="{{ route('school_subject.update', $schoolSubject->id) }}">
+            @csrf
+            @method('PUT')
+
+            <label for="nazov">Názov:</label>
+            <input type="text" name="nazov" value="{{ $schoolSubject->nazov }}" required>
+
+            <label for="skratka">Skratka:</label>
+            <input type="text" name="skratka" value="{{ $schoolSubject->skratka }}" required>
+
+            <button type="submit">Aktualizovať</button>
+        </form>
+
+        <a href="{{ route('school_subject.index') }}">Naspäť na predmety</a>
     </div>
 
 </body>

@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\SchoolSubjectController;
 
 
 
@@ -71,4 +72,13 @@ Route::middleware(['admin'])->group(function () {
     Route::put('/contract/{id}', [ContractController::class, 'update'])->name('contract.update');
     Route::delete('/contract/{id}', [ContractController::class, 'destroy'])->name('contract.destroy');
     Route::post('/contract', [ContractController::class, 'store'])->name('contract.store');
+
+
 });
+
+Route::get('/school_subject', [SchoolSubjectController::class, 'index'])->name('school_subject.index');
+Route::get('/school_subject/{id}', [SchoolSubjectController::class, 'show'])->name('school_subject.show');
+Route::get('/school_subject/{id}/edit', [SchoolSubjectController::class, 'edit'])->name('school_subject.edit');
+Route::put('/school_subject/{id}', [SchoolSubjectController::class, 'update'])->name('school_subject.update');
+Route::delete('/school_subject/{id}', [SchoolSubjectController::class, 'destroy'])->name( 'school_subject.destroy');
+Route::post('/school_subject', [SchoolSubjectController::class, 'store'])->name('school_subject.store');

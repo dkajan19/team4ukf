@@ -31,3 +31,9 @@ Route::post('/user-role', [UserRoleController::class, 'store']);
 Route::get('/user-role/{id}', [UserRoleController::class, 'show']);
 Route::put('/user-role/{id}', [UserRoleController::class, 'update']);
 Route::delete('/user-roles/{id}', [UserRoleController::class, 'destroy']);
+
+Route::get('/school-subject', [SchoolSubjectController::class, 'index']);
+Route::get('/school-subject/{id}', [SchoolSubjectController::class, 'show']);
+Route::post('/school-subject', [SchoolSubjectController::class, 'store']);
+Route::put('/school-subject/{id}', [SchoolSubjectController::class, 'update']);
+Route::delete('/school-subject/{id}', [SchoolSubjectController::class, 'destroy']);
