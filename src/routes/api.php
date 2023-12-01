@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudyProgramController;
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\DocumentsController;
+use App\Http\Controllers\AddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,3 +39,9 @@ Route::post('/documents', [DocumentsController::class, 'store']);
 Route::get('/documents/{id}', [DocumentsController::class, 'show']);
 Route::put('/documents/{id}', [DocumentsController::class, 'update']);
 Route::delete('/documents/{id}', [DocumentsController::class, 'destroy']);
+
+Route::get('/address', [AddressController::class, 'index']);
+Route::post('/address', [AddressController::class, 'store']);
+Route::get('/address/{id}', [AddressController::class, 'show']);
+Route::put('/address/{id}', [AddressController::class, 'update']);
+Route::delete('/address/{id}', [AddressController::class, 'destroy']);

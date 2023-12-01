@@ -12,10 +12,8 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\StudentController;
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\DocumentsController;
->>>>>>> feature/dokumenty
+use App\Http\Controllers\AddressController;
 
 
 
@@ -66,8 +64,6 @@ Route::middleware(['admin'])->group(function () {
     Route::delete('/contract/{id}', [ContractController::class, 'destroy'])->name('contract.destroy');
     Route::post('/contract', [ContractController::class, 'store'])->name('contract.store');
 });
-<<<<<<< HEAD
-=======
 
 Route::get('/documents', [DocumentsController::class, 'index'])->name('documents.index');
 Route::post('/documents', [DocumentsController::class, 'store'])->name('documents.store');
@@ -76,4 +72,10 @@ Route::get('/documents/{id}/edit', [DocumentsController::class, 'edit'])->name('
 Route::put('/documents/{id}', [DocumentsController::class, 'update'])->name('documents.update');
 Route::delete('/documents/{id}', [DocumentsController::class, 'destroy'])->name('documents.destroy');
 Route::get('/download/{id}', [DocumentsController::class, 'download'])->name('download');
->>>>>>> feature/dokumenty
+
+Route::get('/address', [AddressController::class, 'index'])->name('address.index');
+Route::post('/address', [AddressController::class, 'store'])->name('address.store');
+Route::get('/address/{id}', [AddressController::class, 'show'])->name('address.show');
+Route::get('/address/{id}/edit', [AddressController::class, 'edit'])->name('address.edit');
+Route::put('/address/{id}', [AddressController::class, 'update'])->name('address.update');
+Route::delete('/address/{id}', [AddressController::class, 'destroy'])->name('address.destroy');
