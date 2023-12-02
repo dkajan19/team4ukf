@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Documents;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class DocumentsController extends Controller
 {
@@ -12,7 +13,10 @@ class DocumentsController extends Controller
     {
         $documents = Documents::all();
 
-        return view('documents.index', compact('documents'));
+        $user = Auth::user();
+        $role = $user->user_roles->rola;
+
+        return view('documents.index', compact('documents','role'));
     }
 
     public function store(Request $request)

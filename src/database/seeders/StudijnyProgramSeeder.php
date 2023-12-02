@@ -153,5 +153,12 @@ class StudijnyProgramSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        DB::table('studijny_program')->insert([
+            'nazov' => 'NULL',
+            'skratka' => 'NULL',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

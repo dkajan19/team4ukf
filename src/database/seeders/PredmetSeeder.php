@@ -4206,6 +4206,11 @@ class PredmetSeeder extends Seeder
             "studijny_program_id" => "20"
         ]);
 
+        SchoolSubject::create([
+            "skratka" => "NULL",
+            "nazov" => "NULL",
+            "studijny_program_id" => "21"
+        ]);
 
     }
 }

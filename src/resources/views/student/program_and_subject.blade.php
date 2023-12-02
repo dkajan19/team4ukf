@@ -20,9 +20,11 @@
                 <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
                 <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
                 <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
+                <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
             @endif
             @if($role == 'Študent')
                 <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
+                <li><a href="{{ route('student.internship_details') }}">Prax</a></li>
             @endif
         </ul>
 
@@ -40,25 +42,40 @@
     <div class="container">
         <h1>Výber predmetu</h1>
 
-        @if(session('error'))
-            <p style="color: red;">{{ session('error') }}</p>
+        @if($errors->any())
+              <div style="color: red;">
+                  @foreach($errors->all() as $error)
+                    <p>{{ $error }}</p>
+                       <br>
+                @endforeach
+            </div>
         @endif
 
         @if(session('success'))
-            <p style="color: green;">{{ session('success') }}</p>
+            <div style="color: green;">
+                 {{ session('success') }}
+                <br>
+                <br>
+            </div>
         @endif
 
         @if($student)
             <p class>Meno študenta: {{ $student->meno }} {{ $student->priezvisko }}</p>
         @endif
 
-        @if($student && $prax)
-            @if($prax->schoolSubject->nazov)
-                <p>Priradený predmet z praxe: {{ $prax->schoolSubject->nazov }}</p>
-            @else
-                <p>Študent nemá priradený žiadny predmet v rámci praxe.</p>
+        @foreach($student->prax as $prax)
+            @if($prax->aktualny_stav === 'vytvorená')
+                @if($prax->schoolSubject)
+                    @if($prax->schoolSubject->nazov == 'NULL')
+                        <p style="color:red;">Student ešte nemá priradený predmet.</p>
+                    @else
+                        <p>Priradený predmet z praxe: {{ $prax->schoolSubject->nazov }}</p>
+                    @endif
+                @else
+                    <p>Student ešte nemá priradený predmet.</p>
+                @endif
             @endif
-        @endif
+        @endforeach
 
         <hr><br>
 

@@ -20,6 +20,11 @@
                 <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
                 <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
                 <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
+                <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
+            @endif
+            @if($role == 'Študent')
+                <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
+                <li><a href="{{ route('student.internship_details') }}">Prax</a></li>
             @endif
         </ul>
 

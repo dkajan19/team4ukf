@@ -14,7 +14,6 @@ class SchoolSubject extends Model
     protected $fillable = [
         'nazov',
         'skratka',
-      
     ];
 
     public function study_programs(): BelongsTo
