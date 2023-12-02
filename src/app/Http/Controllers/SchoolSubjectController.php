@@ -25,25 +25,8 @@ class SchoolSubjectController extends Controller
         return view('school_subject.show', compact('schoolSubject'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nazov' => 'required|string|max:255',
-            'skratka' => 'required|string|max:10',
-            'study_program_id' => 'required|exists:study_programs,id',
-        ]);
 
-        $schoolSubject = SchoolSubject::create([
-            'nazov' => $request->input('nazov'),
-            'skratka' => $request->input('skratka'),
-        ]);
 
-        // Priradenie k študijnému programu
-        $schoolSubject->studyPrograms()->attach($request->input('study_program_id'));
-
-        return redirect()->route('school_subject.index')->with('success', 'School Subject created successfully.');
-    }
-    /*
     public function store(Request $request)
     {
         $request->validate([
@@ -57,7 +40,7 @@ class SchoolSubjectController extends Controller
         ]);
 
         return redirect()->route('school_subject.index')->with('success', 'School Subject created successfully.');
-    }*/
+    }
 
     public function create()
     {

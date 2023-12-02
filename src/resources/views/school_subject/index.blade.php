@@ -82,13 +82,6 @@
                 <label for="skratka">Skratka:</label>
                 <input type="text" name="skratka" required>
 
-                <label for="study_program_id">Študijný program:</label>
-                <select name="study_program_id" required>
-                    @foreach($studyPrograms as $studyProgram)
-                        <option value="{{ $studyProgram->id }}">{{ $studyProgram->nazov }}</option>
-                    @endforeach
-                </select>
-
                 <button type="submit">Vytvoriť</button>
             </form>
         </div>
