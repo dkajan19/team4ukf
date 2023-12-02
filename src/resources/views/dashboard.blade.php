@@ -21,6 +21,9 @@
                 <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
                 <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
             @endif
+            @if($role == 'Študent')
+                <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
+            @endif
         </ul>
 
         <div class="user-actions">

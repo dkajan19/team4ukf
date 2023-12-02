@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Address extends Model
 {
@@ -16,9 +17,10 @@ class Address extends Model
         'PSČ',
         'ulica',
         'č_domu',
+        'firma_id'
     ];
 
-    public function companiess(): BelongsTo
+    public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class, 'firma_id');
     }

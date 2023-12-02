@@ -28,6 +28,7 @@ class User extends Authenticatable
         'tel_cislo',
         'email',
         'password',
+        'rola_pouzivatela_id',
     ];
      
     
@@ -59,7 +60,7 @@ class User extends Authenticatable
         return $this->belongsTo(Company::class,'firma_id');
     }
 
-    public function praxesss(): HasMany
+    public function praxe(): HasMany
     {
         return[ 
             $this->hasMany(Internship::class, 'student_id'),
@@ -69,4 +70,9 @@ class User extends Authenticatable
         ];
     }
     
+    public function prax(): HasMany
+    {
+        return $this->hasMany(Internship::class, 'student_id');
+    }
+
 }

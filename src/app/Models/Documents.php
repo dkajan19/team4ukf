@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Documents extends Model
 {
@@ -13,11 +14,12 @@ class Documents extends Model
 
     protected $fillable = [
         'typ_dokumentu',
+        'dokument',
         
     ];
 
-    public function praxe(): HasMany
-    {
-        return $this->hasMany(Internship::class);
-    }
+    public function internships(): HasMany
+{
+    return $this->hasMany(Internship::class);
+}
 }

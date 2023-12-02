@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudyProgramController;
 use App\Http\Controllers\UserRoleController;
+use App\Http\Controllers\DocumentsController;
+use App\Http\Controllers\AddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,8 +34,22 @@ Route::get('/user-role/{id}', [UserRoleController::class, 'show']);
 Route::put('/user-role/{id}', [UserRoleController::class, 'update']);
 Route::delete('/user-roles/{id}', [UserRoleController::class, 'destroy']);
 
+<<<<<<< HEAD
 Route::get('/school-subject', [SchoolSubjectController::class, 'index']);
 Route::get('/school-subject/{id}', [SchoolSubjectController::class, 'show']);
 Route::post('/school-subject', [SchoolSubjectController::class, 'store']);
 Route::put('/school-subject/{id}', [SchoolSubjectController::class, 'update']);
 Route::delete('/school-subject/{id}', [SchoolSubjectController::class, 'destroy']);
+=======
+Route::get('/documents', [DocumentsController::class, 'index']);
+Route::post('/documents', [DocumentsController::class, 'store']);
+Route::get('/documents/{id}', [DocumentsController::class, 'show']);
+Route::put('/documents/{id}', [DocumentsController::class, 'update']);
+Route::delete('/documents/{id}', [DocumentsController::class, 'destroy']);
+
+Route::get('/address', [AddressController::class, 'index']);
+Route::post('/address', [AddressController::class, 'store']);
+Route::get('/address/{id}', [AddressController::class, 'show']);
+Route::put('/address/{id}', [AddressController::class, 'update']);
+Route::delete('/address/{id}', [AddressController::class, 'destroy']);
+>>>>>>> 0b79213cda6c7991819af380765e064b4f1893ae
