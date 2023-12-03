@@ -14,7 +14,7 @@ use App\Http\Controllers\ContractController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\DocumentsController;
 use App\Http\Controllers\AddressController;
-
+use App\Http\Controllers\UserController;
 
 
 Route::get('/', function () {
@@ -78,8 +78,18 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/address/{id}/edit', [AddressController::class, 'edit'])->name('address.edit');
     Route::put('/address/{id}', [AddressController::class, 'update'])->name('address.update');
     Route::delete('/address/{id}', [AddressController::class, 'destroy'])->name('address.destroy');
+<<<<<<< HEAD
 });
 
 
 
 
+=======
+    Route::get('/user', [UserController::class, 'index'])->name('user.index');
+    Route::post('/user', [UserController::class, 'store'])->name('user.store');
+    Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
+    Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+});
+>>>>>>> feature/pouzivatel
