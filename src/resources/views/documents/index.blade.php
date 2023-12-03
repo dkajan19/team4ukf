@@ -22,6 +22,8 @@
                 <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
                 <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
                 <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
+                <li><a href="{{ route('user.index') }}">Používatelia</a></li>
+                <li><a href="{{ route('address.index') }}">Adresy</a></li>
             @endif
         </ul>
 

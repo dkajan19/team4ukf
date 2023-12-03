@@ -78,13 +78,6 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/address/{id}/edit', [AddressController::class, 'edit'])->name('address.edit');
     Route::put('/address/{id}', [AddressController::class, 'update'])->name('address.update');
     Route::delete('/address/{id}', [AddressController::class, 'destroy'])->name('address.destroy');
-<<<<<<< HEAD
-});
-
-
-
-
-=======
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::post('/user', [UserController::class, 'store'])->name('user.store');
     Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
@@ -92,4 +85,3 @@ Route::middleware(['admin'])->group(function () {
     Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 });
->>>>>>> feature/pouzivatel

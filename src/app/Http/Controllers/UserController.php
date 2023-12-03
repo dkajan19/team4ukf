@@ -5,20 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('user_role')->get();
+        $users = User::with('user_roles')->get();
         $user_roles = UserRole::all();
+
+        $user = Auth::user();
+        $role = $user->user_roles->rola;
         
-        return view('user.index', compact('users','user_roles'));
+        return view('user.index', compact('users','user_roles','role'));
     }
 
     public function edit($id)
     {
-        $user = User::with('user_role')->find($id);
+        $user = User::with('user_roles')->find($id);
         $user_roles = UserRole::all();
 
         return view('user.edit', compact('user', 'user_roles'));

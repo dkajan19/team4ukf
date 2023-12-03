@@ -1,14 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
     <title>Adresy</title>
 </head>
 <body>
+
+    <nav class="navbar">
+        <a href="{{ route('dashboard') }}">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="nav-logo">
+        </a>
+        <ul class="nav-links">
+            @if($role == 'admin')
+                <li><a href="{{ route('dashboard') }}">Domov</a></li>
+                <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
+                <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
+                <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
+                <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
+                <li><a href="{{ route('user.index') }}">Používatelia</a></li>
+                <li><a href="{{ route('address.index') }}">Adresy</a></li>
+            @endif
+        </ul>
+
+        <div class="user-actions">
+            <a href="{{ route('profile.index') }}"><img src="{{ asset('images/user_icon.png') }}" alt="User Icon" class="user-icon"></a>
+            <div class="logout-button">
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <button type="submit">Odhlásiť sa</button>
+                </form>
+            </div>
+        </div>
+    </nav>
     
     <div class="container">
         <h1>Adresy</h1>
@@ -20,11 +47,11 @@
     
         <ul>
             @foreach($addresses->sortBy(function($address) {
-                return optional($address->company)->nazov_firmy;
+                return optional($address->companiess)->nazov_firmy;
             }) as $address)
             <br>
             <li>
-                {{ $address->company->nazov_firmy }} - {{ $address->mesto }}
+                {{ $address->companiess->nazov_firmy }} - {{ $address->mesto }}
                 
                 <form method="get" action="{{ route('address.show', $address->id) }}" style="display: inline;">
                     @csrf
@@ -65,9 +92,9 @@
 
                 <label for="firma_id">Vybrať firmu:</label>
                 <select name="firma_id">                            
-                    @foreach($companies as $company)
-                        <option value="{{ $company->id }}">
-                            {{ $company->nazov_firmy }}           
+                    @foreach($companies as $companiess)
+                        <option value="{{ $companiess->id }}">
+                            {{ $companiess->nazov_firmy }}           
                         </option>                                       
                      @endforeach
                 </select>

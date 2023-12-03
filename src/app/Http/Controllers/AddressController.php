@@ -5,20 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Address;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AddressController extends Controller
 {
     public function index()
     {
-        $addresses = Address::with('company')->get();
+        $addresses = Address::with('companiess')->get();
         $companies = Company::all();
+
+        $user = Auth::user();
+        $role = $user->user_roles->rola;
         
-        return view('address.index', compact('addresses','companies'));
+        return view('address.index', compact('addresses','companies','role'));
     }
 
     public function edit($id)
     {
-        $address = Address::with('company')->find($id);
+        $address = Address::with('companiess')->find($id);
         $companies = Company::all();
 
         return view('address.edit', compact('address', 'companies'));

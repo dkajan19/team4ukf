@@ -1,14 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    
-    <title>Používateľ</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
+    <title>Používatelia</title>
 </head>
 <body>
+
+    <nav class="navbar">
+        <a href="{{ route('dashboard') }}">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="nav-logo">
+        </a>
+        <ul class="nav-links">
+            @if($role == 'admin')
+                <li><a href="{{ route('dashboard') }}">Domov</a></li>
+                <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
+                <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
+                <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
+                <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
+                <li><a href="{{ route('documents.index') }}">Používatelia</a></li>
+                <li><a href="{{ route('address.index') }}">Adresy</a></li>
+            @endif
+        </ul>
+
+        <div class="user-actions">
+            <a href="{{ route('profile.index') }}"><img src="{{ asset('images/user_icon.png') }}" alt="User Icon" class="user-icon"></a>
+            <div class="logout-button">
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <button type="submit">Odhlásiť sa</button>
+                </form>
+            </div>
+        </div>
+    </nav>
     
     <div class="container">
         <h1>Používateľ</h1><hr>
@@ -24,18 +52,18 @@
             @endphp
             <br>
             @foreach($users->sortBy(function($user) {
-                return optional($user->user_role)->rola;
+                return optional($user->user_roles)->rola;
                 }) as $user)
-            @if($currentRole != $user->user_role->rola)
+            @if($currentRole != $user->user_roles->rola)
             @if(!is_null($currentRole))
                 </ul><br>
             @endif
             
-            <h2>{{ $user->user_role->rola }}</h2>
+            <h2>{{ $user->user_roles->rola }}</h2>
             <ul>
 
             @php
-                $currentRole = $user->user_role->rola;
+                $currentRole = $user->user_roles->rola;
             @endphp
             @endif
             <br>
@@ -84,9 +112,9 @@
 
                 <label for="rola_pouzivatela_id">Vybrať rolu:</label>
                 <select name="rola_pouzivatela_id">                            
-                    @foreach($user_roles as $user_role)
-                        <option value="{{ $user_role->id }}">
-                            {{ $user_role->rola }}           
+                    @foreach($user_roles as $user_roles)
+                        <option value="{{ $user_roles->id }}">
+                            {{ $user_roles->rola }}           
                         </option>                                       
                      @endforeach
                 </select>
