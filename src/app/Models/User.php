@@ -51,11 +51,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function user_roles(): BelongsTo
+    public function user_role(): BelongsTo
     {
         return $this->belongsTo(UserRole::class, 'rola_pouzivatela_id');
     }
-    public function companyy(): BelongsTo
+    public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class,'firma_id');
     }
