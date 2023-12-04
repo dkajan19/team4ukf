@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Role používateľov</title>
+    <title>Predmety</title>
 </head>
 <body>
 
@@ -20,9 +21,7 @@
                 <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
                 <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
                 <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
-                <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
-                <li><a href="{{ route('user.index') }}">Používatelia</a></li>
-                <li><a href="{{ route('address.index') }}">Adresy</a></li>
+                <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
             @endif
         </ul>
 
@@ -38,7 +37,7 @@
     </nav>
 
     <div class="container">
-        <h1>Role používateľov</h1>
+        <h1>Predmety</h1>
 
         @if(session('success'))
             <div style="color: green;">
@@ -47,22 +46,22 @@
         @endif
 
         <ul>
-        @foreach($userRole as $userRole)
+        @foreach($schoolSubjects as $schoolSubject)
         <br>
             <li>
-                {{ $userRole->rola }}
+                {{ $schoolSubject->nazov }} - {{ $schoolSubject->skratka }}
 
-                <form method="get" action="{{ route('user_role.show', $userRole->id) }}" style="display: inline;">
+                <form method="get" action="{{ route('school_subject.show', $schoolSubject->id) }}" style="display: inline;">
                     @csrf
                     <button type="submit">Zobraziť</button>
                 </form>
 
-                <form method="get" action="{{ route('user_role.edit', $userRole->id) }}" style="display: inline;">
+                <form method="get" action="{{ route('school_subject.edit', $schoolSubject->id) }}" style="display: inline;">
                     @csrf
                     <button type="submit">Upraviť</button>
                 </form>
 
-                <form method="post" action="{{ route('user_role.destroy', $userRole->id) }}" style="display: inline;">
+                <form method="post" action="{{ route('school_subject.destroy', $schoolSubject->id) }}" style="display: inline;">
                     @csrf
                     @method('DELETE')
                     <button type="submit">Vymazať</button>
@@ -71,14 +70,17 @@
         @endforeach
         </ul>
 
-        <button id="toggle-form">Pridanie používateľskej role</button>
+        <button id="toggle-form">Pridanie predmetu</button>
 
         <div id="create-form">
-            <form method="post" action="{{ route('user_role.store') }}">
+            <br>
+            <form method="post" action="{{ route('study_program.store') }}">
                 @csrf
-                <br>
-                <label for="rola">Rola:</label>
-                <input type="text" name="rola" required>
+                <label for="nazov">Názov:</label>
+                <input type="text" name="nazov" required>
+
+                <label for="skratka">Skratka:</label>
+                <input type="text" name="skratka" required>
 
                 <button type="submit">Vytvoriť</button>
             </form>

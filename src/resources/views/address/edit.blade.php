@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Upraviť študijný program</title>
+    <title>Upraviť adresu</title>
 </head>
 <body>
 
@@ -36,28 +36,43 @@
     </nav>
 
     <div class="container">
-        <h1>Upraviť študijný program</h1>
-
+        <h1>Upraviť adresu</h1>
+        <hr><br>
         @if(session('success'))
             <div style="color: green;">
                 {{ session('success') }}
             </div>
         @endif
 
-        <form method="post" action="{{ route('study_program.update', $studyProgram->id) }}">
+        <form method="post" action="{{ route('address.update', $address->id) }}">
             @csrf
             @method('PUT')
 
-            <label for="nazov">Názov:</label>
-            <input type="text" name="nazov" value="{{ $studyProgram->nazov }}" required>
+            <label for="firma_id">Vybrať firmu:</label>
+            <select name="firma_id">
+                @foreach($companies as $companiess)
+                    <option value="{{ $companiess->id }}" {{ $companiess->id == $address->firma_id ? 'selected' : '' }}>
+                        {{ $companiess->nazov_firmy }}
+                    </option>
+                @endforeach
+            </select>
 
-            <label for="skratka">Skratka:</label>
-            <input type="text" name="skratka" value="{{ $studyProgram->skratka }}" required>
+            <label for="mesto">Mesto:</label>
+            <input type="text" name="mesto" value="{{ $address->mesto }}" required>
+
+            <label for="PSČ">PSČ:</label>
+            <input type="text" name="PSČ" value="{{ $address->PSČ }}" required>
+
+            <label for="ulica">Ulica:</label>
+            <input type="text" name="ulica" value="{{ $address->ulica}}" required>
+
+            <label for="č_domu">Číslo domu:</label>
+            <input type="text" name="č_domu" value="{{ $address->č_domu }}" required>
 
             <button type="submit">Aktualizovať</button>
         </form>
 
-        <a href="{{ route('study_program.index') }}">Naspäť na Študijné programy</a>
+        <a href="{{ route('address.index') }}">Naspäť na Adresy</a>
     </div>
 
 </body>

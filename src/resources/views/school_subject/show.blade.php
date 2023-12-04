@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Upraviť študijný program</title>
+    <title>Zobrazenie študijného programu</title>
 </head>
 <body>
 
@@ -19,9 +19,7 @@
             <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
             <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
             <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
-            <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
-            <li><a href="{{ route('user.index') }}">Používatelia</a></li>
-            <li><a href="{{ route('address.index') }}">Adresy</a></li>
+            <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
         </ul>
 
         <div class="user-actions">
@@ -36,28 +34,12 @@
     </nav>
 
     <div class="container">
-        <h1>Upraviť študijný program</h1>
+        <h1>Zobrazenie predmetu</h1>
 
-        @if(session('success'))
-            <div style="color: green;">
-                {{ session('success') }}
-            </div>
-        @endif
+        <p><strong>Názov:</strong> {{ $schoolSubject->nazov }}</p>
+        <p><strong>Skratka:</strong> {{ $schoolSubject->skratka }}</p>
 
-        <form method="post" action="{{ route('study_program.update', $studyProgram->id) }}">
-            @csrf
-            @method('PUT')
-
-            <label for="nazov">Názov:</label>
-            <input type="text" name="nazov" value="{{ $studyProgram->nazov }}" required>
-
-            <label for="skratka">Skratka:</label>
-            <input type="text" name="skratka" value="{{ $studyProgram->skratka }}" required>
-
-            <button type="submit">Aktualizovať</button>
-        </form>
-
-        <a href="{{ route('study_program.index') }}">Naspäť na Študijné programy</a>
+        <a href="{{ route('school_subject.index') }}">Naspäť na predmety</a>
     </div>
 
 </body>

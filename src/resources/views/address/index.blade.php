@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Role používateľov</title>
+    <title>Adresy</title>
 </head>
 <body>
 
@@ -36,49 +36,68 @@
             </div>
         </div>
     </nav>
-
+    
     <div class="container">
-        <h1>Role používateľov</h1>
-
+        <h1>Adresy</h1>
         @if(session('success'))
             <div style="color: green;">
                 {{ session('success') }}
             </div>
         @endif
-
+    
         <ul>
-        @foreach($userRole as $userRole)
-        <br>
+            @foreach($addresses->sortBy(function($address) {
+                return optional($address->companiess)->nazov_firmy;
+            }) as $address)
+            <br>
             <li>
-                {{ $userRole->rola }}
-
-                <form method="get" action="{{ route('user_role.show', $userRole->id) }}" style="display: inline;">
+                {{ $address->companiess->nazov_firmy }} - {{ $address->mesto }}
+                
+                <form method="get" action="{{ route('address.show', $address->id) }}" style="display: inline;">
                     @csrf
                     <button type="submit">Zobraziť</button>
                 </form>
-
-                <form method="get" action="{{ route('user_role.edit', $userRole->id) }}" style="display: inline;">
+                
+                <form method="get" action="{{ route('address.edit', $address->id) }}" style="display: inline;">
                     @csrf
                     <button type="submit">Upraviť</button>
                 </form>
-
-                <form method="post" action="{{ route('user_role.destroy', $userRole->id) }}" style="display: inline;">
+                
+                <form method="post" action="{{ route('address.destroy', $address->id) }}" style="display: inline;">
                     @csrf
                     @method('DELETE')
                     <button type="submit">Vymazať</button>
                 </form>
             </li>
-        @endforeach
+            @endforeach
         </ul>
-
-        <button id="toggle-form">Pridanie používateľskej role</button>
-
-        <div id="create-form">
-            <form method="post" action="{{ route('user_role.store') }}">
+        
+    
+        <button id="toggle-form">Pridanie adresy</button>    
+        <div id="create-form" style="display: none;">
+            <br>
+            <form method="post" action="{{ route('address.store') }}">
                 @csrf
-                <br>
-                <label for="rola">Rola:</label>
-                <input type="text" name="rola" required>
+                <label for="mesto">Mesto:</label>
+                <input type="text" name="mesto" required>
+
+                <label for="PSČ">PSČ:</label>
+                <input type="text" name="PSČ" title="PSČ musí obsahovať 5 číslic" required pattern="[0-9]{5}">
+
+                <label for="ulica">Ulica:</label>
+                <input type="text" name="ulica" required>
+
+                <label for="č_domu">Číslo domu:</label>
+                <input type="text" name="č_domu" required>
+
+                <label for="firma_id">Vybrať firmu:</label>
+                <select name="firma_id">                            
+                    @foreach($companies as $companiess)
+                        <option value="{{ $companiess->id }}">
+                            {{ $companiess->nazov_firmy }}           
+                        </option>                                       
+                     @endforeach
+                </select>
 
                 <button type="submit">Vytvoriť</button>
             </form>
@@ -88,6 +107,7 @@
     <script>
         $(document).ready(function() {
             $("#create-form").hide();
+
             $("#toggle-form").click(function() {
                 $("#create-form").toggle();
             });

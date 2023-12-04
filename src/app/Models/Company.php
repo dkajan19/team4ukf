@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Company extends Model
 {
@@ -19,6 +20,8 @@ class Company extends Model
         'email',
         'tel_cislo',
     ];
+
+    /*
     public function contracts(): HasMany
     {
         return[ 
@@ -26,7 +29,16 @@ class Company extends Model
             $this->hasMany(Address::class),
             $this->hasMany(User::class),
         ];
+    } 
+    */
+
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class, 'firma_id');
     }
 
-    
+        public function contracts(): HasMany
+    {
+        return $this->hasMany(Contract::class, 'firma_id');
+    } 
 }

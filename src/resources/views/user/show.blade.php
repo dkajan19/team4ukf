@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Upraviť študijný program</title>
+    <title>Zobrazenie používateľa</title>
 </head>
 <body>
 
@@ -36,28 +37,16 @@
     </nav>
 
     <div class="container">
-        <h1>Upraviť študijný program</h1>
+        <h1>Zobrazenie používateľa</h1>
+        <hr>
+        <p><strong>Meno:</strong> {{ $user->meno }}</p>
+        <p><strong>Priezvisko:</strong> {{ $user->priezvisko }}</p>
+        <p><strong>Telefonné čislo:</strong> {{ $user->tel_cislo }}</p>
+        <p><strong>Email:</strong> {{ $user->email}}</p>
+        <p><strong>Heslo:</strong> {{ $user->password }}</p>
+        <p><strong>Rola:</strong> {{ $user->user_roles->rola }}</p>
 
-        @if(session('success'))
-            <div style="color: green;">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        <form method="post" action="{{ route('study_program.update', $studyProgram->id) }}">
-            @csrf
-            @method('PUT')
-
-            <label for="nazov">Názov:</label>
-            <input type="text" name="nazov" value="{{ $studyProgram->nazov }}" required>
-
-            <label for="skratka">Skratka:</label>
-            <input type="text" name="skratka" value="{{ $studyProgram->skratka }}" required>
-
-            <button type="submit">Aktualizovať</button>
-        </form>
-
-        <a href="{{ route('study_program.index') }}">Naspäť na Študijné programy</a>
+        <a href="{{ route('user.index') }}">Naspäť na Používateľa</a>
     </div>
 
 </body>

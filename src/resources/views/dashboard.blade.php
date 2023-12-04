@@ -19,6 +19,14 @@
             @if($role == 'admin')
                 <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
                 <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
+                <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
+                <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
+                <li><a href="{{ route('user.index') }}">Používatelia</a></li>
+                <li><a href="{{ route('address.index') }}">Adresy</a></li>
+            @endif
+            @if($role == 'Študent')
+                <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
+                <li><a href="{{ route('student.internship_details') }}">Prax</a></li>
             @endif
         </ul>
 
@@ -39,7 +47,7 @@
             <p>Ako administrátor máte prístup k pokročilým možnostiam správy aplikácie. Tu môžete vykonávať rôzne administratívne úlohy, vrátane správy používateľov, definovania rolí, a sledovania študijných programov.</p>
             <p style="color: red;">Nezabudnite, že s veľkou mocou prichádza veľká zodpovednosť. Dávajte pozor na zmeny, ktoré robíte, aby ste udržali integritu a bezpečnosť aplikácie.</p>
         @endif
-        @if($role == 'student')
+        @if($role == 'Študent')
             <h2>Vitajte v študentskom prostredí</h2>
             <p>Ako študent máte možnosť spravovať svoju študentskú prax priamo tu. Môžete sledovať a aktualizovať informácie o svojej praxi.</p>
             <p style="color: red;">Nezabudnite, že študentská praxa je dôležitou súčasťou vášho vzdelávania, a preto dávajte pozor na termíny a splnenie požiadaviek.</p>

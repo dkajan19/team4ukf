@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Upraviť študijný program</title>
+    <title>Upraviť zmluvu</title>
 </head>
 <body>
 
@@ -29,14 +29,14 @@
             <div class="logout-button">
                 <form action="{{ route('logout') }}" method="post">
                     @csrf
-                    <button type="submit">Odhlásiť sa</button>
+                    <button type="submit">Logout</button>
                 </form>
             </div>
         </div>
     </nav>
 
     <div class="container">
-        <h1>Upraviť študijný program</h1>
+        <h1>Upraviť zmluvu</h1>
 
         @if(session('success'))
             <div style="color: green;">
@@ -44,20 +44,26 @@
             </div>
         @endif
 
-        <form method="post" action="{{ route('study_program.update', $studyProgram->id) }}">
+        <form method="post" action="{{ route('contract.update', $contract->id) }}">
             @csrf
             @method('PUT')
 
-            <label for="nazov">Názov:</label>
-            <input type="text" name="nazov" value="{{ $studyProgram->nazov }}" required>
+            <label for="zmluva">Zmluva:</label>
+            <input type="text" name="zmluva" value="{{ $contract->zmluva }}" required>
 
-            <label for="skratka">Skratka:</label>
-            <input type="text" name="skratka" value="{{ $studyProgram->skratka }}" required>
+            <label for="firma_id">Vybrať firmu:</label>
+                <select name="firma_id">
+                    @foreach($companies as $company)
+                        <option value="{{ $company->id }}" {{ $company->id == $contract->firma_id ? 'selected' : '' }}>
+                            {{ $company->nazov_firmy }}
+                        </option>
+                    @endforeach
+                </select>
 
             <button type="submit">Aktualizovať</button>
         </form>
 
-        <a href="{{ route('study_program.index') }}">Naspäť na Študijné programy</a>
+        <a href="{{ route('contract.index') }}">Naspäť na Zmluvy</a>
     </div>
 
 </body>

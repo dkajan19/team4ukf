@@ -14,12 +14,13 @@ class SchoolSubject extends Model
     protected $fillable = [
         'nazov',
         'skratka',
-      
     ];
+
     public function study_programs(): BelongsTo
     {
         return $this->belongsTo(StudyProgram::class,'studijny_program_id');
     }
+    
     public function praxess(): HasMany
     {
         return $this->hasMany(Internship::class);
