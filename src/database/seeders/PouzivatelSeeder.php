@@ -21,7 +21,7 @@ class PouzivatelSeeder extends Seeder
             'tel_cislo' => '123456789',
             'email' => 'denis.kajan@student.ukf.sk',
             'password' => Hash::make('hesielko'),
-            'rola_pouzivatela_id' => 12, //treba zadať správnu rolu pre používateľa podľa idčka
+            'rola_pouzivatela_id' => 1, //treba zadať správnu rolu pre používateľa podľa idčka
             'firma_id' => null,
             //'remember_token' => str_random(10),
             'created_at' => now(),

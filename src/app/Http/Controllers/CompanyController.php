@@ -16,7 +16,7 @@ class CompanyController extends Controller
         $user = Auth::user();
         $role = $user->user_roles->rola;
 
-        return view('company.index', compact('companies', 'role'));
+        return view('company.index', compact('companies','role'));
     }
 
     public function show($id)

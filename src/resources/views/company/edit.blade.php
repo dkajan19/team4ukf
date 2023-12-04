@@ -18,7 +18,11 @@
             <li><a href="{{ route('dashboard') }}">Domov</a></li>
             <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
             <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
-            <li><a href="{{ route('company.index') }}">Študijné programy</a></li>
+            <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
+            <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
+            <li><a href="{{ route('user.index') }}">Používatelia</a></li>
+            <li><a href="{{ route('address.index') }}">Adresy</a></li>
+            <li><a href="{{ route('company.index') }}">Firmy</a></li>
         </ul>
 
         <div class="user-actions">
@@ -33,7 +37,7 @@
     </nav>
 
     <div class="container">
-        <h1>Upraviť študijný program</h1>
+        <h1>Upraviť firmy</h1>
 
         @if(session('success'))
             <div style="color: green;">
@@ -41,20 +45,32 @@
             </div>
         @endif
 
-        <form method="post" action="{{ route('study_program.update', $studyProgram->id) }}">
+        <form method="post" action="{{ route('company.update', $company->id) }}">
             @csrf
             @method('PUT')
 
-            <label for="nazov">Názov:</label>
-            <input type="text" name="nazov" value="{{ $studyProgram->nazov }}" required>
+            <label for="nazov_firmy">Názov firmy:</label>
+            <input type="text" name="nazov_firmy" value="{{ $company->nazov_firmy }}" required>
 
-            <label for="skratka">Skratka:</label>
-            <input type="text" name="skratka" value="{{ $studyProgram->skratka }}" required>
+            <label for="IČO">IČO:</label>
+            <input type="text" name="IČO" value="{{ $company->IČO }}" required>
+
+            <label for="meno_kontaktnej_osoby">Meno kontaktnej osoby:</label>
+            <input type="text" name="meno_kontaktnej_osoby" value="{{ $company->meno_kontaktnej_osoby }}" required>
+
+            <label for="priezvisko_kontaktnej_osoby">Priezvisko kontaktnej osoby:</label>
+            <input type="text" name="priezvisko_kontaktnej_osoby" value="{{ $company->priezvisko_kontaktnej_osoby }}" required>
+
+            <label for="email">Email:</label>
+            <input type="text" name="email" value="{{ $company->email }}" required>
+
+            <label for="tel_cislo">Telefónne číslo:</label>
+            <input type="text" name="tel_cislo" value="{{ $company->tel_cislo }}" required>
 
             <button type="submit">Aktualizovať</button>
         </form>
 
-        <a href="{{ route('study_program.index') }}">Naspäť na Študijné programy</a>
+        <a href="{{ route('company.index') }}">Naspäť na Firmy</a>
     </div>
 
 </body>

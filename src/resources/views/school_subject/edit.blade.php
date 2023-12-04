@@ -15,11 +15,14 @@
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="nav-logo">
         </a>
         <ul class="nav-links">
-            <li><a href="{{ route('dashboard') }}">Domov</a></li>
+        <li><a href="{{ route('dashboard') }}">Domov</a></li>
             <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
             <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
             <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
-            <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
+            <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
+            <li><a href="{{ route('user.index') }}">Používatelia</a></li>
+            <li><a href="{{ route('address.index') }}">Adresy</a></li>
+            <li><a href="{{ route('company.index') }}">Firmy</a></li>
         </ul>
 
         <div class="user-actions">
