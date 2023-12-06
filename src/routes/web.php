@@ -16,6 +16,7 @@ use App\Http\Controllers\DocumentsController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\SchoolSubjectController;
 
 
 Route::get('/', function () {
@@ -84,6 +85,7 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
     Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::put('/user/{id}/password', [UserController::class, 'updatePassword'])->name('user.updatePassword');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
     Route::get('/company', [CompanyController::class, 'index'])->name('company.index');
     Route::post('/company', [CompanyController::class, 'store'])->name('company.store');
@@ -91,5 +93,11 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/company/{id}/edit', [CompanyController::class, 'edit'])->name('company.edit');
     Route::put('/company/{id}', [CompanyController::class, 'update'])->name('company.update');
     Route::delete('/company/{id}', [CompanyController::class, 'destroy'])->name('company.destroy');
-
+    Route::get('/school_subject', [SchoolSubjectController::class, 'index'])->name('school_subject.index');
+    Route::get('/school_subject/{id}', [SchoolSubjectController::class, 'show'])->name('school_subject.show');
+    Route::post('/school_subject', [SchoolSubjectController::class, 'store'])->name('school_subject.store');
+    Route::get('/school_subject/create', [SchoolSubjectController::class, 'create'])->name('school_subject.create');
+    Route::get('/school_subject/{id}/edit', [SchoolSubjectController::class, 'edit'])->name('school_subject.edit');
+    Route::put('/school_subject/{id}', [SchoolSubjectController::class, 'update'])->name('school_subject.update');
+    Route::delete('/school_subject/{id}', [SchoolSubjectController::class, 'destroy'])->name('school_subject.destroy');
 });

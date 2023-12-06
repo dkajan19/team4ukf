@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SchoolSubject extends Model
 {
@@ -14,6 +15,7 @@ class SchoolSubject extends Model
     protected $fillable = [
         'nazov',
         'skratka',
+        'studijny_program_id',
     ];
 
     public function study_programs(): BelongsTo
@@ -25,5 +27,6 @@ class SchoolSubject extends Model
     {
         return $this->hasMany(Internship::class);
     }
+
 }
 

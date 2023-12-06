@@ -7,6 +7,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
     <title>Upraviť predmet</title>
+    <script src="https://kit.fontawesome.com/361bfee177.js" crossorigin="anonymous"></script>
+    <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const menuIcon = document.querySelector('.menu-icon');
+                const navLinks = document.querySelector('.nav-links');
+                const container = document.querySelector('.container');
+
+                menuIcon.addEventListener('click', function () {
+                    navLinks.classList.toggle('show');
+                    container.classList.toggle('show-menu');
+                });
+            });
+    </script>
 </head>
 <body>
 
@@ -14,6 +27,7 @@
         <a href="{{ route('dashboard') }}">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="nav-logo">
         </a>
+        <i class="fa-solid fa-bars menu-icon" style="color: #000205;"></i>
         <ul class="nav-links">
         <li><a href="{{ route('dashboard') }}">Domov</a></li>
             <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
@@ -23,6 +37,7 @@
             <li><a href="{{ route('user.index') }}">Používatelia</a></li>
             <li><a href="{{ route('address.index') }}">Adresy</a></li>
             <li><a href="{{ route('company.index') }}">Firmy</a></li>
+            <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
         </ul>
 
         <div class="user-actions">
@@ -45,15 +60,33 @@
             </div>
         @endif
 
+        @if ($errors->any())
+            <div style="color: red;">
+                @foreach ($errors->all() as $error) 
+                    {{ $error }}
+                    <br><br>
+                 @endforeach
+            </div>
+        @endif
+
         <form method="post" action="{{ route('school_subject.update', $schoolSubject->id) }}">
             @csrf
             @method('PUT')
 
             <label for="nazov">Názov:</label>
-            <input type="text" name="nazov" value="{{ $schoolSubject->nazov }}" required>
+            <input type="text" name="nazov" value="{{ old('nazov', $schoolSubject->nazov) }}" required>
 
             <label for="skratka">Skratka:</label>
-            <input type="text" name="skratka" value="{{ $schoolSubject->skratka }}" required>
+            <input type="text" name="skratka" value="{{ old('skratka', $schoolSubject->skratka) }}" required>
+
+            <label for="studijny_program_id">Študijný program:</label>
+            <select name="studijny_program_id" required>
+                @foreach($studyPrograms as $studyProgram)
+                    <option value="{{ $studyProgram->id }}" {{ $studyProgram->id == $schoolSubject->studijny_program_id ? 'selected' : '' }}>
+                        {{ $studyProgram->nazov }}
+                    </option>
+                @endforeach
+            </select>
 
             <button type="submit">Aktualizovať</button>
         </form>

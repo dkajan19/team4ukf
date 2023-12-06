@@ -129,3 +129,52 @@ a {
     background-color: white;
     color: #00a357;
 }
+
+.navbar .menu-icon {
+    display: none;
+}
+
+
+@media only screen and (max-width: 1320px) {
+
+    .navbar {
+        justify-content: start;
+    }
+
+    .navbar .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: #e0e0e0;
+    }
+
+    .navbar .nav-links.show {
+        display: flex;
+        margin-top: 45px;
+    }
+
+    .container.show-menu {
+        margin-top: 300px;
+    }
+
+    .navbar .nav-links li {
+        margin-right: 0;
+        text-align: center;
+        width: 100%;
+        text-align: left;
+        margin-left: 20px;
+        margin-bottom: 10px;
+    }
+
+    .navbar .menu-icon {
+        display: block;
+    }
+
+    .user-actions {
+        margin-left: auto;
+    }
+
+}

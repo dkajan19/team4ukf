@@ -45,6 +45,8 @@ class UserController extends Controller
             'rola_pouzivatela_id' => 'required|exists:rola_pouzivatela,id',
         ]);
 
+        $validatedData['password'] = bcrypt($request->input('password'));
+
         User::create($validatedData);
 
         return redirect()->route('user.index')->with('success', 'Používateľ bol úspešne pridaný.');
@@ -57,13 +59,28 @@ class UserController extends Controller
             'priezvisko' => 'required|string|max:255',
             'tel_cislo' => 'required|string|max:20',
             'email' => 'required|string|max:255',
-            'password' => 'required|string|max:255',
+            //'password' => 'required|string|max:255',
             'rola_pouzivatela_id' => 'required|exists:rola_pouzivatela,id',
         ]);
+
+        //$validatedData['password'] = bcrypt($request->input('password'));
 
         User::whereId($id)->update($validatedData);
 
         return redirect()->route('user.index')->with('success', 'Používateľ bol úspešne aktualizovaný');
+    }
+
+    public function updatePassword(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'password' => 'required|string|max:255',
+        ]);
+
+        $validatedData['password'] = bcrypt($request->input('password'));
+
+        User::whereId($id)->update($validatedData);
+
+        return redirect()->route('user.index')->with('success', 'Používateľovo heslo bolo úspešne aktualizované');
     }
 
     public function destroy($id)
@@ -71,7 +88,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('user.index')
-                        ->with('success', 'Používateľ bol úspešne odstránený.');
+        return redirect()->route('user.index')->with('success', 'Používateľ bol úspešne odstránený.');
     }
+
 }
