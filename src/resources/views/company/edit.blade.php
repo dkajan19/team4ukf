@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Predmety</title>
+    <title>Upraviť firmu</title>
 </head>
 <body>
 
@@ -16,7 +15,6 @@
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="nav-logo">
         </a>
         <ul class="nav-links">
-            @if($role == 'admin')
             <li><a href="{{ route('dashboard') }}">Domov</a></li>
             <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
             <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
@@ -25,7 +23,6 @@
             <li><a href="{{ route('user.index') }}">Používatelia</a></li>
             <li><a href="{{ route('address.index') }}">Adresy</a></li>
             <li><a href="{{ route('company.index') }}">Firmy</a></li>
-            @endif
         </ul>
 
         <div class="user-actions">
@@ -40,7 +37,7 @@
     </nav>
 
     <div class="container">
-        <h1>Predmety</h1>
+        <h1>Upraviť firmy</h1>
 
         @if(session('success'))
             <div style="color: green;">
@@ -48,56 +45,33 @@
             </div>
         @endif
 
-        <ul>
-        @foreach($schoolSubjects as $schoolSubject)
-        <br>
-            <li>
-                {{ $schoolSubject->nazov }} - {{ $schoolSubject->skratka }}
+        <form method="post" action="{{ route('company.update', $company->id) }}">
+            @csrf
+            @method('PUT')
 
-                <form method="get" action="{{ route('school_subject.show', $schoolSubject->id) }}" style="display: inline;">
-                    @csrf
-                    <button type="submit">Zobraziť</button>
-                </form>
+            <label for="nazov_firmy">Názov firmy:</label>
+            <input type="text" name="nazov_firmy" value="{{ $company->nazov_firmy }}" required>
 
-                <form method="get" action="{{ route('school_subject.edit', $schoolSubject->id) }}" style="display: inline;">
-                    @csrf
-                    <button type="submit">Upraviť</button>
-                </form>
+            <label for="IČO">IČO:</label>
+            <input type="text" name="IČO" value="{{ $company->IČO }}" required>
 
-                <form method="post" action="{{ route('school_subject.destroy', $schoolSubject->id) }}" style="display: inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">Vymazať</button>
-                </form>
-            </li>
-        @endforeach
-        </ul>
+            <label for="meno_kontaktnej_osoby">Meno kontaktnej osoby:</label>
+            <input type="text" name="meno_kontaktnej_osoby" value="{{ $company->meno_kontaktnej_osoby }}" required>
 
-        <button id="toggle-form">Pridanie predmetu</button>
+            <label for="priezvisko_kontaktnej_osoby">Priezvisko kontaktnej osoby:</label>
+            <input type="text" name="priezvisko_kontaktnej_osoby" value="{{ $company->priezvisko_kontaktnej_osoby }}" required>
 
-        <div id="create-form">
-            <br>
-            <form method="post" action="{{ route('study_program.store') }}">
-                @csrf
-                <label for="nazov">Názov:</label>
-                <input type="text" name="nazov" required>
+            <label for="email">Email:</label>
+            <input type="text" name="email" value="{{ $company->email }}" required>
 
-                <label for="skratka">Skratka:</label>
-                <input type="text" name="skratka" required>
+            <label for="tel_cislo">Telefónne číslo:</label>
+            <input type="text" name="tel_cislo" value="{{ $company->tel_cislo }}" required>
 
-                <button type="submit">Vytvoriť</button>
-            </form>
-        </div>
+            <button type="submit">Aktualizovať</button>
+        </form>
+
+        <a href="{{ route('company.index') }}">Naspäť na Firmy</a>
     </div>
-
-    <script>
-        $(document).ready(function() {
-            $("#create-form").hide();
-            $("#toggle-form").click(function() {
-                $("#create-form").toggle();
-            });
-        });
-    </script>
 
 </body>
 </html>

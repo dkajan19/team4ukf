@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Upraviť študijný program</title>
+    <title>Zobrazenie študijného programu</title>
 </head>
 <body>
 
@@ -37,28 +37,16 @@
     </nav>
 
     <div class="container">
-        <h1>Upraviť študijný program</h1>
+        <h1>Zobrazenie firmy</h1>
 
-        @if(session('success'))
-            <div style="color: green;">
-                {{ session('success') }}
-            </div>
-        @endif
+        <p><strong>Názov firmy:</strong> {{ $company->nazov_firmy }}</p>
+        <p><strong>IČO:</strong> {{ $company->IČO }}</p>
+        <p><strong>Meno kontaktnej osoby:</strong> {{ $company->meno_kontaktnej_osoby }}</p>
+        <p><strong>Priezvisko kontaktnej osoby:</strong> {{ $company->priezvisko_kontaktnej_osoby }}</p>
+        <p><strong>Email:</strong> {{ $company->email }}</p>
+        <p><strong>Telefónne číslo:</strong> {{ $company->tel_cislo }}</p>
 
-        <form method="post" action="{{ route('study_program.update', $studyProgram->id) }}">
-            @csrf
-            @method('PUT')
-
-            <label for="nazov">Názov:</label>
-            <input type="text" name="nazov" value="{{ $studyProgram->nazov }}" required>
-
-            <label for="skratka">Skratka:</label>
-            <input type="text" name="skratka" value="{{ $studyProgram->skratka }}" required>
-
-            <button type="submit">Aktualizovať</button>
-        </form>
-
-        <a href="{{ route('study_program.index') }}">Naspäť na Študijné programy</a>
+        <a href="{{ route('company.index') }}">Naspäť na firmy</a>
     </div>
 
 </body>

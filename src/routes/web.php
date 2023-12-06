@@ -15,6 +15,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\DocumentsController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CompanyController;
 
 
 Route::get('/', function () {
@@ -84,4 +85,11 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+    Route::get('/company', [CompanyController::class, 'index'])->name('company.index');
+    Route::post('/company', [CompanyController::class, 'store'])->name('company.store');
+    Route::get('/company/{id}', [CompanyController::class, 'show'])->name('company.show');
+    Route::get('/company/{id}/edit', [CompanyController::class, 'edit'])->name('company.edit');
+    Route::put('/company/{id}', [CompanyController::class, 'update'])->name('company.update');
+    Route::delete('/company/{id}', [CompanyController::class, 'destroy'])->name('company.destroy');
+
 });

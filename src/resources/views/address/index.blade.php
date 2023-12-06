@@ -23,6 +23,7 @@
                 <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
                 <li><a href="{{ route('user.index') }}">Používatelia</a></li>
                 <li><a href="{{ route('address.index') }}">Adresy</a></li>
+                <li><a href="{{ route('company.index') }}">Firmy</a></li>
             @endif
         </ul>
 

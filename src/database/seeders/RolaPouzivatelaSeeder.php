@@ -15,6 +15,12 @@ class RolaPouzivatelaSeeder extends Seeder
     public function run()
     {
         DB::table('rola_pouzivatela')->insert([
+            'rola' => 'admin',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        
+        DB::table('rola_pouzivatela')->insert([
             'rola' => 'Študent',
             'created_at' => now(),
             'updated_at' => now(),
@@ -38,10 +44,5 @@ class RolaPouzivatelaSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
-        DB::table('rola_pouzivatela')->insert([
-            'rola' => 'admin',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
     }
 }
