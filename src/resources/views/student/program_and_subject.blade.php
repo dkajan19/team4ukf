@@ -41,8 +41,9 @@
                 <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
             @endif
             @if($role == 'Študent')
-                <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
                 <li><a href="{{ route('student.internship_details') }}">Prax</a></li>
+                <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
+                <li><a href="{{ route('student.report') }}">Výkaz</a></li>
             @endif
         </ul>
 

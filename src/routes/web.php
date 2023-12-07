@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/student/subject/assign_subject', [StudentController::class, 'assignSubject'])->name('assign-subject');
     Route::get('/student/internship-details', [StudentController::class, 'internshipDetails'])->name('student.internship_details');
     Route::post('/student/add-custom-internship', [StudentController::class, 'addCustomInternship'])->name('student.add_custom_internship');
+    Route::get('/student/report', [StudentController::class, 'report'])->name('student.report');
 });
 
 Route::middleware(['admin'])->group(function () {

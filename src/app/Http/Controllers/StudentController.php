@@ -138,4 +138,13 @@ class StudentController extends Controller
         return redirect()->route('student.internship_details')->with('success', 'Prax bola úspešne pridaná.');
     } 
 
+    public function report()
+    {
+        $student = auth()->user();
+        $role = $student->user_roles->rola;
+        $prax = $student->prax()->latest()->first();
+
+        return view('student.report', compact('student','prax','role'));
+    }
+
 }

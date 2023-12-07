@@ -78,4 +78,9 @@ class Internship extends Model
     {
         return $this->belongsTo(Documents::class,'dokumenty_id');
     }
+
+    public function contact(): BelongsTo
+    {
+        return $this->belongsTo(User::class,'kontaktna_osoba_id');
+    }
 }
