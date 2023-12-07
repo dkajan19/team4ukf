@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Relations\BelongsTo;
+use \Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Internship extends Model
 {
@@ -77,5 +78,9 @@ class Internship extends Model
     public function documents(): BelongsTo
     {
         return $this->belongsTo(Documents::class,'dokumenty_id');
+    }
+    public function feedback(): HasOne
+    {
+        return $this->hasOne(FeedBack::class, 'prax_id');
     }
 }
