@@ -82,6 +82,25 @@
     </nav>
 
     <div class="container">
+
+    @if($errors->any())
+        <div style="color: red;">
+            @foreach($errors->all() as $error)
+                <p>{{ $error }}</p>
+                <br>
+            @endforeach
+        </div>
+    @endif
+
+        @if(session('success'))
+            <div style="color: green;">
+                {{ session('success') }}
+                <br>
+                <br>
+            </div>
+        @endif
+
+@if($prax)        
         <div id="obsahPDF">
             <h2 style="text-align:center;">Výkaz o vykonanej odbornej praxi</h2>
             <h3><i>ŠTUDENT</i></h3>
@@ -123,8 +142,13 @@
             <button class="remove-row" onclick="odstranitRiadok()">Odstrániť riadok -</button>
             <button onclick="generovatPDF()" style="float: right;">Generovať PDF</button>
         </div>
+@else
+    <div style="color: red;">
+        <p>Študent nemá žiadnu priradenú prax.</p>
+    </div> 
+@endif
     </div>
-
+@if($prax) 
 <script>
     
     function pridatRiadok() {
@@ -181,7 +205,7 @@
     }
 
 </script>
-
+@endif
 
 </body>
 </html>

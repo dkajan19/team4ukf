@@ -71,17 +71,18 @@ class StudentController extends Controller
         if (auth()->check()) {
             $student = auth()->user();
             $role = $student->user_roles->rola;
+            $companies_all = Company::all();
 
             if ($student->prax->count() > 0) {
                 $praxes = $student->prax()
                     ->with(['schoolSubject', 'contract', 'contract.company.addresses','head','worker','documents'])
                     ->get();
 
-                $companies_all = Company::all();
-
                 return view('student.internship_details', compact('praxes', 'student', 'companies_all','role'));
             } else {
-                return redirect()->route('student.internship_details')->with('error', 'Nenašli sa žiadne podrobnosti o praxi.');
+                //return redirect()->route('student.internship_details')->with('error', 'Nenašli sa žiadne praxe.');
+                //return response('Neexistuje žiadna priradená prax', 404)->header('Content-Type', 'text/plain');
+                return view('student.internship_details', compact('student', 'role', 'companies_all'));                
             }
         } else {
             return redirect()->route('login')->with('error', 'Ak si chcete pozrieť podrobnosti o praxi, prihláste sa.');
@@ -144,7 +145,12 @@ class StudentController extends Controller
         $role = $student->user_roles->rola;
         $prax = $student->prax()->latest()->first();
 
-        return view('student.report', compact('student','prax','role'));
+        if ($prax) {
+            return view('student.report', compact('student', 'prax', 'role'));
+        } else {
+            //return response('Neexistuje žiadna priradená prax', 404)->header('Content-Type', 'text/plain');
+            return view('student.report', compact('student', 'prax', 'role','prax'));
+        }
     }
 
 }

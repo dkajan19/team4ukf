@@ -59,8 +59,7 @@
     </nav>
 
     <div class="container">
-        <h1>Výber predmetu</h1>
-
+        
         @if($errors->any())
               <div style="color: red;">
                   @foreach($errors->all() as $error)
@@ -77,7 +76,8 @@
                 <br>
             </div>
         @endif
-
+@if($prax)
+        <h1>Výber predmetu</h1>
         @if($student)
             <p class>Meno študenta: {{ $student->meno }} {{ $student->priezvisko }}</p>
         @endif
@@ -123,6 +123,11 @@
                 <button type="submit">Priradiť predmet</button>
             </form>
         @endif
+@else
+    <div style="color: red;">
+        <p>Študent nemá žiadnu priradenú prax.</p>
+    </div> 
+@endif
 
     </div>
 

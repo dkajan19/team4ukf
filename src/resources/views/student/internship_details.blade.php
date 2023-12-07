@@ -78,6 +78,12 @@
                 </div>
             @endif
 
+            @if($student->prax->count() == 0)
+                <div style="color: red;">
+                    <p>Študent nemá žiadnu prax na zobrazenie.</p>
+            </div> 
+            @endif
+
         <button id="addCustomInternship" onclick="toggleCustomInternshipForm()">Pridať vlastnú prax</button>
 
         <div id="customInternshipForm" style="display: none;">
@@ -112,18 +118,18 @@
             @endif
         </div>
 
-
-        <h2>Zobraziť detaily o praxi</h2>
-        <select id="internshipSelect" onchange="displayInternshipDetails()">
-            <option value="" disabled selected>Vyberte ID praxe</option>
-            @foreach ($praxes as $prax)
-                <option value="{{ $prax->id }}">{{ $prax->id }}</option>
-            @endforeach
-        </select>
-
-        <div id="CompanyDetailsContainer"></div>
-
-    </div>
+    @if($student->prax->count() > 0)
+            <h2>Zobraziť detaily o praxi</h2>
+            <select id="internshipSelect" onchange="displayInternshipDetails()">
+                <option value="" disabled selected>Vyberte ID praxe</option>
+                @foreach ($praxes as $prax)
+                    <option value="{{ $prax->id }}">{{ $prax->id }}</option>
+                @endforeach
+            </select>
+            <div id="CompanyDetailsContainer"></div>
+    @endif
+        </div>
+@if($student->prax->count() > 0)
     <script>
         var praxes = @json($praxes);
 
@@ -186,7 +192,14 @@
             customInternshipForm.style.display = (customInternshipForm.style.display === "none") ? "block" : "none";
         }
     </script>
-
+@else
+<script>
+    function toggleCustomInternshipForm() {
+            var customInternshipForm = document.getElementById("customInternshipForm");
+            customInternshipForm.style.display = (customInternshipForm.style.display === "none") ? "block" : "none";
+        }
+</script>
+@endif
 </body>
 
 </html>
