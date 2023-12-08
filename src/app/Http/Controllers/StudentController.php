@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\StudyProgram;
 use App\Models\SchoolSubject;
 use App\Models\Internship;
@@ -10,6 +11,7 @@ use App\Models\Company;
 use App\Models\User;
 use App\Models\Documents;
 use App\Models\Contract;
+use App\Models\Address;
 
 class StudentController extends Controller
 {
@@ -30,7 +32,7 @@ class StudentController extends Controller
         $studijneProgramy = StudyProgram::all();
         $student = auth()->user();
         $role = $student->user_roles->rola;
-        $prax = $student->prax()->first();
+        $prax = $student->prax()->latest()->first();
 
         return view('student.program_and_subject', compact('studijneProgramy', 'selectedProgram', 'student','prax','role'));
     }
@@ -95,6 +97,8 @@ class StudentController extends Controller
         $validatedData = $request->validate([
             'company_id_add' => 'required|exists:firma,id',
             'description_add' => 'required|string',
+            'datum_zaciatku_add' => 'required|date',
+            'datum_konca_add' => 'required|date|after:datum_zaciatku_add',
         ]);
 
         $randomWorker = User::whereHas('user_roles', function ($query) {
@@ -132,8 +136,8 @@ class StudentController extends Controller
             'kontaktna_osoba_id' => $kontaktnaOsoba->id,
             'dokumenty_id' => $document->id,
             'zmluva_id' => $contract->id,
-            'datum_zaciatku' => now(),  //treba zmenit ze datum moze byt null
-            'datum_konca' => now(), //treba zmenit ze datum moze byt null
+            'datum_zaciatku' => $validatedData['datum_zaciatku_add'],
+            'datum_konca' => $validatedData['datum_konca_add'],
         ]);
 
         return redirect()->route('student.internship_details')->with('success', 'Prax bola úspešne pridaná.');
@@ -152,5 +156,62 @@ class StudentController extends Controller
             return view('student.report', compact('student', 'prax', 'role','prax'));
         }
     }
+
+    public function company_index()
+    {
+        $companies = Company::all();
+
+        $user = Auth::user();
+        $role = $user->user_roles->rola;
+
+        return view('student.company', compact('companies','role'));
+    }
+
+    public function company_show($id)
+    {
+        $company = Company::findOrFail($id);
+
+        $user = Auth::user();
+        $role = $user->user_roles->rola;
+
+        return view('student.company_show', compact('company','role'));
+    }
+
+
+    public function company_store(Request $request)
+    {
+        $request->validate([
+            'nazov_firmy' => 'required',
+            'IČO' => 'required',
+            'meno_kontaktnej_osoby' => 'required',
+            'priezvisko_kontaktnej_osoby' => 'required',
+            'email' => 'required',
+            'tel_cislo' => 'required',
+            'mesto' => 'required',
+            'PSČ' => 'required',
+            'ulica' => 'required',
+            'č_domu' => 'required',
+        ]);
+
+        $new_company = Company::create([
+            'nazov_firmy' => $request->input('nazov_firmy'),
+            'IČO' => $request->input('IČO'),
+            'meno_kontaktnej_osoby' => $request->input('meno_kontaktnej_osoby'),
+            'priezvisko_kontaktnej_osoby' => $request->input('priezvisko_kontaktnej_osoby'),
+            'email' => $request->input('email'),
+            'tel_cislo' => $request->input('tel_cislo'),
+        ]);
+
+        $address = Address::create([
+            'mesto' => $request->input('mesto'),
+            'PSČ' => $request->input('PSČ'),
+            'ulica' => $request->input('ulica'),
+            'č_domu' => $request->input('č_domu'),
+            'firma_id' => $new_company->id,
+        ]);
+
+        return redirect()->route('student.company')->with('success', 'Firma bola úspešne pridaná!');
+    }
+
 
 }

@@ -47,6 +47,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/student/internship-details', [StudentController::class, 'internshipDetails'])->name('student.internship_details');
     Route::post('/student/add-custom-internship', [StudentController::class, 'addCustomInternship'])->name('student.add_custom_internship');
     Route::get('/student/report', [StudentController::class, 'report'])->name('student.report');
+    Route::get('/student/company', [StudentController::class, 'company_index'])->name('student.company');
+    Route::post('/student/company', [StudentController::class, 'company_store'])->name('student.company_store');
+    Route::get('/student/company/{id}', [StudentController::class, 'company_show'])->name('student.company_show');
 });
 
 Route::middleware(['admin'])->group(function () {

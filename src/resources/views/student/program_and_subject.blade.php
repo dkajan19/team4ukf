@@ -42,6 +42,7 @@
             @endif
             @if($role == 'Študent')
                 <li><a href="{{ route('student.internship_details') }}">Prax</a></li>
+                <li><a href="{{ route('student.company') }}">Firma</a></li>
                 <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
                 <li><a href="{{ route('student.report') }}">Výkaz</a></li>
             @endif
@@ -61,32 +62,31 @@
     <div class="container">
         
         @if($errors->any())
-              <div style="color: red;">
-                  @foreach($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                       <br>
+                @foreach($errors->all() as $error)
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-minus-circle alert__icon"></i>  {{ $error }}
+                    </div>
                 @endforeach
-            </div>
-        @endif
+            @endif
 
-        @if(session('success'))
-            <div style="color: green;">
-                 {{ session('success') }}
-                <br>
-                <br>
-            </div>
-        @endif
-@if($prax)
+            @if(session('success'))
+                <div class="alert alert-success" role="alert">
+                    <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
+                </div>
+            @endif
+@if($prax && $prax->aktualny_stav == 'vytvorená')
         <h1>Výber predmetu</h1>
         @if($student)
             <p class>Meno študenta: {{ $student->meno }} {{ $student->priezvisko }}</p>
         @endif
 
         @foreach($student->prax as $prax)
-            @if($prax->aktualny_stav === 'vytvorená')
+            @if($prax->aktualny_stav == 'vytvorená')
                 @if($prax->schoolSubject)
                     @if($prax->schoolSubject->nazov == 'NULL')
-                        <p style="color:red;">Student ešte nemá priradený predmet.</p>
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fas fa-minus-circle alert__icon"></i>  Študent ešte nemá priradený predmet.
+                        </div>
                     @else
                         <p>Priradený predmet z praxe: {{ $prax->schoolSubject->nazov }}</p>
                     @endif
@@ -124,9 +124,9 @@
             </form>
         @endif
 @else
-    <div style="color: red;">
-        <p>Študent nemá žiadnu priradenú prax.</p>
-    </div> 
+    <div class="alert alert-danger" role="alert">
+        <i class="fas fa-minus-circle alert__icon"></i>  Študent nemá žiadnu priradenú prax.
+    </div>
 @endif
 
     </div>

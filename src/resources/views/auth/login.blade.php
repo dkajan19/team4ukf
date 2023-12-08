@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
+    <script src="https://kit.fontawesome.com/361bfee177.js" crossorigin="anonymous"></script>
     <title>Prihlásenie</title>
 </head>
 <body>
@@ -14,10 +15,12 @@
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
-            <!-- ERROR MESSAGE -->
             @if(session('error'))
-                <p style="color: red;">{{ session('error') }}</p>
+                <div class="alert alert-danger" role="alert">
+                    <i class="fas fa-minus-circle alert__icon"></i>  {{ session('error') }}
+                </div>
             @endif
+            
 
             <label for="email">E-mailová adresa</label>
             <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus>

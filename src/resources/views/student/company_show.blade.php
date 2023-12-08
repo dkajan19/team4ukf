@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Dokumenty</title>
+    <title>Zobrazenie firmy</title>
     <script src="https://kit.fontawesome.com/361bfee177.js" crossorigin="anonymous"></script>
     <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -30,8 +29,8 @@
         </a>
         <i class="fa-solid fa-bars menu-icon" style="color: #000205;"></i>
         <ul class="nav-links">
+            <li><a href="{{ route('dashboard') }}">Domov</a></li>
             @if($role == 'admin')
-                <li><a href="{{ route('dashboard') }}">Domov</a></li>
                 <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
                 <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
                 <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
@@ -40,6 +39,12 @@
                 <li><a href="{{ route('address.index') }}">Adresy</a></li>
                 <li><a href="{{ route('company.index') }}">Firmy</a></li>
                 <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
+            @endif
+            @if($role == 'Študent')
+                <li><a href="{{ route('student.internship_details') }}">Prax</a></li>
+                <li><a href="{{ route('student.company') }}">Firma</a></li>
+                <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
+                <li><a href="{{ route('student.report') }}">Výkaz</a></li>
             @endif
         </ul>
 
@@ -55,63 +60,53 @@
     </nav>
 
     <div class="container">
-        <h1>Dokumenty</h1>
+        <h1>{{ $company->nazov_firmy }}</h1>
 
-        @if(session('success'))
-            <div class="alert alert-success" role="alert">
-                <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
-            </div>
-        @endif
+        <p><strong>Názov firmy:</strong> {{ $company->nazov_firmy }}</p>
+        <p><strong>IČO:</strong> {{ $company->IČO }}</p>
+        <p><strong>Meno kontaktnej osoby:</strong> {{ $company->meno_kontaktnej_osoby }}</p>
+        <p><strong>Priezvisko kontaktnej osoby:</strong> {{ $company->priezvisko_kontaktnej_osoby }}</p>
+        <p><strong>Email:</strong> {{ $company->email }}</p>
+        <p><strong>Telefónne číslo:</strong> {{ $company->tel_cislo }}</p>
 
-        <ul>
-        @foreach($documents as $document)
-        <br>
-            <li>
-                {{ $document->typ_dokumentu }}
-                
-                <form method="get" action="{{ route('documents.show', $document->id) }}" style="display: inline;">
-                    @csrf
-                    <button type="submit">Zobraziť</button>
-                </form>
-                
-                <form method="get" action="{{ route('documents.edit', $document->id) }}" style="display: inline;">
-                    @csrf
-                    <button type="submit">Upraviť</button>
-                </form>
-                
-                <form method="post" action="{{ route('documents.destroy', $document->id) }}" style="display: inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">Vymazať</button>
-                </form>
-            </li>
-        @endforeach
-        </ul>
+        <select id="citySelect" onchange="displayCompanyAddresses()">
+            <option value="" disabled selected>Vyberte mesto</option>
+            @foreach($company->addresses as $address)
+                <option value="{{ $address->mesto }}">{{ $address->mesto }}</option>
+            @endforeach
+        </select>
 
-        <button id="toggle-form">Pridanie dokumentov</button>
-        <div id="create-form">
-            <form method="post" action="{{ route('documents.store') }}" enctype="multipart/form-data">
-                @csrf
-                <br>
-                <label for="typ_dokumentu">Typ dokumentu:</label>
-                <input type="text" id="typ_dokumentu" name="typ_dokumentu" required>
-                <label for="dokument">Vyberte súbor:</label>
-                <input type="file" id="dokument" name="dokument" required>
-            
-                <button type="submit">Vytvoriť</button>
-            </form>
+        <div id="companyAddressInfo" style="display: none;">
         </div>
 
-        <script>
-            $(document).ready(function() {
-                $("#create-form").hide();
-
-                $("#toggle-form").click(function() {
-                    $("#create-form").toggle();
-                });
-            });
-        </script>
+        <a href="{{ route('student.company') }}">Naspäť na firmy</a>
     </div>
+
+    <script>
+        function displayCompanyAddresses() {
+            const citySelect = document.getElementById('citySelect');
+            const selectedCity = citySelect.value;
+            const companyAddresses = @json($company->addresses);
+
+            const selectedAddress = companyAddresses.find(address => address.mesto === selectedCity);
+
+            if (selectedAddress) {
+                const companyAddressInfo = document.getElementById('companyAddressInfo');
+                companyAddressInfo.style.display = 'block';
+                companyAddressInfo.innerHTML = `
+                    <h2>${selectedAddress.mesto}</h2>
+                    <p><strong>Mesto:</strong> ${selectedAddress.mesto}</p>
+                    <p><strong>PSČ:</strong> ${selectedAddress.PSČ}</p>
+                    <p><strong>Ulica:</strong> ${selectedAddress.ulica}</p>
+                    <p><strong>Číslo domu:</strong> ${selectedAddress.č_domu}</p>
+                `;
+            } else {
+                const companyAddressInfo = document.getElementById('companyAddressInfo');
+                companyAddressInfo.style.display = 'none';
+            }
+        }
+    </script>
+
 
 </body>
 </html>

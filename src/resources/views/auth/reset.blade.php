@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
+    <script src="https://kit.fontawesome.com/361bfee177.js" crossorigin="anonymous"></script>
     <title>Resetovanie hesla</title>
 </head>
 <body>
@@ -14,10 +15,14 @@
             @csrf
 
             @error('password')
-                <div style="color: red;">{{ $message }}</div>
+                <div class="alert alert-danger" role="alert">
+                    <i class="fas fa-minus-circle alert__icon"></i>  {{ $message }}
+                </div>
             @enderror
 
-            <div id="passwordMismatch" style="color: red; display: none;">Heslá sa nezhodujú.</div>
+            <div id="passwordMismatch" class="alert alert-danger" role="alert" style="display: none;">
+                <i class="fas fa-minus-circle alert__icon"></i>  Heslá sa nezhodujú.
+            </div>
 
             <input type="hidden" name="token" value="{{ $token }}">
             <input type="hidden" name="email" value="{{ $email }}">

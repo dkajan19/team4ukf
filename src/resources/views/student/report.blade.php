@@ -65,6 +65,7 @@
             @endif
             @if($role == 'Študent')
                 <li><a href="{{ route('student.internship_details') }}">Prax</a></li>
+                <li><a href="{{ route('student.company') }}">Firma</a></li>
                 <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
                 <li><a href="{{ route('student.report') }}">Výkaz</a></li>
             @endif
@@ -83,22 +84,19 @@
 
     <div class="container">
 
-    @if($errors->any())
-        <div style="color: red;">
-            @foreach($errors->all() as $error)
-                <p>{{ $error }}</p>
-                <br>
-            @endforeach
-        </div>
-    @endif
+            @if($errors->any())
+                @foreach($errors->all() as $error)
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-minus-circle alert__icon"></i>  {{ $error }}
+                    </div>
+                @endforeach
+            @endif
 
-        @if(session('success'))
-            <div style="color: green;">
-                {{ session('success') }}
-                <br>
-                <br>
-            </div>
-        @endif
+            @if(session('success'))
+                <div class="alert alert-success" role="alert">
+                    <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
+                </div>
+            @endif
 
 @if($prax)        
         <div id="obsahPDF">
@@ -143,9 +141,9 @@
             <button onclick="generovatPDF()" style="float: right;">Generovať PDF</button>
         </div>
 @else
-    <div style="color: red;">
-        <p>Študent nemá žiadnu priradenú prax.</p>
-    </div> 
+    <div class="alert alert-danger" role="alert">
+        <i class="fas fa-minus-circle alert__icon"></i>  Študent nemá žiadnu priradenú prax.
+    </div>
 @endif
     </div>
 @if($prax) 

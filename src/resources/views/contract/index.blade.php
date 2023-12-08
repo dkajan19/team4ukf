@@ -56,8 +56,8 @@
         <h1>Zmluvy</h1>
 
         @if(session('success'))
-            <div style="color: green;">
-                {{ session('success') }}
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
             </div>
         @endif
 

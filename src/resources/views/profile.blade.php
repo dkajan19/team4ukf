@@ -41,8 +41,10 @@
                 <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
             @endif
             @if($role == 'Študent')
-                <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
                 <li><a href="{{ route('student.internship_details') }}">Prax</a></li>
+                <li><a href="{{ route('student.company') }}">Firma</a></li>
+                <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
+                <li><a href="{{ route('student.report') }}">Výkaz</a></li>
             @endif
         </ul>
 
@@ -61,17 +63,17 @@
 
         <h1>Používateľský profil</h1>
 
-        @if(session('success'))
-            <div style="color: green;">
-                {{ session('success') }}
-            </div>
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                <div class="alert alert-danger" role="alert">
+                    <i class="fas fa-minus-circle alert__icon"></i>  {{ $error }}
+                </div>
+            @endforeach
         @endif
 
-        @if($errors->any())
-            <div style="color: red;">
-                @foreach($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
+        @if(session('success'))
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
             </div>
         @endif
 
