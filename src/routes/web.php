@@ -17,6 +17,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\SchoolSubjectController;
+use App\Http\Controllers\WorkerController;
 
 
 Route::get('/', function () {
@@ -108,4 +109,15 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/school_subject/{id}/edit', [SchoolSubjectController::class, 'edit'])->name('school_subject.edit');
     Route::put('/school_subject/{id}', [SchoolSubjectController::class, 'update'])->name('school_subject.update');
     Route::delete('/school_subject/{id}', [SchoolSubjectController::class, 'destroy'])->name('school_subject.destroy');
+});
+
+Route::middleware(['worker'])->group(function () {
+    Route::get('/worker/company', [WorkerController::class, 'company_index'])->name('worker.company');
+    Route::post('/worker/company', [WorkerController::class, 'company_store'])->name('worker.company');
+    Route::get('/worker/company/{id}', [WorkerController::class, 'company_show'])->name('worker.company_show');
+    Route::get('/worker/company/{id}/edit', [WorkerController::class, 'company_edit'])->name('worker.company');
+    Route::put('/worker/company/{id}', [WorkerController::class, 'company_update'])->name('worker.company');
+    Route::delete('/worker/company/{id}', [WorkerController::class, 'company_destroy'])->name('worker.company');
+
+
 });
