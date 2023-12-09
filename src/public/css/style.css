@@ -171,7 +171,7 @@ a {
   }
 
 
-@media only screen and (max-width: 1320px) {
+@media only screen and (max-width: 1415px) {
 
     .navbar {
         justify-content: start;
@@ -193,7 +193,7 @@ a {
     }
 
     .container.show-menu {
-        margin-top: 300px;
+        margin-top: calc(37.5px * var(--link-count));
     }
 
     .navbar .nav-links li {
@@ -213,4 +213,15 @@ a {
         margin-left: auto;
     }
 
+}
+
+@media only screen and (max-width: 500px) {
+    .nav-logo {
+        content: url('/images/logo_3.png');
+    }
+
+    .navbar .nav-logo {
+        height: 85px;
+        width: auto;
+    }
 }

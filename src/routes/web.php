@@ -50,6 +50,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/student/company', [StudentController::class, 'company_index'])->name('student.company');
     Route::post('/student/company', [StudentController::class, 'company_store'])->name('student.company_store');
     Route::get('/student/company/{id}', [StudentController::class, 'company_show'])->name('student.company_show');
+    Route::get('/student/documents', [StudentController::class, 'documents'])->name('student.documents');
+    Route::put('/student/documents', [StudentController::class, 'documents_update'])->name('student.documents_update');
+    Route::get('student/documents/download/{id}', [StudentController::class, 'documents_download'])->name('student.documents_download');
+    Route::delete('/student/documents/{id}', [StudentController::class, 'documents_destroy'])->name('student.documents_destroy');
 });
 
 Route::middleware(['admin'])->group(function () {

@@ -20,6 +20,11 @@
                 });
             });
     </script>
+    <style>
+        :root {
+            --link-count: 8;
+        }
+    </style>
 </head>
 <body>
 

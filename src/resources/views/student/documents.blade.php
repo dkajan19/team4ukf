@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Firmy</title>
+    <title>Zobrazenie firmy</title>
     <script src="https://kit.fontawesome.com/361bfee177.js" crossorigin="anonymous"></script>
     <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -76,94 +75,82 @@
     </nav>
 
     <div class="container">
-        <h1>Dostupné firmy</h1>
+@if($prax != null)
+        <h1>Moje dokumenty</h1>
 
-            @if($errors->any())
-                <div style="color: red;">
-                    @foreach($errors->all() as $error)
-                        <div class="alert alert-danger" role="alert">
-                            <i class="fas fa-minus-circle alert__icon"></i>  {{ $error }}
-                        </div>
-                    @endforeach
+        @if(session('success'))
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
+            </div>
+        @endif
+
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                <div class="alert alert-danger" role="alert">
+                    <i class="fas fa-minus-circle alert__icon"></i>  {{ $error }}
                 </div>
-            @endif
+            @endforeach
+        @endif
 
-            @if(session('success'))
-                <div class="alert alert-success" role="alert">
-                    <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
-                </div>
-            @endif
+        <p><strong>Číslo zmluvy: </strong>{{ $prax->contract->zmluva }}</p>
+        @if($prax->documents->dokument != "null")
+            <p><a href="{{ route('student.documents_download', ['id' => $prax->documents->id]) }}">Stiahnuť dokumenty</a></p>
+            
 
-        <ul>
-        @foreach($companies as $company)
-        <br>
-            <li>
-                {{ $company->nazov_firmy }} 
+            <button onclick="toggleCustomInternshipForm()">Aktualizácia dokumentov</button>
 
-                <form method="get" action="{{ route('student.company_show', $company->id) }}" style="display: inline;">
-                    @csrf
-                    <button type="submit">Zobraziť</button>
-                </form>
-
-            </li>
-        @endforeach
-        </ul>
-
-        <button id="toggle-form">Pridanie firmy</button>
-        
-        <div id="create-form">
-            <br>
-            <form method="post" action="{{ route('student.company_store') }}">
+            <form method="post" action="{{ route('student.documents_destroy', $prax->documents->id) }}" style="display: inline;">
                 @csrf
-                <label for="nazov_firmy">Názov firmy:</label>
-                <input type="text" name="nazov_firmy" required>
-
-                <label for="IČO">IČO:</label>
-                <input type="text" name="IČO" required>
-
-                <label for="meno_kontaktnej_osoby">Meno kontaktnej osoby:</label>
-                <input type="text" name="meno_kontaktnej_osoby" required>
-
-                <label for="priezvisko_kontaktnej_osoby">Priezvisko kontaktnej osoby:</label>
-                <input type="text" name="priezvisko_kontaktnej_osoby" required>
-
-                <label for="email">Email:</label>
-                <input type="text" name="email" required>
-
-                <label for="tel_cislo">Telefónne číslo:</label>
-                <input type="text" name="tel_cislo" required>
-
-                <div id = "address-fields">
-
-                    <label for="mesto">Mesto:</label>
-                    <input type="text" name="mesto" required>
-
-                    <label for="PSČ">PSČ:</label>
-                    <input type="text" name="PSČ" required>
-
-                    <label for="ulica">Ulica:</label>
-                    <input type="text" name="ulica" required>
-
-                    <label for="č_domu">Číslo domu:</label>
-                    <input type="text" name="č_domu" required>
-
-                </div>
-
-                <button type="submit">Pridať</button>
+                @method('DELETE')
+                <button type="submit">Vymazať dokumenty</button>
             </form>
-        </div>
+
+            <div id="update-form" style="display:none;">
+                <br>
+                <form method="post" action="{{ route('student.documents_update') }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                
+                    <label for="dokument">Vyberte súbor:</label>
+                    <input type="file" name="dokument">
+                
+                    <button type="submit">Aktualizovať</button>
+                </form>
+            </div>
+
+        @else
+            <div class="alert alert-warning" role="alert">
+                <i class="fas fa-exclamation-triangle alert__icon"></i>  Nemáte žiadne dokumenty na stiahnutie, je potrebné ich nahrať nižšie.
+            </div>
+
+            <div id="update-form">
+                <br>
+                <h3>Nahrať dokumenty</h3>
+                <form method="post" action="{{ route('student.documents_update') }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                
+                    <label for="dokument">Vyberte súbor:</label>
+                    <input type="file" name="dokument">
+                
+                    <button type="submit">Nahrať</button>
+                </form>
+            </div>
+        @endif
+
+@else
+    <div class="alert alert-danger" role="alert">
+        <i class="fas fa-minus-circle alert__icon"></i>  Študent nemá žiadnu priradenú prax.
+    </div>
+@endif
     </div>
 
     <script>
-        $(document).ready(function() {
-            $("#create-form, #address-fields").hide();
-            $("#toggle-form").click(function() {
-                $("#create-form, #address-fields").toggle();
-            });
-        });
+        function toggleCustomInternshipForm() {
+            var customInternshipForm = document.getElementById("update-form");
+            customInternshipForm.style.display = (customInternshipForm.style.display === "none") ? "block" : "none";
+        }
     </script>
-
-</script>
 
 </body>
 </html>

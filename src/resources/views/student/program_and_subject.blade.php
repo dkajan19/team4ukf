@@ -20,6 +20,20 @@
                 });
             });
     </script>
+@if($role == 'admin')
+    <style>
+        :root {
+            --link-count: 8;
+        }
+    </style>
+@endif
+@if($role == 'Študent')
+    <style>
+        :root {
+            --link-count: 6;
+        }
+    </style>
+@endif
 </head>
 <body>
 
@@ -45,6 +59,7 @@
                 <li><a href="{{ route('student.company') }}">Firma</a></li>
                 <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
                 <li><a href="{{ route('student.report') }}">Výkaz</a></li>
+                <li><a href="{{ route('student.documents') }}">Dokumenty</a></li>
             @endif
         </ul>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Models\StudyProgram;
 use App\Models\SchoolSubject;
 use App\Models\Internship;
@@ -116,14 +117,14 @@ class StudentController extends Controller
             ->firstOrFail();
 
         $document = Documents::create([
-            'typ_dokumentu' => 'pdf',
+            'typ_dokumentu' => (string)($validatedData['company_id_add'] . "_" . (($lastInternshipId ?? 0) + 1)),
             'dokument' => 'null',
         ]);
 
         $lastInternshipId = Internship::max('id');
 
         $contract = Contract::create([
-            'zmluva' => (string)($validatedData['company_id_add'] . "_" . ($lastInternshipId + 1)),
+            'zmluva' => (string)($validatedData['company_id_add'] . "_" . (($lastInternshipId ?? 0) + 1)),
             'firma_id' => $validatedData['company_id_add'],
         ]);
 
@@ -213,5 +214,60 @@ class StudentController extends Controller
         return redirect()->route('student.company')->with('success', 'Firma bola úspešne pridaná!');
     }
 
+    public function documents()
+    {
+        $student = auth()->user();
+        $role = $student->user_roles->rola;
+        $prax = $student->prax()->latest()->first();
+
+        return view('student.documents', compact('student','prax','role'));
+    }
+
+    public function documents_update(Request $request)   
+    {
+        $request->validate([
+            'dokument' => 'file|mimes:pdf,doc,docx|max:10240',
+        ]);
+
+        $student = auth()->user();
+        $documents = $student->prax()->latest()->first()->documents;
+
+        if ($request->hasFile('dokument')) {
+            if ($documents->dokument) {
+                Storage::disk('public')->delete('documents/' . basename($documents->dokument));
+            }
+
+            $documentPath = $request->file('dokument')->store('documents', 'public');
+            $documents->update([
+                'dokument' => $documentPath,
+            ]);
+        }
+
+        return redirect()->route('student.documents', $documents->id)->with('success', 'Dokumenty boli úspešne aktualizované.');
+    }
+
+    public function documents_download($id)
+    {
+        $document = Documents::findOrFail($id);
+
+        $filePath = storage_path("app/public/{$document->dokument}");
+
+        $fileName = basename($filePath);
+
+        return response()->download($filePath, $fileName);
+    }
+
+    public function documents_destroy($id)
+    {
+        $documents = Documents::findOrFail($id);
+
+        $documents->update([
+            'dokument' => "null",
+        ]);
+
+        Storage::disk('public')->delete('documents/' . basename($documents->dokument));
+
+        return redirect()->route('student.documents')->with('success', 'Dokumenty boli úspešne odstránené.');
+    }
 
 }

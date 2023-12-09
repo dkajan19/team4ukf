@@ -21,6 +21,13 @@
                 });
             });
     </script>
+@if($role == 'admin')
+    <style>
+        :root {
+            --link-count: 8;
+        }
+    </style>
+@endif
 </head>
 <body>
 

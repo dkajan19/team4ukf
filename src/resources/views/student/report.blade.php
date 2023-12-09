@@ -43,6 +43,20 @@
         }
 
     </style>
+@if($role == 'admin')
+    <style>
+        :root {
+            --link-count: 8;
+        }
+    </style>
+@endif
+@if($role == 'Študent')
+    <style>
+        :root {
+            --link-count: 6;
+        }
+    </style>
+@endif
 </head>
 <body>
 
@@ -68,6 +82,7 @@
                 <li><a href="{{ route('student.company') }}">Firma</a></li>
                 <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
                 <li><a href="{{ route('student.report') }}">Výkaz</a></li>
+                <li><a href="{{ route('student.documents') }}">Dokumenty</a></li>
             @endif
         </ul>
 
@@ -111,8 +126,8 @@
             <p><strong>Meno a priezvisko zástupcu firmy: </strong>{{ $prax->contact->meno }} {{ $prax->contact->priezvisko }}</p>
             <br>
             <h3><i>OBDOBIE ABSOLVOVANIA ODBORNEJ PRAXE</i></h3>
-            <p><strong>Dátum nástupu na prax: </strong>{{ $prax->datum_zaciatku }}</p>
-            <p><strong>Dátum ukončenia praxe: </strong>{{ $prax->datum_konca }}</p>
+            <p><strong>Dátum nástupu na prax: </strong>{{ \Carbon\Carbon::parse($prax->datum_zaciatku)->format('d.m.Y') }}</p>
+            <p><strong>Dátum ukončenia praxe: </strong>{{ \Carbon\Carbon::parse($prax->datum_konca)->format('d.m.Y') }}</p>
             <br><br>
             <table id="praxTabulka">
                 <thead>
