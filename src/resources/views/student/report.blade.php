@@ -118,7 +118,11 @@
             <h2 style="text-align:center;">Výkaz o vykonanej odbornej praxi</h2>
             <h3><i>ŠTUDENT</i></h3>
             <p><strong>Meno a priezvisko: </strong>{{ $student->meno }} {{ $student->priezvisko }}</p>
-            <p><strong>Študijný program: </strong>{{ $prax->schoolSubject->study_programs->nazov }}</p>
+            @if($prax->schoolSubject->study_programs->nazov != "NULL")
+                <p><strong>Študijný program: </strong>{{ $prax->schoolSubject->study_programs->nazov }}</p>
+            @else
+                <p><strong>Študijný program: </strong></p>
+            @endif
             <p><strong>Názov a sídlo školy: </strong>Univerzita Konštantína Filozofa v Nitre, Tr. A. Hlinku 1, 949 01 Nitra</p>
             <br>
             <h3><i>ORGANIZÁCIA</i></h3>
