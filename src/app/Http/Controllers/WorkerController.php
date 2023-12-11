@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Company;
 use App\Models\User;
+use App\Models\Internship;
+use App\Models\Contract;
 
 
 use App\Models\Address;
@@ -18,8 +20,11 @@ class WorkerController extends Controller
 
         $user = Auth::user();
         $role = $user->user_roles->rola;
+        $prax = $user->prax()->latest()->first();
+        $company =  $prax->contract->company;
 
-        return view('worker.company', compact('companies','role'));
+
+        return view('worker.company', compact('company','companies','role'));
     }
 
     public function company_show($id)
@@ -70,7 +75,7 @@ class WorkerController extends Controller
     public function company_edit($id)
     {
         $company = Company::findOrFail($id);
-        return view('worker.company', compact('company'));
+        return view('worker.company_edit', compact('company'));
     }
 
     public function company_update(Request $request, $id)
@@ -87,7 +92,7 @@ class WorkerController extends Controller
         $company = Company::findOrFail($id);
         $company->update($validatedData);
 
-        return redirect()->route('worker.company', $company->id)
+        return redirect()->route('worker.company_update', $company->id)
             ->with('success', 'Company has been successfully updated!');
     }
 
@@ -96,7 +101,7 @@ class WorkerController extends Controller
         $company = Company::findOrFail($id);
         $company->delete();
 
-        return redirect()->route('worker.company')
+        return redirect()->route('worker.company_destroy')
             ->with('success', 'Company has been successfully deleted!');
     }
 

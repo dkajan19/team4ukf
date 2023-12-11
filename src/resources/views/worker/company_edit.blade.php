@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Zobrazenie firmy</title>
+    <title>Upraviť predmet</title>
     <script src="https://kit.fontawesome.com/361bfee177.js" crossorigin="anonymous"></script>
     <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -20,20 +20,20 @@
                 });
             });
     </script>
-@if($role == 'admin')
-    <style>
-        :root {
-            --link-count: 8;
-        }
-    </style>
-@endif
-@if($role == 'Študent')
-    <style>
-        :root {
-            --link-count: 6;
-        }
-    </style>
-@endif
+    @if($role == 'admin')
+        <style>
+            :root {
+                --link-count: 8;
+            }
+        </style>
+    @endif
+    @if($role == 'Študent')
+        <style>
+            :root {
+                --link-count: 6;
+            }
+        </style>
+    @endif
     @if($role == 'Poverený pracovník pracoviska')
         <style>
             :root {
@@ -85,53 +85,49 @@
     </nav>
 
     <div class="container">
-        <h1>{{ $company->nazov_firmy }}</h1>
+        <h1>Upraviť predmet</h1>
 
-        <p><strong>Názov firmy:</strong> {{ $company->nazov_firmy }}</p>
-        <p><strong>IČO:</strong> {{ $company->IČO }}</p>
-        <p><strong>Meno kontaktnej osoby:</strong> {{ $company->meno_kontaktnej_osoby }}</p>
-        <p><strong>Priezvisko kontaktnej osoby:</strong> {{ $company->priezvisko_kontaktnej_osoby }}</p>
-        <p><strong>Email:</strong> {{ $company->email }}</p>
-        <p><strong>Telefónne číslo:</strong> {{ $company->tel_cislo }}</p>
+        @if(session('success'))
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
+            </div>
+        @endif
 
-        <select id="citySelect" onchange="displayCompanyAddresses()">
-            <option value="" disabled selected>Vyberte mesto</option>
-            @foreach($company->addresses as $address)
-                <option value="{{ $address->mesto }}">{{ $address->mesto }}</option>
-            @endforeach
-        </select>
+            @if($errors->any())
+                @foreach($errors->all() as $error)
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-minus-circle alert__icon"></i>  {{ $error }}
+                    </div>
+                @endforeach
+            @endif
 
-        <div id="companyAddressInfo" style="display: none;">
-        </div>
+        <form method="post" action="{{ route('worker.company_update', $company->id) }}">
+            @csrf
+            @method('PUT')
+
+            <label for="nazov_firmy">Názov:</label>
+            <input type="text" name="nazov_firmy" value="{{ old('nazov_firmy', $company->nazov_firmy) }}" required>
+
+            <label for="IČO">IČO:</label>
+            <input type="text" name="IČO" value="{{ old('IČO', $company->IČO) }}" required>
+
+            <label for="meno_kontaktnej_osoby">Meno kontaktnej osoby:</label>
+            <input type="text" name="meno_kontaktnej_osoby" value="{{ old('meno_kontaktnej_osoby', $company->meno_kontaktnej_osoby) }}" required>
+
+            <label for="priezvisko_kontaktnej_osoby">Priezvisko kontaktnej osoby:</label>
+            <input type="text" name="priezvisko_kontaktnej_osoby" value="{{ old('priezvisko_kontaktnej_osoby', $company->priezvisko_kontaktnej_osoby) }}" required>
+
+            <label for="email">Email:</label>
+            <input type="text" name="email" value="{{ old('email', $company->email) }}" required>
+
+            <label for="tel_cislo">Telefónne číslo:</label>
+            <input type="text" name="tel_cislo" value="{{ old('tel_cislo', $company->tel_cislo) }}" required>
+
+            <button type="submit">Aktualizovať</button>
+        </form>
 
         <a href="{{ route('worker.company_store', ['id' => $company->id]) }}">Naspäť na firmy</a>
     </div>
-
-    <script>
-        function displayCompanyAddresses() {
-            const citySelect = document.getElementById('citySelect');
-            const selectedCity = citySelect.value;
-            const companyAddresses = @json($company->addresses);
-
-            const selectedAddress = companyAddresses.find(address => address.mesto === selectedCity);
-
-            if (selectedAddress) {
-                const companyAddressInfo = document.getElementById('companyAddressInfo');
-                companyAddressInfo.style.display = 'block';
-                companyAddressInfo.innerHTML = `
-                    <h2>${selectedAddress.mesto}</h2>
-                    <p><strong>Mesto:</strong> ${selectedAddress.mesto}</p>
-                    <p><strong>PSČ:</strong> ${selectedAddress.PSČ}</p>
-                    <p><strong>Ulica:</strong> ${selectedAddress.ulica}</p>
-                    <p><strong>Číslo domu:</strong> ${selectedAddress.č_domu}</p>
-                `;
-            } else {
-                const companyAddressInfo = document.getElementById('companyAddressInfo');
-                companyAddressInfo.style.display = 'none';
-            }
-        }
-    </script>
-
 
 </body>
 </html>

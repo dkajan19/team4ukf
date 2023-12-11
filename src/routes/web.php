@@ -111,13 +111,10 @@ Route::middleware(['admin'])->group(function () {
     Route::delete('/school_subject/{id}', [SchoolSubjectController::class, 'destroy'])->name('school_subject.destroy');
 });
 
-Route::middleware(['worker'])->group(function () {
     Route::get('/worker/company', [WorkerController::class, 'company_index'])->name('worker.company');
-    Route::post('/worker/company', [WorkerController::class, 'company_store'])->name('worker.company');
+    Route::post('/worker/company', [WorkerController::class, 'company_store'])->name('worker.company_store');
     Route::get('/worker/company/{id}', [WorkerController::class, 'company_show'])->name('worker.company_show');
-    Route::get('/worker/company/{id}/edit', [WorkerController::class, 'company_edit'])->name('worker.company');
-    Route::put('/worker/company/{id}', [WorkerController::class, 'company_update'])->name('worker.company');
-    Route::delete('/worker/company/{id}', [WorkerController::class, 'company_destroy'])->name('worker.company');
+    Route::get('/worker/company/{id}/edit', [WorkerController::class, 'company_edit'])->name('worker.company_edit');
+    Route::put('/worker/company/{id}', [WorkerController::class, 'company_update'])->name('worker.company_update');
+    Route::delete('/worker/company/{id}', [WorkerController::class, 'company_destroy'])->name('worker.company_destroy');
 
-
-});

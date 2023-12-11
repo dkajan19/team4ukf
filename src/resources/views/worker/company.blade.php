@@ -114,6 +114,15 @@
                     @csrf
                     <button type="submit">Zobraziť</button>
                 </form>
+                <form method="get" action="{{ route('worker.company_update', $company->id) }}" style="display: inline;">
+                    @csrf
+                    <button type="submit">Upraviť</button>
+                </form>
+                <form method="post" action="{{ route('worker.company_destroy', $company->id) }}" style="display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">Vymazať</button>
+                </form>
 
             </li>
         @endforeach
@@ -123,7 +132,7 @@
 
         <div id="create-form">
             <br>
-            <form method="post" action="{{ route('worker.company') }}">
+            <form method="post" action="{{ route('worker.company_store') }}">
                 @csrf
                 <label for="nazov_firmy">Názov firmy:</label>
                 <input type="text" name="nazov_firmy" required>
