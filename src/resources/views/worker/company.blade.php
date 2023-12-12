@@ -114,7 +114,7 @@
                     @csrf
                     <button type="submit">Zobraziť</button>
                 </form>
-                <form method="get" action="{{ route('worker.company_update', $company->id) }}" style="display: inline;">
+                <form method="get" action="{{ route('worker.company_edit', $company->id) }}" style="display: inline;">
                     @csrf
                     <button type="submit">Upraviť</button>
                 </form>
@@ -152,7 +152,7 @@
                 <label for="tel_cislo">Telefónne číslo:</label>
                 <input type="text" name="tel_cislo" required>
 
-                <div id = "address-fields">
+                <!-- <div id = "address-fields">-->
 
                     <label for="mesto">Mesto:</label>
                     <input type="text" name="mesto" required>
@@ -166,7 +166,7 @@
                     <label for="č_domu">Číslo domu:</label>
                     <input type="text" name="č_domu" required>
 
-                </div>
+                    <!-- </div>-->
 
                 <button type="submit">Pridať</button>
             </form>

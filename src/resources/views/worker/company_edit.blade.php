@@ -19,28 +19,8 @@
                     container.classList.toggle('show-menu');
                 });
             });
-    </script>
-    @if($role == 'admin')
-        <style>
-            :root {
-                --link-count: 8;
-            }
-        </style>
-    @endif
-    @if($role == 'Študent')
-        <style>
-            :root {
-                --link-count: 6;
-            }
-        </style>
-    @endif
-    @if($role == 'Poverený pracovník pracoviska')
-        <style>
-            :root {
-                --link-count: 2;
-            }
-        </style>
-    @endif
+   </script>
+
 </head>
 <body>
 
@@ -51,26 +31,9 @@
         <i class="fa-solid fa-bars menu-icon" style="color: #000205;"></i>
         <ul class="nav-links">
             <li><a href="{{ route('dashboard') }}">Domov</a></li>
-            @if($role == 'admin')
-                <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
-                <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
-                <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
-                <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
-                <li><a href="{{ route('user.index') }}">Používatelia</a></li>
-                <li><a href="{{ route('address.index') }}">Adresy</a></li>
-                <li><a href="{{ route('company.index') }}">Firmy</a></li>
-                <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
-            @endif
-            @if($role == 'Študent')
-                <li><a href="{{ route('student.internship_details') }}">Prax</a></li>
-                <li><a href="{{ route('student.company') }}">Firma</a></li>
-                <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
-                <li><a href="{{ route('student.report') }}">Výkaz</a></li>
-                <li><a href="{{ route('student.documents') }}">Dokumenty</a></li>
-            @endif
-            @if($role == 'worker')
+
                 <li><a href="{{ route('worker.company') }}">Firma</a></li>
-            @endif
+
         </ul>
 
         <div class="user-actions">
@@ -85,7 +48,7 @@
     </nav>
 
     <div class="container">
-        <h1>Upraviť predmet</h1>
+        <h1>Upraviť firmu</h1>
 
         @if(session('success'))
             <div class="alert alert-success" role="alert">
@@ -126,7 +89,7 @@
             <button type="submit">Aktualizovať</button>
         </form>
 
-        <a href="{{ route('worker.company_store', ['id' => $company->id]) }}">Naspäť na firmy</a>
+        <a href="{{ route('worker.company', ['id' => $company->id]) }}">Naspäť na firmy</a>
     </div>
 
 </body>
