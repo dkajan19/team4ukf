@@ -20,20 +20,57 @@
                 });
             });
    </script>
-
+@if($role == 'admin')
+    <style>
+        :root {
+            --link-count: 8;
+        }
+    </style>
+@endif
+@if($role == 'Študent')
+    <style>
+        :root {
+            --link-count: 6;
+        }
+    </style>
+@endif
+    @if($role == 'Poverený pracovník pracoviska')
+        <style>
+            :root {
+                --link-count: 2;
+            }
+        </style>
+    @endif
 </head>
 <body>
 
-    <nav class="navbar">
+<nav class="navbar">
         <a href="{{ route('dashboard') }}">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="nav-logo">
         </a>
         <i class="fa-solid fa-bars menu-icon" style="color: #000205;"></i>
         <ul class="nav-links">
             <li><a href="{{ route('dashboard') }}">Domov</a></li>
-
+            @if($role == 'admin')
+                <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
+                <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
+                <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
+                <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
+                <li><a href="{{ route('user.index') }}">Používatelia</a></li>
+                <li><a href="{{ route('address.index') }}">Adresy</a></li>
+                <li><a href="{{ route('company.index') }}">Firmy</a></li>
+                <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
+            @endif
+            @if($role == 'Študent')
+                <li><a href="{{ route('student.internship_details') }}">Prax</a></li>
+                <li><a href="{{ route('student.company') }}">Firma</a></li>
+                <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
+                <li><a href="{{ route('student.report') }}">Výkaz</a></li>
+                <li><a href="{{ route('student.documents') }}">Dokumenty</a></li>
+            @endif
+            @if($role == 'Poverený pracovník pracoviska')
                 <li><a href="{{ route('worker.company') }}">Firma</a></li>
-
+            @endif
         </ul>
 
         <div class="user-actions">

@@ -41,6 +41,26 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile/updatePassword', [ProfileController::class, 'updatePassword'])->name('profile.updatePassword');
+});
+
+Route::middleware(['Zástupca firmy alebo organizácie'])->group(function () {
+
+});
+
+Route::middleware(['Vedúci pracoviska'])->group(function () {
+
+});
+
+Route::middleware(['Poverený pracovník pracoviska'])->group(function () {
+    Route::get('/worker/company', [WorkerController::class, 'company_index'])->name('worker.company');
+    Route::post('/worker/company', [WorkerController::class, 'company_store'])->name('worker.company_store');
+    Route::get('/worker/company/{id}', [WorkerController::class, 'company_show'])->name('worker.company_show');
+    Route::get('/worker/company/{id}/edit', [WorkerController::class, 'company_edit'])->name('worker.company_edit');
+    Route::put('/worker/company/{id}', [WorkerController::class, 'company_update'])->name('worker.company_update');
+    Route::delete('/worker/company/{id}', [WorkerController::class, 'company_destroy'])->name('worker.company_destroy');
+});
+
+Route::middleware(['Študent'])->group(function () {
     Route::get('/student/subject', [StudentController::class, 'index'])->name('student.program_and_subject');
     Route::get('/student/subject/select_program', [StudentController::class, 'selectProgram'])->name('select-program');
     Route::post('/student/subject/select_program', [StudentController::class, 'selectProgram']);
@@ -110,11 +130,3 @@ Route::middleware(['admin'])->group(function () {
     Route::put('/school_subject/{id}', [SchoolSubjectController::class, 'update'])->name('school_subject.update');
     Route::delete('/school_subject/{id}', [SchoolSubjectController::class, 'destroy'])->name('school_subject.destroy');
 });
-
-    Route::get('/worker/company', [WorkerController::class, 'company_index'])->name('worker.company');
-    Route::post('/worker/company', [WorkerController::class, 'company_store'])->name('worker.company_store');
-    Route::get('/worker/company/{id}', [WorkerController::class, 'company_show'])->name('worker.company_show');
-    Route::get('/worker/company/{id}/edit', [WorkerController::class, 'company_edit'])->name('worker.company_edit');
-    Route::put('/worker/company/{id}', [WorkerController::class, 'company_update'])->name('worker.company_update');
-    Route::delete('/worker/company/{id}', [WorkerController::class, 'company_destroy'])->name('worker.company_destroy');
-

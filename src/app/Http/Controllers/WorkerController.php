@@ -22,8 +22,6 @@ class WorkerController extends Controller
         $user = Auth::user();
         $role = $user->user_roles->rola;
         $prax = $user->prax()->latest()->first();
-        //$company =  $prax->contract->company;
-
 
         return view('worker.company', compact('companies','role'));
     }
@@ -76,8 +74,11 @@ class WorkerController extends Controller
     public function company_edit($id)
     {
         $company = Company::findOrFail($id);
-        //$role = $user->user_roles->rola;
-        return view('worker.company_edit', compact('company' /*/,'role'*/));
+        
+        $user = Auth::user();
+        $role = $user->user_roles->rola;
+
+        return view('worker.company_edit', compact('company','role'));
     }
 
     public function company_update(Request $request, $id)
@@ -95,7 +96,7 @@ class WorkerController extends Controller
         $company->update($validatedData);
 
         return redirect()->route('worker.company', $company->id)
-            ->with('success', 'Company has been successfully updated!');
+            ->with('success', 'Firma bola úspešne aktualizovaná!');
     }
 
     public function company_destroy($id)
@@ -104,11 +105,7 @@ class WorkerController extends Controller
         $company->delete();
 
         return redirect()->route('worker.company')
-            ->with('success', 'Company has been successfully deleted!');
+            ->with('success', 'Firma bola úspešne vymazaná!');
     }
-
-
-
-
 
 }

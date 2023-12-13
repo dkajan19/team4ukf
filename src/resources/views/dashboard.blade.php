@@ -34,6 +34,27 @@
         }
     </style>
 @endif
+@if($role == 'Poverený pracovník pracoviska')
+    <style>
+        :root {
+            --link-count: 2;
+        }
+    </style>
+@endif
+@if($role == 'Vedúci pracoviska')
+    <style>
+        :root {
+            --link-count: 1;
+        }
+    </style>
+@endif
+@if($role == 'Zástupca firmy alebo organizácie')
+    <style>
+        :root {
+            --link-count: 1;
+        }
+    </style>
+@endif
 </head>
 <body>
 
@@ -60,6 +81,15 @@
                 <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
                 <li><a href="{{ route('student.report') }}">Výkaz</a></li>
                 <li><a href="{{ route('student.documents') }}">Dokumenty</a></li>
+            @endif
+            @if($role == 'Poverený pracovník pracoviska')
+                <li><a href="{{ route('worker.company') }}">Firma</a></li>
+            @endif
+            @if($role == 'Vedúci pracoviska')
+                
+            @endif
+            @if($role == 'Zástupca firmy alebo organizácie')
+                
             @endif
         </ul>
 
@@ -89,6 +119,20 @@
                 <i class="fas fa-exclamation-triangle alert__icon"></i>  Nezabudnite, že študentská praxa je dôležitou súčasťou vášho vzdelávania, a preto dávajte pozor na termíny a splnenie požiadaviek.
             </div>
             <p>Ak budete mať otázky alebo potrebujete ďalšie informácie, neváhajte sa obrátiť na svojich školiteľov alebo koordinátorov študentskej praxe. Želáme vám úspešnú a vzdelávajúcu skúsenosť počas vašej študentskej praxe!</p>
+        @endif
+        @if($role == 'Poverený pracovník pracoviska')
+            <h2>Vitajte v prostredí pre Povereného pracovníka pracoviska</h2>
+            <p>Ako poverený pracovník pracoviska máte k dispozícii rozsiahle možnosti správy firiem, praxí a študentov. Vaša úloha je zabezpečiť efektívnu koordináciu a sledovanie všetkých príslušných aspektov pracovného prostredia.</p>
+            <div class="alert alert-info" role="alert">
+                <i class="fas fa-info-circle alert__icon"></i>  Vaša práca zahŕňa správu firiem, praxe a študentov, a je kľúčová pre plynulý chod pracovného procesu.
+            </div>
+            <p>Ak budete mať otázky alebo potrebujete ďalšie informácie o systéme, neváhajte sa obrátiť na svojich kolegov alebo administrátorov. Želáme vám úspešné riadenie pracoviska a jeho príslušných procesov!</p>
+        @endif
+        @if($role == 'Vedúci pracoviska')
+
+        @endif
+        @if($role == 'Zástupca firmy alebo organizácie')
+
         @endif
     </div>
 

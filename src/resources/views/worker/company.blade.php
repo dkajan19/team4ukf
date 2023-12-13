@@ -35,7 +35,7 @@
         }
     </style>
 @endif
-    @if($role == 'worker')
+    @if($role == 'Poverený pracovník pracoviska')
         <style>
             :root {
                 --link-count: 2;
@@ -69,7 +69,7 @@
                 <li><a href="{{ route('student.report') }}">Výkaz</a></li>
                 <li><a href="{{ route('student.documents') }}">Dokumenty</a></li>
             @endif
-            @if($role == 'worker')
+            @if($role == 'Poverený pracovník pracoviska')
                 <li><a href="{{ route('worker.company') }}">Firma</a></li>
             @endif
         </ul>
