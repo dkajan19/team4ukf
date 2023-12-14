@@ -58,6 +58,10 @@ Route::middleware(['Poverený pracovník pracoviska'])->group(function () {
     Route::get('/worker/company/{id}/edit', [WorkerController::class, 'company_edit'])->name('worker.company_edit');
     Route::put('/worker/company/{id}', [WorkerController::class, 'company_update'])->name('worker.company_update');
     Route::delete('/worker/company/{id}', [WorkerController::class, 'company_destroy'])->name('worker.company_destroy');
+    Route::get('/worker/internship-details', [WorkerController::class, 'internshipDetails'])->name('worker.internship_details');
+    Route::post('/worker/student', [WorkerController::class, 'student_store'])->name('worker.student_store');
+    Route::post('/worker/add-custom-internship', [WorkerController::class, 'addCustomInternship'])->name('worker.add_custom_internship');
+
 });
 
 Route::middleware(['Študent'])->group(function () {
