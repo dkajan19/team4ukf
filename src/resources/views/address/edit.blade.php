@@ -20,6 +20,11 @@
                 });
             });
     </script>
+    <style>
+        :root {
+            --link-count: 9;
+        }
+    </style>
 </head>
 <body>
 
@@ -55,8 +60,8 @@
         <h1>Upraviť adresu</h1>
         <hr><br>
         @if(session('success'))
-            <div style="color: green;">
-                {{ session('success') }}
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
             </div>
         @endif
 

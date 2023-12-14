@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Používateľský profil</title>
+    <title>Zobrazenie firmy</title>
     <script src="https://kit.fontawesome.com/361bfee177.js" crossorigin="anonymous"></script>
     <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -23,7 +23,7 @@
 @if($role == 'admin')
     <style>
         :root {
-            --link-count: 9;
+            --link-count: 8;
         }
     </style>
 @endif
@@ -31,27 +31,6 @@
     <style>
         :root {
             --link-count: 6;
-        }
-    </style>
-@endif
-@if($role == 'Poverený pracovník pracoviska')
-    <style>
-        :root {
-            --link-count: 2;
-        }
-    </style>
-@endif
-@if($role == 'Vedúci pracoviska')
-    <style>
-        :root {
-            --link-count: 1;
-        }
-    </style>
-@endif
-@if($role == 'Zástupca firmy alebo organizácie')
-    <style>
-        :root {
-            --link-count: 1;
         }
     </style>
 @endif
@@ -64,7 +43,7 @@
         </a>
         <i class="fa-solid fa-bars menu-icon" style="color: #000205;"></i>
         <ul class="nav-links">
-                <li><a href="{{ route('dashboard') }}">Domov</a></li>
+            <li><a href="{{ route('dashboard') }}">Domov</a></li>
             @if($role == 'admin')
                 <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
                 <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
@@ -74,7 +53,6 @@
                 <li><a href="{{ route('address.index') }}">Adresy</a></li>
                 <li><a href="{{ route('company.index') }}">Firmy</a></li>
                 <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
-                <li><a href="{{ route('feedback.index') }}">Feedback</a></li>
             @endif
             @if($role == 'Študent')
                 <li><a href="{{ route('student.internship_details') }}">Prax</a></li>
@@ -82,15 +60,6 @@
                 <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
                 <li><a href="{{ route('student.report') }}">Výkaz</a></li>
                 <li><a href="{{ route('student.documents') }}">Dokumenty</a></li>
-            @endif
-            @if($role == 'Poverený pracovník pracoviska')
-                <li><a href="{{ route('worker.company') }}">Firma</a></li>
-            @endif
-            @if($role == 'Vedúci pracoviska')
-                
-            @endif
-            @if($role == 'Zástupca firmy alebo organizácie')
-                
             @endif
         </ul>
 
@@ -105,9 +74,15 @@
         </div>
     </nav>
 
-    <div class="container" id="container">
+    <div class="container">
+@if($prax != null)
+        <h1>Moje dokumenty</h1>
 
-        <h1>Používateľský profil</h1>
+        @if(session('success'))
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
+            </div>
+        @endif
 
         @if($errors->any())
             @foreach($errors->all() as $error)
@@ -117,61 +92,65 @@
             @endforeach
         @endif
 
-        @if(session('success'))
-            <div class="alert alert-success" role="alert">
-                <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
+        <p><strong>Číslo zmluvy: </strong>{{ $prax->contract->zmluva }}</p>
+        @if($prax->documents->dokument != "null")
+            <p><a href="{{ route('student.documents_download', ['id' => $prax->documents->id]) }}">Stiahnuť dokumenty</a></p>
+            
+
+            <button onclick="toggleCustomInternshipForm()">Aktualizácia dokumentov</button>
+
+            <form method="post" action="{{ route('student.documents_destroy', $prax->documents->id) }}" style="display: inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit">Vymazať dokumenty</button>
+            </form>
+
+            <div id="update-form" style="display:none;">
+                <br>
+                <form method="post" action="{{ route('student.documents_update') }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                
+                    <label for="dokument">Vyberte súbor:</label>
+                    <input type="file" name="dokument">
+                
+                    <button type="submit">Aktualizovať</button>
+                </form>
+            </div>
+
+        @else
+            <div class="alert alert-warning" role="alert">
+                <i class="fas fa-exclamation-triangle alert__icon"></i>  Nemáte žiadne dokumenty na stiahnutie, je potrebné ich nahrať nižšie.
+            </div>
+
+            <div id="update-form">
+                <br>
+                <h3>Nahrať dokumenty</h3>
+                <form method="post" action="{{ route('student.documents_update') }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                
+                    <label for="dokument">Vyberte súbor:</label>
+                    <input type="file" name="dokument">
+                
+                    <button type="submit">Nahrať</button>
+                </form>
             </div>
         @endif
 
-        <div>
-            <p><strong>Meno:</strong> {{ Auth::user()->meno }}</p>
-            <p><strong>Priezvisko:</strong> {{ Auth::user()->priezvisko }}</p>
-            <p><strong>Telefónne číslo:</strong> {{ Auth::user()->tel_cislo }}</p>
-            <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
-        </div>
-
-        <hr>
-
-        <h2>Upraviť profil</h2>
-
-        <form method="post" action="{{ route('profile.update') }}">
-            @csrf
-            <label for="meno">Meno:</label>
-            <input type="text" name="meno" value="{{ Auth::user()->meno }}" required>
-
-            <label for="priezvisko">Priezvisko:</label>
-            <input type="text" name="priezvisko" value="{{ Auth::user()->priezvisko }}" required>
-
-            <label for="tel_cislo">Tel. číslo:</label>
-            <input type="text" name="tel_cislo" value="{{ Auth::user()->tel_cislo }}" required>
-
-            <label for="email">Email:</label>
-            <input type="email" name="email" value="{{ Auth::user()->email }}" required>
-
-            <button type="submit">Aktualizovať profil</button>
-        </form>
-
-        <hr>
-
-        <h2>Zmena hesla</h2>
-
-        <form method="post" action="{{ route('profile.updatePassword') }}">
-            @csrf
-            <label for="old_password">Staré heslo:</label>
-            <input type="password" name="old_password" required>
-
-            <label for="new_password">Nové heslo:</label>
-            <input type="password" name="new_password" required>
-
-            <label for="new_password_confirmation">Potvrďte nové heslo:</label>
-            <input type="password" name="new_password_confirmation" required>
-
-            <button type="submit">Zmeniť heslo</button>
-        </form>
-
-        <a href="{{ route('dashboard') }}">Naspäť na domovskú obrazovku</a>
-
+@else
+    <div class="alert alert-danger" role="alert">
+        <i class="fas fa-minus-circle alert__icon"></i>  Študent nemá žiadnu priradenú prax.
     </div>
+@endif
+    </div>
+
+    <script>
+        function toggleCustomInternshipForm() {
+            var customInternshipForm = document.getElementById("update-form");
+            customInternshipForm.style.display = (customInternshipForm.style.display === "none") ? "block" : "none";
+        }
+    </script>
 
 </body>
 </html>

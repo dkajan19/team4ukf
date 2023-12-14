@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
+    <script src="https://kit.fontawesome.com/361bfee177.js" crossorigin="anonymous"></script>
     <title>Obnovenie hesla</title>
 </head>
 <body>
@@ -15,8 +16,9 @@
             @csrf
 
             @error('email')
-                <div style="color: red;">{{ $message }}</div>
-                <br>
+                <div class="alert alert-danger" role="alert">
+                    <i class="fas fa-minus-circle alert__icon"></i>  {{ $message }}
+                </div>
             @enderror
 
             <label for="email">Email</label>

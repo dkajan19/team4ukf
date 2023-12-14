@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Výber predmetu</title>
+    <title>Firmy</title>
     <script src="https://kit.fontawesome.com/361bfee177.js" crossorigin="anonymous"></script>
     <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -34,6 +35,13 @@
         }
     </style>
 @endif
+    @if($role == 'Poverený pracovník pracoviska')
+        <style>
+            :root {
+                --link-count: 2;
+            }
+        </style>
+    @endif
 </head>
 <body>
 
@@ -61,6 +69,9 @@
                 <li><a href="{{ route('student.report') }}">Výkaz</a></li>
                 <li><a href="{{ route('student.documents') }}">Dokumenty</a></li>
             @endif
+            @if($role == 'Poverený pracovník pracoviska')
+                <li><a href="{{ route('worker.company') }}">Firma</a></li>
+            @endif
         </ul>
 
         <div class="user-actions">
@@ -75,13 +86,16 @@
     </nav>
 
     <div class="container">
-        
-        @if($errors->any())
-                @foreach($errors->all() as $error)
-                    <div class="alert alert-danger" role="alert">
-                        <i class="fas fa-minus-circle alert__icon"></i>  {{ $error }}
-                    </div>
-                @endforeach
+        <h1>Dostupné firmy</h1>
+
+            @if($errors->any())
+                <div style="color: red;">
+                    @foreach($errors->all() as $error)
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fas fa-minus-circle alert__icon"></i>  {{ $error }}
+                        </div>
+                    @endforeach
+                </div>
             @endif
 
             @if(session('success'))
@@ -89,62 +103,86 @@
                     <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
                 </div>
             @endif
-@if($prax && $prax->aktualny_stav == 'vytvorená')
-        <h1>Výber predmetu</h1>
-        @if($student)
-            <p class>Meno študenta: {{ $student->meno }} {{ $student->priezvisko }}</p>
-        @endif
 
-        @foreach($student->prax as $prax)
-            @if($prax->aktualny_stav == 'vytvorená')
-                @if($prax->schoolSubject)
-                    @if($prax->schoolSubject->nazov == 'NULL')
-                        <div class="alert alert-danger" role="alert">
-                            <i class="fas fa-minus-circle alert__icon"></i>  Študent ešte nemá priradený predmet.
-                        </div>
-                    @else
-                        <p>Priradený predmet z praxe: {{ $prax->schoolSubject->nazov }}</p>
-                    @endif
-                @else
-                    <p>Student ešte nemá priradený predmet.</p>
-                @endif
-            @endif
+        <ul>
+        @foreach($companies as $company)
+        <br>
+            <li>
+                {{ $company->nazov_firmy }}
+
+                <form method="get" action="{{ route('worker.company_show', $company->id) }}" style="display: inline;">
+                    @csrf
+                    <button type="submit">Zobraziť</button>
+                </form>
+                <form method="get" action="{{ route('worker.company_edit', $company->id) }}" style="display: inline;">
+                    @csrf
+                    <button type="submit">Upraviť</button>
+                </form>
+                <form method="post" action="{{ route('worker.company_destroy', $company->id) }}" style="display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">Vymazať</button>
+                </form>
+
+            </li>
         @endforeach
+        </ul>
 
-        <hr><br>
+        <button id="toggle-form">Pridanie firmy</button>
 
-        <form action="{{ route('select-program') }}" method="post">
-            @csrf
-            <label for="studijny_program">Vyberte študijný program:</label>
-            <select name="studijny_program" id="studijny_program">
-                @foreach($studijneProgramy as $program)
-                    <option value="{{ $program->id }}" @if($selectedProgram && $selectedProgram->id == $program->id) selected @endif>
-                        {{ $program->nazov }}
-                    </option>
-                @endforeach
-            </select>
-            <button type="submit">Potvrdiť výber</button>
-        </form>
-
-        @if($selectedProgram && $selectedProgram->schoolSubjects->count() > 0)
-            <h3 class="subject-heading">Prislúchajúce predmety k študijnému programu "{{ $selectedProgram->nazov }}"</h3>
-            <form action="{{ route('assign-subject') }}" method="post">
+        <div id="create-form">
+            <br>
+            <form method="post" action="{{ route('worker.company_store') }}">
                 @csrf
-                <select name="selected_subject" id="selected_subject">
-                    @foreach($selectedProgram->schoolSubjects as $predmet)
-                        <option value="{{ $predmet->id }}">{{ $predmet->nazov }}</option>
-                    @endforeach
-                </select>
-                <button type="submit">Priradiť predmet</button>
-            </form>
-        @endif
-@else
-    <div class="alert alert-danger" role="alert">
-        <i class="fas fa-minus-circle alert__icon"></i>  Študent nemá žiadnu priradenú prax.
-    </div>
-@endif
+                <label for="nazov_firmy">Názov firmy:</label>
+                <input type="text" name="nazov_firmy" required>
 
+                <label for="IČO">IČO:</label>
+                <input type="text" name="IČO" required>
+
+                <label for="meno_kontaktnej_osoby">Meno kontaktnej osoby:</label>
+                <input type="text" name="meno_kontaktnej_osoby" required>
+
+                <label for="priezvisko_kontaktnej_osoby">Priezvisko kontaktnej osoby:</label>
+                <input type="text" name="priezvisko_kontaktnej_osoby" required>
+
+                <label for="email">Email:</label>
+                <input type="text" name="email" required>
+
+                <label for="tel_cislo">Telefónne číslo:</label>
+                <input type="text" name="tel_cislo" required>
+
+                <!-- <div id = "address-fields">-->
+
+                    <label for="mesto">Mesto:</label>
+                    <input type="text" name="mesto" required>
+
+                    <label for="PSČ">PSČ:</label>
+                    <input type="text" name="PSČ" required>
+
+                    <label for="ulica">Ulica:</label>
+                    <input type="text" name="ulica" required>
+
+                    <label for="č_domu">Číslo domu:</label>
+                    <input type="text" name="č_domu" required>
+
+                    <!-- </div>-->
+
+                <button type="submit">Pridať</button>
+            </form>
+        </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#create-form, #address-fields").hide();
+            $("#toggle-form").click(function() {
+                $("#create-form, #address-fields").toggle();
+            });
+        });
+    </script>
+
+</script>
 
 </body>
-</html
+</html>

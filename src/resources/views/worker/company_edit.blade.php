@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Používateľský profil</title>
+    <title>Upraviť predmet</title>
     <script src="https://kit.fontawesome.com/361bfee177.js" crossorigin="anonymous"></script>
     <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -19,11 +19,11 @@
                     container.classList.toggle('show-menu');
                 });
             });
-    </script>
+   </script>
 @if($role == 'admin')
     <style>
         :root {
-            --link-count: 9;
+            --link-count: 8;
         }
     </style>
 @endif
@@ -34,37 +34,23 @@
         }
     </style>
 @endif
-@if($role == 'Poverený pracovník pracoviska')
-    <style>
-        :root {
-            --link-count: 2;
-        }
-    </style>
-@endif
-@if($role == 'Vedúci pracoviska')
-    <style>
-        :root {
-            --link-count: 1;
-        }
-    </style>
-@endif
-@if($role == 'Zástupca firmy alebo organizácie')
-    <style>
-        :root {
-            --link-count: 1;
-        }
-    </style>
-@endif
+    @if($role == 'Poverený pracovník pracoviska')
+        <style>
+            :root {
+                --link-count: 2;
+            }
+        </style>
+    @endif
 </head>
 <body>
 
-    <nav class="navbar">
+<nav class="navbar">
         <a href="{{ route('dashboard') }}">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="nav-logo">
         </a>
         <i class="fa-solid fa-bars menu-icon" style="color: #000205;"></i>
         <ul class="nav-links">
-                <li><a href="{{ route('dashboard') }}">Domov</a></li>
+            <li><a href="{{ route('dashboard') }}">Domov</a></li>
             @if($role == 'admin')
                 <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
                 <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
@@ -74,7 +60,6 @@
                 <li><a href="{{ route('address.index') }}">Adresy</a></li>
                 <li><a href="{{ route('company.index') }}">Firmy</a></li>
                 <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
-                <li><a href="{{ route('feedback.index') }}">Feedback</a></li>
             @endif
             @if($role == 'Študent')
                 <li><a href="{{ route('student.internship_details') }}">Prax</a></li>
@@ -85,12 +70,6 @@
             @endif
             @if($role == 'Poverený pracovník pracoviska')
                 <li><a href="{{ route('worker.company') }}">Firma</a></li>
-            @endif
-            @if($role == 'Vedúci pracoviska')
-                
-            @endif
-            @if($role == 'Zástupca firmy alebo organizácie')
-                
             @endif
         </ul>
 
@@ -105,17 +84,8 @@
         </div>
     </nav>
 
-    <div class="container" id="container">
-
-        <h1>Používateľský profil</h1>
-
-        @if($errors->any())
-            @foreach($errors->all() as $error)
-                <div class="alert alert-danger" role="alert">
-                    <i class="fas fa-minus-circle alert__icon"></i>  {{ $error }}
-                </div>
-            @endforeach
-        @endif
+    <div class="container">
+        <h1>Upraviť firmu</h1>
 
         @if(session('success'))
             <div class="alert alert-success" role="alert">
@@ -123,54 +93,40 @@
             </div>
         @endif
 
-        <div>
-            <p><strong>Meno:</strong> {{ Auth::user()->meno }}</p>
-            <p><strong>Priezvisko:</strong> {{ Auth::user()->priezvisko }}</p>
-            <p><strong>Telefónne číslo:</strong> {{ Auth::user()->tel_cislo }}</p>
-            <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
-        </div>
+            @if($errors->any())
+                @foreach($errors->all() as $error)
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-minus-circle alert__icon"></i>  {{ $error }}
+                    </div>
+                @endforeach
+            @endif
 
-        <hr>
-
-        <h2>Upraviť profil</h2>
-
-        <form method="post" action="{{ route('profile.update') }}">
+        <form method="post" action="{{ route('worker.company_update', $company->id) }}">
             @csrf
-            <label for="meno">Meno:</label>
-            <input type="text" name="meno" value="{{ Auth::user()->meno }}" required>
+            @method('PUT')
 
-            <label for="priezvisko">Priezvisko:</label>
-            <input type="text" name="priezvisko" value="{{ Auth::user()->priezvisko }}" required>
+            <label for="nazov_firmy">Názov:</label>
+            <input type="text" name="nazov_firmy" value="{{ old('nazov_firmy', $company->nazov_firmy) }}" required>
 
-            <label for="tel_cislo">Tel. číslo:</label>
-            <input type="text" name="tel_cislo" value="{{ Auth::user()->tel_cislo }}" required>
+            <label for="IČO">IČO:</label>
+            <input type="text" name="IČO" value="{{ old('IČO', $company->IČO) }}" required>
+
+            <label for="meno_kontaktnej_osoby">Meno kontaktnej osoby:</label>
+            <input type="text" name="meno_kontaktnej_osoby" value="{{ old('meno_kontaktnej_osoby', $company->meno_kontaktnej_osoby) }}" required>
+
+            <label for="priezvisko_kontaktnej_osoby">Priezvisko kontaktnej osoby:</label>
+            <input type="text" name="priezvisko_kontaktnej_osoby" value="{{ old('priezvisko_kontaktnej_osoby', $company->priezvisko_kontaktnej_osoby) }}" required>
 
             <label for="email">Email:</label>
-            <input type="email" name="email" value="{{ Auth::user()->email }}" required>
+            <input type="text" name="email" value="{{ old('email', $company->email) }}" required>
 
-            <button type="submit">Aktualizovať profil</button>
+            <label for="tel_cislo">Telefónne číslo:</label>
+            <input type="text" name="tel_cislo" value="{{ old('tel_cislo', $company->tel_cislo) }}" required>
+
+            <button type="submit">Aktualizovať</button>
         </form>
 
-        <hr>
-
-        <h2>Zmena hesla</h2>
-
-        <form method="post" action="{{ route('profile.updatePassword') }}">
-            @csrf
-            <label for="old_password">Staré heslo:</label>
-            <input type="password" name="old_password" required>
-
-            <label for="new_password">Nové heslo:</label>
-            <input type="password" name="new_password" required>
-
-            <label for="new_password_confirmation">Potvrďte nové heslo:</label>
-            <input type="password" name="new_password_confirmation" required>
-
-            <button type="submit">Zmeniť heslo</button>
-        </form>
-
-        <a href="{{ route('dashboard') }}">Naspäť na domovskú obrazovku</a>
-
+        <a href="{{ route('worker.company', ['id' => $company->id]) }}">Naspäť na firmy</a>
     </div>
 
 </body>

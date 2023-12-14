@@ -21,6 +21,13 @@
                 });
             });
     </script>
+@if($role == 'admin')
+    <style>
+        :root {
+            --link-count: 8;
+        }
+    </style>
+@endif
 </head>
 <body>
 
@@ -58,8 +65,8 @@
         <h1>Predmety</h1>
 
         @if(session('success'))
-            <div style="color: green; margin-bottom: 10px;">
-                {{ session('success') }}
+            <div class="alert alert-success" role="alert" style="margin-bottom: 10px;">
+                <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
             </div>
         @endif
 

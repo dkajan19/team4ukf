@@ -11,38 +11,47 @@ class FeedbackController extends Controller
 {
     public function index()
     {
-        $feedbacks = FeedBack::all();
-        $praxes = Internship::with('feedback')->get();
+        $feedbacks = FeedBack::with('internship')->get();
+        $praxes = Internship::all();
 
         $user = Auth::user();
         $role = $user->user_roles->rola;
 
         return view('feedback.index', compact('feedbacks', 'praxes', 'role'));
     }
+
     public function edit($id)
     {
-        $feedback = FeedBack::all();
-        $praxes = Internship::with('feedback')->get();
-
+        $feedback = FeedBack::with('internship')->find($id);
+        $praxes = Internship::all();
 
         return view('feedback.edit', compact('feedback', 'praxes'));
     }
+
     public function show($id)
     {
         $feedback = FeedBack::findOrFail($id);
         return view('feedback.show', compact('feedback'));
     }
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([
             'feedback' => 'required',
             'prax_id' => 'required|exists:prax,id',
         ]);
+        
+        $existingFeedback = FeedBack::where('prax_id', $validatedData['prax_id'])->first();
+
+    if ($existingFeedback) {
+        return redirect()->route('feedback.index')->with('error', 'Feedback pre túto prax už existuje.');
+    }
 
         FeedBack::create($validatedData);
 
         return redirect()->route('feedback.index')->with('success', 'Feedback úspešne pridaný.');
     }
+
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
@@ -54,12 +63,11 @@ class FeedbackController extends Controller
 
         return redirect()->route('feedback.index')->with('success', 'Feedback úspešne aktualizovaný.');
     }
+
     public function destroy($id)
     {
         FeedBack::destroy($id);
 
         return redirect()->route('feedback.index')->with('success', 'Feedback úspešne odstránený.');
     }
-    
-
 }

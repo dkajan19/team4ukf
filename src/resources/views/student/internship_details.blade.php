@@ -21,6 +21,20 @@
                 });
             });
     </script>
+@if($role == 'admin')
+    <style>
+        :root {
+            --link-count: 8;
+        }
+    </style>
+@endif
+@if($role == 'Študent')
+    <style>
+        :root {
+            --link-count: 6;
+        }
+    </style>
+@endif
 </head>
 
 <body>
@@ -43,8 +57,11 @@
                 <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
             @endif
             @if($role == 'Študent')
-                <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
                 <li><a href="{{ route('student.internship_details') }}">Prax</a></li>
+                <li><a href="{{ route('student.company') }}">Firma</a></li>
+                <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
+                <li><a href="{{ route('student.report') }}">Výkaz</a></li>
+                <li><a href="{{ route('student.documents') }}">Dokumenty</a></li>
             @endif
         </ul>
 
@@ -61,20 +78,23 @@
 
     <div class="container">
             @if($errors->any())
-                <div style="color: red;">
                     @foreach($errors->all() as $error)
-                        <p>{{ $error }}</p>
-                        <br>
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fas fa-minus-circle alert__icon"></i>  {{ $error }}
+                        </div>
                     @endforeach
-                </div>
             @endif
 
             @if(session('success'))
-                <div style="color: green;">
-                    {{ session('success') }}
-                    <br>
-                    <br>
+                <div class="alert alert-success" role="alert">
+                    <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
                 </div>
+            @endif
+
+            @if($student->prax->count() == 0)
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-minus-circle alert__icon"></i>  Študent nemá žiadnu prax na zobrazenie.
+                    </div>
             @endif
 
         <button id="addCustomInternship" onclick="toggleCustomInternshipForm()">Pridať vlastnú prax</button>
@@ -95,34 +115,41 @@
                 <form method="POST" action="{{ route('student.add_custom_internship') }}">
                     @csrf
                     <label for="company_id_add">Vyberte firmu:</label>
-                    <select name="company_id_add" style="width: 100%;">
+                    <select name="company_id_add" style="width: 100%;" required>
+                    <option value="" disabled selected>Vyberte firmu</option>
                         @foreach ($companies_all as $company)
                             <option value="{{ $company->id }}">{{ $company->nazov_firmy }}</option>
                         @endforeach
                     </select>
                     <label for="description_add">Popis:</label>
-                    <textarea name="description_add" style="width: 99%; height: 15em;"></textarea>
+                    <textarea name="description_add" style="width: 99%; height: 15em;" required></textarea>
+                    <label for="datum_zaciatku_add">Dátum začiatku:</label>
+                    <input type="date" name="datum_zaciatku_add" required>
+                    <label for="datum_konca_add">Dátum konca:</label>
+                    <input type="date" name="datum_konca_add" required>
                     <br>
                     <br>
                     <button type="submit">Pridať vlastnú prax</button>
                 </form>
             @else
-                <p style="color:red;">Máte už vytvorenú prax so stavom "vytvorená", nemôžete pridať ďalšiu.</p>
+                <div class="alert alert-danger" role="alert">
+                    <i class="fas fa-minus-circle alert__icon"></i> Máte už vytvorenú prax so stavom "vytvorená", nemôžete pridať ďalšiu.
+                </div>
             @endif
         </div>
 
-
-        <h2>Zobraziť detaily o praxi</h2>
-        <select id="internshipSelect" onchange="displayInternshipDetails()">
-            <option value="" disabled selected>Vyberte ID praxe</option>
-            @foreach ($praxes as $prax)
-                <option value="{{ $prax->id }}">{{ $prax->id }}</option>
-            @endforeach
-        </select>
-
-        <div id="CompanyDetailsContainer"></div>
-
-    </div>
+    @if($student->prax->count() > 0)
+            <h2>Zobraziť detaily o praxi</h2>
+            <select id="internshipSelect" onchange="displayInternshipDetails()">
+                <option value="" disabled selected>Vyberte ID praxe</option>
+                @foreach ($praxes as $prax)
+                    <option value="{{ $prax->id }}">{{ $prax->id }}</option>
+                @endforeach
+            </select>
+            <div id="CompanyDetailsContainer"></div>
+    @endif
+</div>
+@if($student->prax->count() > 0)
     <script>
         var praxes = @json($praxes);
 
@@ -133,6 +160,11 @@
             selectedPrax = praxes.find(prax => prax.id == internshipId);
 
             if (selectedPrax) {
+                var rawDateStart = selectedPrax.datum_zaciatku;
+                var formattedDateStart = new Date(rawDateStart).toLocaleDateString('sk-SK');
+                var rawDateEnd = selectedPrax.datum_konca;
+                var formattedDateEnd = new Date(rawDateEnd).toLocaleDateString('sk-SK');
+
                 var subjectHtml = (selectedPrax.school_subject.nazov !== 'NULL')
                 ? "<p><strong>Predmet pokrývajúci prax:</strong> " + selectedPrax.school_subject.nazov + "</p>"
                 : "<p style='display:inline;'><strong>Predmet pokrývajúci prax:</strong></p><p style='color:red;display:inline;'> Je potrebné vybrať  <a href='" + '{{ route("student.program_and_subject") }}' + "'>TU</a></p>";                var detailsHtml = "<h2>Detaily praxe</h2>" +
@@ -141,6 +173,8 @@
                     "<p><strong>Dokumenty:</strong> " + selectedPrax.documents.id + "</p>" +
                     subjectHtml +
                     "<p><strong>Popis:</strong> " + selectedPrax.popis_praxe + "</p>" +
+                    "<p><strong>Dátum začiatku:</strong> " + formattedDateStart + "</p>" +
+                    "<p><strong>Dátum konca:</strong> " + formattedDateEnd + "</p>" +
                     "<p><strong>Vedúci pracoviska:</strong> " + selectedPrax.head.meno + " " + selectedPrax.head.priezvisko + "</p>" +
                     "<p><strong>Poverený pracovník pracoviska:</strong> " + selectedPrax.worker.meno + " " + selectedPrax.worker.priezvisko + "</p>";
 
@@ -185,7 +219,14 @@
             customInternshipForm.style.display = (customInternshipForm.style.display === "none") ? "block" : "none";
         }
     </script>
-
+@else
+<script>
+    function toggleCustomInternshipForm() {
+            var customInternshipForm = document.getElementById("customInternshipForm");
+            customInternshipForm.style.display = (customInternshipForm.style.display === "none") ? "block" : "none";
+        }
+</script>
+@endif
 </body>
 
 </html>

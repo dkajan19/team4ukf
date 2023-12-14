@@ -33,18 +33,6 @@ class Internship extends Model
         'aktualny_stav'=>"vytvorená",
     ];
 
-    public function prax_prepojenia(): BelongsTo
-    {
-        return[ $this->belongsTo(User::class,'student_id'),
-                $this->belongsTo(User::class,'veduci_pracoviska_id'),
-                $this->belongsTo(User::class,'pracovnik_fpvai_id'),
-                $this->belongsTo(User::class,'kontaktna_osoba_id'),
-                $this->belongsTo(Documents::class,'dokumenty_id'),
-                $this->belongsTo(SchoolSubject::class,'predmety_id'),
-                $this->belongsTo(Contract::class,'zmluva_id'),
-        ];
-    }
-
     public function schoolSubject(): BelongsTo
     {
         return $this->belongsTo(SchoolSubject::class, 'predmety_id');
@@ -79,8 +67,14 @@ class Internship extends Model
     {
         return $this->belongsTo(Documents::class,'dokumenty_id');
     }
+
     public function feedback(): HasOne
     {
         return $this->hasOne(FeedBack::class, 'prax_id');
+    }
+    
+    public function contact(): BelongsTo
+    {
+        return $this->belongsTo(User::class,'kontaktna_osoba_id');
     }
 }

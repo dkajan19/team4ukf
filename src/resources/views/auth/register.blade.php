@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
+    <script src="https://kit.fontawesome.com/361bfee177.js" crossorigin="anonymous"></script>
     <title>Registrácia</title>
 </head>
 <body>
@@ -15,16 +16,16 @@
             @csrf
 
             @if($errors->any())
-                <div style="color: red;">
-                    @foreach($errors->all() as $error)
-                        <p>{{ $error }}</p>
-                    @endforeach
-                </div>
+                @foreach($errors->all() as $error)
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-minus-circle alert__icon"></i>  {{ $error }}
+                    </div>
+                @endforeach
             @endif
 
             @if(session('success'))
-                <div style="color: green;">
-                    {{ session('success') }}
+                <div class="alert alert-success" role="alert">
+                    <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
                 </div>
             @endif
 

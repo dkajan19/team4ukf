@@ -20,6 +20,41 @@
             });
         });
     </script>
+@if($role == 'admin')
+    <style>
+        :root {
+            --link-count: 9;
+        }
+    </style>
+@endif
+@if($role == 'Študent')
+    <style>
+        :root {
+            --link-count: 6;
+        }
+    </style>
+@endif
+@if($role == 'Poverený pracovník pracoviska')
+    <style>
+        :root {
+            --link-count: 2;
+        }
+    </style>
+@endif
+@if($role == 'Vedúci pracoviska')
+    <style>
+        :root {
+            --link-count: 1;
+        }
+    </style>
+@endif
+@if($role == 'Zástupca firmy alebo organizácie')
+    <style>
+        :root {
+            --link-count: 1;
+        }
+    </style>
+@endif
 </head>
 <body>
 
@@ -39,10 +74,23 @@
                 <li><a href="{{ route('address.index') }}">Adresy</a></li>
                 <li><a href="{{ route('company.index') }}">Firmy</a></li>
                 <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
+                <li><a href="{{ route('feedback.index') }}">Feedback</a></li>
             @endif
             @if($role == 'Študent')
-                <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
                 <li><a href="{{ route('student.internship_details') }}">Prax</a></li>
+                <li><a href="{{ route('student.company') }}">Firma</a></li>
+                <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
+                <li><a href="{{ route('student.report') }}">Výkaz</a></li>
+                <li><a href="{{ route('student.documents') }}">Dokumenty</a></li>
+            @endif
+            @if($role == 'Poverený pracovník pracoviska')
+                <li><a href="{{ route('worker.company') }}">Firma</a></li>
+            @endif
+            @if($role == 'Vedúci pracoviska')
+                
+            @endif
+            @if($role == 'Zástupca firmy alebo organizácie')
+                
             @endif
         </ul>
 
@@ -61,13 +109,31 @@
         @if($role == 'admin')
             <h2>Vitajte v administrátorskom prostredí</h2>
             <p>Ako administrátor máte prístup k pokročilým možnostiam správy aplikácie. Tu môžete vykonávať rôzne administratívne úlohy, vrátane správy používateľov, definovania rolí, a sledovania študijných programov.</p>
-            <p style="color: red;">Nezabudnite, že s veľkou mocou prichádza veľká zodpovednosť. Dávajte pozor na zmeny, ktoré robíte, aby ste udržali integritu a bezpečnosť aplikácie.</p>
+            <div class="alert alert-warning" role="alert">
+                <i class="fas fa-exclamation-triangle alert__icon"></i>  Nezabudnite, že s veľkou mocou prichádza veľká zodpovednosť. Dávajte pozor na zmeny, ktoré robíte, aby ste udržali integritu a bezpečnosť aplikácie.
+            </div>
         @endif
         @if($role == 'Študent')
             <h2>Vitajte v študentskom prostredí</h2>
             <p>Ako študent máte možnosť spravovať svoju študentskú prax priamo tu. Môžete sledovať a aktualizovať informácie o svojej praxi.</p>
-            <p style="color: red;">Nezabudnite, že študentská praxa je dôležitou súčasťou vášho vzdelávania, a preto dávajte pozor na termíny a splnenie požiadaviek.</p>
+            <div class="alert alert-warning" role="alert">
+                <i class="fas fa-exclamation-triangle alert__icon"></i>  Nezabudnite, že študentská praxa je dôležitou súčasťou vášho vzdelávania, a preto dávajte pozor na termíny a splnenie požiadaviek.
+            </div>
             <p>Ak budete mať otázky alebo potrebujete ďalšie informácie, neváhajte sa obrátiť na svojich školiteľov alebo koordinátorov študentskej praxe. Želáme vám úspešnú a vzdelávajúcu skúsenosť počas vašej študentskej praxe!</p>
+        @endif
+        @if($role == 'Poverený pracovník pracoviska')
+            <h2>Vitajte v prostredí pre Povereného pracovníka pracoviska</h2>
+            <p>Ako poverený pracovník pracoviska máte k dispozícii rozsiahle možnosti správy firiem, praxí a študentov. Vaša úloha je zabezpečiť efektívnu koordináciu a sledovanie všetkých príslušných aspektov pracovného prostredia.</p>
+            <div class="alert alert-info" role="alert">
+                <i class="fas fa-info-circle alert__icon"></i>  Vaša práca zahŕňa správu firiem, praxe a študentov, a je kľúčová pre plynulý chod pracovného procesu.
+            </div>
+            <p>Ak budete mať otázky alebo potrebujete ďalšie informácie o systéme, neváhajte sa obrátiť na svojich kolegov alebo administrátorov. Želáme vám úspešné riadenie pracoviska a jeho príslušných procesov!</p>
+        @endif
+        @if($role == 'Vedúci pracoviska')
+
+        @endif
+        @if($role == 'Zástupca firmy alebo organizácie')
+
         @endif
     </div>
 

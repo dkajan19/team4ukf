@@ -17,6 +17,8 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\SchoolSubjectController;
+use App\Http\Controllers\WorkerController;
+use App\Http\Controllers\FeedbackController;
 
 
 Route::get('/', function () {
@@ -40,12 +42,40 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile/updatePassword', [ProfileController::class, 'updatePassword'])->name('profile.updatePassword');
+});
+
+Route::middleware(['Zástupca firmy alebo organizácie'])->group(function () {
+
+});
+
+Route::middleware(['Vedúci pracoviska'])->group(function () {
+
+});
+
+Route::middleware(['Poverený pracovník pracoviska'])->group(function () {
+    Route::get('/worker/company', [WorkerController::class, 'company_index'])->name('worker.company');
+    Route::post('/worker/company', [WorkerController::class, 'company_store'])->name('worker.company_store');
+    Route::get('/worker/company/{id}', [WorkerController::class, 'company_show'])->name('worker.company_show');
+    Route::get('/worker/company/{id}/edit', [WorkerController::class, 'company_edit'])->name('worker.company_edit');
+    Route::put('/worker/company/{id}', [WorkerController::class, 'company_update'])->name('worker.company_update');
+    Route::delete('/worker/company/{id}', [WorkerController::class, 'company_destroy'])->name('worker.company_destroy');
+});
+
+Route::middleware(['Študent'])->group(function () {
     Route::get('/student/subject', [StudentController::class, 'index'])->name('student.program_and_subject');
     Route::get('/student/subject/select_program', [StudentController::class, 'selectProgram'])->name('select-program');
     Route::post('/student/subject/select_program', [StudentController::class, 'selectProgram']);
     Route::post('/student/subject/assign_subject', [StudentController::class, 'assignSubject'])->name('assign-subject');
     Route::get('/student/internship-details', [StudentController::class, 'internshipDetails'])->name('student.internship_details');
     Route::post('/student/add-custom-internship', [StudentController::class, 'addCustomInternship'])->name('student.add_custom_internship');
+    Route::get('/student/report', [StudentController::class, 'report'])->name('student.report');
+    Route::get('/student/company', [StudentController::class, 'company_index'])->name('student.company');
+    Route::post('/student/company', [StudentController::class, 'company_store'])->name('student.company_store');
+    Route::get('/student/company/{id}', [StudentController::class, 'company_show'])->name('student.company_show');
+    Route::get('/student/documents', [StudentController::class, 'documents'])->name('student.documents');
+    Route::put('/student/documents', [StudentController::class, 'documents_update'])->name('student.documents_update');
+    Route::get('student/documents/download/{id}', [StudentController::class, 'documents_download'])->name('student.documents_download');
+    Route::delete('/student/documents/{id}', [StudentController::class, 'documents_destroy'])->name('student.documents_destroy');
 });
 
 Route::middleware(['admin'])->group(function () {
@@ -100,4 +130,10 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/school_subject/{id}/edit', [SchoolSubjectController::class, 'edit'])->name('school_subject.edit');
     Route::put('/school_subject/{id}', [SchoolSubjectController::class, 'update'])->name('school_subject.update');
     Route::delete('/school_subject/{id}', [SchoolSubjectController::class, 'destroy'])->name('school_subject.destroy');
+    Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
+    Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+    Route::get('/feedback/{id}', [FeedbackController::class, 'show'])->name('feedback.show');
+    Route::get('/feedback/{id}/edit', [FeedbackController::class, 'edit'])->name('feedback.edit');
+    Route::put('/feedback/{id}', [FeedbackController::class, 'update'])->name('feedback.update');
+    Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy'])->name('feedback.destroy');
 });

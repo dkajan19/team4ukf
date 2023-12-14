@@ -20,6 +20,11 @@
                 });
             });
     </script>
+    <style>
+        :root {
+            --link-count: 8;
+        }
+    </style>
 </head>
 <body>
 
@@ -55,19 +60,18 @@
         <h1>Upraviť predmet</h1>
 
         @if(session('success'))
-            <div style="color: green;">
-                {{ session('success') }}
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
             </div>
         @endif
 
-        @if ($errors->any())
-            <div style="color: red;">
-                @foreach ($errors->all() as $error) 
-                    {{ $error }}
-                    <br><br>
-                 @endforeach
-            </div>
-        @endif
+            @if($errors->any())
+                @foreach($errors->all() as $error)
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-minus-circle alert__icon"></i>  {{ $error }}
+                    </div>
+                @endforeach
+            @endif
 
         <form method="post" action="{{ route('school_subject.update', $schoolSubject->id) }}">
             @csrf

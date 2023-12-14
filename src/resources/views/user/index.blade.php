@@ -21,6 +21,13 @@
                 });
             });
     </script>
+@if($role == 'admin')
+    <style>
+        :root {
+            --link-count: 8;
+        }
+    </style>
+@endif
 </head>
 <body>
 
@@ -36,7 +43,7 @@
                 <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
                 <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
                 <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
-                <li><a href="{{ route('documents.index') }}">Používatelia</a></li>
+                <li><a href="{{ route('user.index') }}">Používatelia</a></li>
                 <li><a href="{{ route('address.index') }}">Adresy</a></li>
                 <li><a href="{{ route('company.index') }}">Firmy</a></li>
                 <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
@@ -57,8 +64,8 @@
     <div class="container">
         <h1>Používateľ</h1><hr>
         @if(session('success'))
-            <div style="color: green;">
-                {{ session('success') }}
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
             </div>
         @endif
     

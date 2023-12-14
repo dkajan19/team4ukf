@@ -17,6 +17,7 @@ class Address extends Model
         'PSČ',
         'ulica',
         'č_domu',
+        'firma_id',
     ];
 
     public function companiess(): BelongsTo
