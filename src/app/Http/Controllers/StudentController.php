@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\StudyProgram;
 use App\Models\SchoolSubject;
 use App\Models\Internship;
@@ -13,6 +14,7 @@ use App\Models\User;
 use App\Models\Documents;
 use App\Models\Contract;
 use App\Models\Address;
+
 
 class StudentController extends Controller
 {
@@ -110,11 +112,15 @@ class StudentController extends Controller
             $query->where('rola', 'Vedúci pracoviska');
         })->inRandomOrder()->firstOrFail();
 
-        $kontaktnaOsoba = User::where('firma_id', $validatedData['company_id_add'])
-            ->whereHas('user_roles', function ($query) {
-                $query->where('rola', 'Zástupca firmy alebo organizácie');
-            })
-            ->firstOrFail();
+        try {
+            $kontaktnaOsoba = User::where('firma_id', $validatedData['company_id_add'])
+                ->whereHas('user_roles', function ($query) {
+                    $query->where('rola', 'Zástupca firmy alebo organizácie');
+                })
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return redirect()->back()->withErrors(['kontaktnaOsoba' => 'Zástupca firmy neexistuje alebo nie je správne priradený.']);
+        }
 
         $document = Documents::create([
             'typ_dokumentu' => (string)($validatedData['company_id_add'] . "_" . (($lastInternshipId ?? 0) + 1)),
