@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('prax', function (Blueprint $table) {
             $table->id();
-            $table->string("popis_praxe");
+            $table->string("popis_praxe", 255);
             $table->date("datum_zaciatku");
             $table->date("datum_konca");
             $table->string('aktualny_stav')->nullable();

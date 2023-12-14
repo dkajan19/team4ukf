@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('zmluva', function (Blueprint $table) {
+        Schema::create('feedback', function (Blueprint $table) {
             $table->id();
-            $table->string("zmluva", 255);
-            $table->unsignedBigInteger('firma_id');
-            $table->foreign('firma_id')->references('id')->on('firma')->onDelete('cascade');
+            $table->string('feedback', 255);
+            $table->unsignedBigInteger('prax_id');
+            $table->foreign('prax_id')->references('id')->on('prax')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('zmluva');
+        Schema::dropIfExists('feedback');
     }
 };

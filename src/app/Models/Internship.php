@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Relations\BelongsTo;
+use \Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Internship extends Model
 {
@@ -31,18 +32,6 @@ class Internship extends Model
         'predmety_id'=>839,
         'aktualny_stav'=>"vytvorená",
     ];
-
-    public function prax_prepojenia(): BelongsTo
-    {
-        return[ $this->belongsTo(User::class,'student_id'),
-                $this->belongsTo(User::class,'veduci_pracoviska_id'),
-                $this->belongsTo(User::class,'pracovnik_fpvai_id'),
-                $this->belongsTo(User::class,'kontaktna_osoba_id'),
-                $this->belongsTo(Documents::class,'dokumenty_id'),
-                $this->belongsTo(SchoolSubject::class,'predmety_id'),
-                $this->belongsTo(Contract::class,'zmluva_id'),
-        ];
-    }
 
     public function schoolSubject(): BelongsTo
     {
@@ -79,6 +68,11 @@ class Internship extends Model
         return $this->belongsTo(Documents::class,'dokumenty_id');
     }
 
+    public function feedback(): HasOne
+    {
+        return $this->hasOne(FeedBack::class, 'prax_id');
+    }
+    
     public function contact(): BelongsTo
     {
         return $this->belongsTo(User::class,'kontaktna_osoba_id');
