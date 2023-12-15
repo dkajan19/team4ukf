@@ -55,7 +55,7 @@
 <div class="container">
     <h1>Zobrazenie feedbacku</h1>
     <hr>
-    <h2>{{ $feedback->internship->popis_praxe }}</h2>
+    <h2>{{ $feedback->internship->id }} - {{ $feedback->internship->popis_praxe }}</h2>
 
     <p><strong>Feedback:</strong> {{ $feedback->feedback }}</p>
 

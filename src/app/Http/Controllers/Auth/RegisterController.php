@@ -39,7 +39,7 @@ class RegisterController extends Controller
             'tel_cislo' => $request->tel_cislo,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'rola_pouzivatela_id' => 8,
+            'rola_pouzivatela_id' => 2,
         ]);
 
         return redirect()->route('login')->with('success', 'Registrácia úspešná. Teraz sa môžete prihlásiť.');

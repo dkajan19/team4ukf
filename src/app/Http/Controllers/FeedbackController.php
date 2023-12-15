@@ -56,13 +56,19 @@ class FeedbackController extends Controller
     {
         $validatedData = $request->validate([
             'feedback' => 'required',
-            'prax_id' => 'required|exists:prax,id',
         ]);
-
-        FeedBack::whereId($id)->update($validatedData);
-
+    
+        $existingFeedback = Feedback::where('prax_id', $request->prax_id)->where('id', '!=', $id)->first();
+    
+        if ($existingFeedback) {
+            return redirect()->route('feedback.index')->with('error', 'Feedback pre túto prax už existuje.');
+        }
+    
+        Feedback::whereId($id)->update($validatedData + ['prax_id' => $request->prax_id]);
+    
         return redirect()->route('feedback.index')->with('success', 'Feedback úspešne aktualizovaný.');
     }
+
 
     public function destroy($id)
     {

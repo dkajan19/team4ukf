@@ -71,7 +71,7 @@
         }) as $feedback)
         <br>
         <li>
-            {{ $feedback->internship->popis_praxe }} - {{ $feedback->feedback }}
+            {{ $feedback->internship->id }} - {{ $feedback->internship->popis_praxe }} - {{ $feedback->feedback }}
             
             <form method="get" action="{{ route('feedback.show', $feedback->id) }}" style="display: inline;">
                 @csrf
@@ -101,7 +101,7 @@
             <select name="prax_id">
                 @foreach($praxes as $prax)
                     <option value="{{ $prax->id }}">
-                        {{ $prax->popis_praxe }}
+                         {{ $prax->id }} - {{ $prax->popis_praxe }}
                     </option>
                 @endforeach
             </select>

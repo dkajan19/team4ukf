@@ -75,14 +75,15 @@
         @csrf
         @method('PUT')
 
-        <label for="prax_id">Vybrať prax:</label>
-        <select name="prax_id">
-            @foreach($praxes as $internship)
-                <option value="{{ $internship->id }}" {{ $internship->id == $feedback->prax_id ? 'selected' : '' }}>
-                    {{ $internship->popis_praxe }}
-                </option>
-            @endforeach
-        </select>
+        
+        
+    @foreach($praxes as $internship)
+        @if($internship->id == $feedback->prax_id)
+            <input type="hidden" name="prax_id" value="{{ $internship->id }}">
+            <input type="text" value="{{ $internship->id }} - {{ $internship->popis_praxe }}" readonly>
+        @endif
+    @endforeach
+        
 
         <label for="feedback">Feedback:</label>
         <input type="text" name="feedback" value="{{ $feedback->feedback }}" required>
