@@ -20,6 +20,6 @@ class Documents extends Model
 
     public function internships(): HasMany
 {
-    return $this->hasMany(Internship::class);
+    return $this->hasMany(Internship::class, 'id');
 }
 }

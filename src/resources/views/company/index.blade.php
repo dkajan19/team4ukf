@@ -24,7 +24,7 @@
 @if($role == 'admin')
     <style>
         :root {
-            --link-count: 8;
+            --link-count: 10;
         }
     </style>
 @endif

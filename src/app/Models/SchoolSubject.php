@@ -26,7 +26,7 @@ class SchoolSubject extends Model
     
     public function praxess(): HasMany
     {
-        return $this->hasMany(Internship::class);
+        return $this->hasMany(Internship::class, 'id');
     }
 
 }

@@ -22,7 +22,7 @@
     </script>
     <style>
         :root {
-            --link-count: 9;
+            --link-count: 10;
         }
     </style>
 </head>

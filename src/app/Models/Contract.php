@@ -25,7 +25,7 @@ class Contract extends Model
 
     public function praxee(): HasOne
     {
-        return $this->hasOne(Internship::class);
+        return $this->hasOne(Internship::class, 'id');
     }
 
 }

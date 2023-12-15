@@ -6,94 +6,102 @@ use App\Models\User;
 use App\Models\Documents;
 use App\Models\SchoolSubject;
 use App\Models\Contract;
+use App\Models\Internship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class InternshipController extends Controller
 {
     public function index()
-    {
-        $praxe = Internship::all();
-        $users = User::with('praxe')->get();
+{
+    $user = Auth::user();
+    $praxe = Internship::all();
+    if ($user) {
+        $praxInternships = $user->prax;
+        $praxeInternships = $user->praxe;
+        $praxeaInternships = $user->praxea;
+        $praxebInternships = $user->praxeb;
         $documents = Documents::with('internships')->get();
         $schoolSubjects = SchoolSubject::with('praxess')->get();
         $contracts = Contract::with('praxee')->get();
 
-        $user = Auth::user();
         $role = $user->user_roles->rola;
-        
-        return view('prax.index', compact('praxe','users','documents','schoolSubjects','contracts','role'));
+
+        return view('prax.index', compact('praxe','praxInternships', 'praxeInternships', 'praxeaInternships', 'praxebInternships', 'documents', 'schoolSubjects', 'contracts', 'role'));
+    } else {
     }
+}
+
 
     public function edit($id)
-    {
-        $user = User::with('user_roles')->find($id);
-        $user_roles = UserRole::all();
+    {   
+        $prax = Internship::all();
+        $userr = User::findOrFail($id);
+        $praxInternship = $user->prax;
+        $praxeInternship = $user->praxe;
+        $praxeaInternship = $user->praxea;
+        $praxebInternship = $user->praxeb;
+        $document = Documents::with('internships')->findOrFail($id);
+        $schoolSubject = SchoolSubject::with('praxess')->findOrFail($id);
+        $contract = Contract::with('praxee')->findOrFail($id);
 
-        return view('user.edit', compact('user', 'user_roles'));
+        return view('prax.index', compact('prax','praxInternship','praxeInternship','praxeaInternship','praxebInternship','document','schoolSubject','contract'));
     }
 
     public function show($id)
     {
-        $user = User::findOrFail($id);
-        return view('user.show', compact('user'));
+        $prax = Internship::findOrFail($id);
+        return view('prax.show', compact('prax'));
     }
 
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'meno' => 'required|string|max:255',
-            'priezvisko' => 'required|string|max:255',
-            'tel_cislo' => 'required|string|max:20',
-            'email' => 'required|string|max:255',
-            'password' => 'required|string|max:255',
-            'rola_pouzivatela_id' => 'required|exists:rola_pouzivatela,id',
+        'popis_praxe' => 'required|string|max:255',
+        'datum_zaciatku'=> 'required|date|date_format:Y-m-d',
+        'datum_konca'=> 'required|date|date_format:Y-m-d',
+        'aktualny_stav'=> 'sometimes|string|max:255',
+        'predmety_id' => 'required|exists:predmety,id',
+        'student_id' => 'required|exists:student,id',
+        'veduci_pracoviska_id'=> 'required|exists:veduci_pracoviska,id',
+        'pracovnik_fpvai_id'=> 'required|exists:pracovnik_fpvai,id',
+        'kontaktna_osoba_id'=> 'required|exists:kontaktna_osoba,id',
+        'dokumenty_id'=> 'required|exists:dokumenty,id',
+        'zmluva_id'=> 'required|exists:zmluva,id',
         ]);
 
-        $validatedData['password'] = bcrypt($request->input('password'));
+        Internship::create($validatedData);
 
-        User::create($validatedData);
-
-        return redirect()->route('user.index')->with('success', 'Používateľ bol úspešne pridaný.');
+        return redirect()->route('prax.index')->with('success', 'Prax bola úspešne pridaná.');
     }
 
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'meno' => 'required|string|max:255',
-            'priezvisko' => 'required|string|max:255',
-            'tel_cislo' => 'required|string|max:20',
-            'email' => 'required|string|max:255',
-            //'password' => 'required|string|max:255',
-            'rola_pouzivatela_id' => 'required|exists:rola_pouzivatela,id',
+        'popis_praxe' => 'required|string|max:255',
+        'datum_zaciatku'=> 'required|date|date_format:Y-m-d',
+        'datum_konca'=> 'required|date|date_format:Y-m-d',
+        'aktualny_stav'=> 'sometimes|string|max:255',
+        'predmety_id' => 'required|exists:predmety,id',
+        'student_id' => 'required|exists:student,id',
+        'veduci_pracoviska_id'=> 'required|exists:veduci_pracoviska,id',
+        'pracovnik_fpvai_id'=> 'required|exists:pracovnik_fpvai,id',
+        'kontaktna_osoba_id'=> 'required|exists:kontaktna_osoba,id',
+        'dokumenty_id'=> 'required|exists:dokumenty,id',
+        'zmluva_id'=> 'required|exists:zmluva,id',
         ]);
 
-        //$validatedData['password'] = bcrypt($request->input('password'));
+        Internship::whereId($id)->update($validatedData);
 
-        User::whereId($id)->update($validatedData);
-
-        return redirect()->route('user.index')->with('success', 'Používateľ bol úspešne aktualizovaný');
+        return redirect()->route('prax.index')->with('success', 'Prax bola úspešne aktualizovaná');
     }
 
-    public function updatePassword(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'password' => 'required|string|max:255',
-        ]);
-
-        $validatedData['password'] = bcrypt($request->input('password'));
-
-        User::whereId($id)->update($validatedData);
-
-        return redirect()->route('user.index')->with('success', 'Používateľovo heslo bolo úspešne aktualizované');
-    }
 
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
+        Internship::destroy($id);
 
-        return redirect()->route('user.index')->with('success', 'Používateľ bol úspešne odstránený.');
+        return redirect()->route('prax.index')->with('success', 'Prax bola úspešne odstránená.');
     }
 
 }

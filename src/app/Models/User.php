@@ -61,19 +61,27 @@ class User extends Authenticatable
         return $this->belongsTo(Company::class,'firma_id');
     }
 
-    public function praxe(): HasMany
-    {
-        return[ 
-            $this->hasMany(Internship::class, 'student_id'),
-            $this->hasMany(Internship::class, 'veduci_pracoviska_id'),
-            $this->hasMany(Internship::class, 'pracovnik_fpvai_id'),
-            $this->hasMany(Internship::class, 'kontaktna_osoba_id'),
-        ];
-    }
-    
     public function prax(): HasMany
-    {
-        return $this->hasMany(Internship::class, 'student_id');
-    }
+{
+    return $this->hasMany(Internship::class, 'student_id');
+}
+
+public function praxe(): HasMany
+{
+    return $this->hasMany(Internship::class, 'veduci_pracoviska_id');
+}
+
+public function praxea(): HasMany
+{
+    return $this->hasMany(Internship::class, 'pracovnik_fpvai_id');
+}
+
+public function praxeb(): HasMany
+{
+    return $this->hasMany(Internship::class, 'kontaktna_osoba_id');
+}
+
+
+    
 
 }

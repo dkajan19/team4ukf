@@ -19,6 +19,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\SchoolSubjectController;
 use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\InternshipController;
 
 
 Route::get('/', function () {
@@ -136,4 +137,5 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/feedback/{id}/edit', [FeedbackController::class, 'edit'])->name('feedback.edit');
     Route::put('/feedback/{id}', [FeedbackController::class, 'update'])->name('feedback.update');
     Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy'])->name('feedback.destroy');
+    Route::get('/prax', [InternshipController::class, 'index'])->name('prax.index');
 });

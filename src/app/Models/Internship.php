@@ -18,7 +18,6 @@ class Internship extends Model
         'datum_zaciatku',
         'datum_konca',
         'aktualny_stav',
-        'predmety_id',
         'student_id',
         'veduci_pracoviska_id',
         'pracovnik_fpvai_id',
