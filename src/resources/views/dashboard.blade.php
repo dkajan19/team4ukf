@@ -44,7 +44,7 @@
 @if($role == 'Vedúci pracoviska')
     <style>
         :root {
-            --link-count: 1;
+            --link-count: 4;
         }
     </style>
 @endif
@@ -87,7 +87,9 @@
                 <li><a href="{{ route('worker.company') }}">Firma</a></li>
             @endif
             @if($role == 'Vedúci pracoviska')
-                
+                <li><a href="{{ route('headworker.internship_details') }}">Prax</a></li>
+                <li><a href="{{ route('headworker.company') }}">Firma</a></li>     
+                <li><a href="{{ route('headworker.report') }}">Výkaz</a></li>           
             @endif
             @if($role == 'Zástupca firmy alebo organizácie')
                 
@@ -130,7 +132,12 @@
             <p>Ak budete mať otázky alebo potrebujete ďalšie informácie o systéme, neváhajte sa obrátiť na svojich kolegov alebo administrátorov. Želáme vám úspešné riadenie pracoviska a jeho príslušných procesov!</p>
         @endif
         @if($role == 'Vedúci pracoviska')
-
+            <h2>Vitajte v prostredí pre Vedúceho pracoviska</h2>
+            <p>Ako vedúci pracoviska máte k dispozícii rozsiahle možnosti riadenia praxí vo vašom pracovisku.</p>
+            <div class="alert alert-info" role="alert">
+                <i class="fas fa-info-circle alert__icon"></i>  Efektívne sledujte priebeh praxí, firiem a poverených pracovníkov.
+            </div>
+            <p>Ak máte otázky alebo potrebujete ďalšie informácie o systéme, neváhajte sa obrátiť na svojich kolegov alebo administrátorov. Želáme vám úspešné vedenie pracoviska!</p>
         @endif
         @if($role == 'Zástupca firmy alebo organizácie')
 

@@ -19,6 +19,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\SchoolSubjectController;
 use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\HeadWorkerController;
 
 
 Route::get('/', function () {
@@ -49,7 +50,13 @@ Route::middleware(['Zástupca firmy alebo organizácie'])->group(function () {
 });
 
 Route::middleware(['Vedúci pracoviska'])->group(function () {
-
+    Route::get('/headworker/internship-details', [HeadWorkerController::class, 'index'])->name('headworker.internship_details');
+    Route::post('/headworker/internship-details/update-status', [HeadWorkerController::class, 'update_status'])->name('headworker.internship_details.update_status');
+    Route::post('/headworker/internship-details/update-worker', [HeadWorkerController::class, 'update_worker'])->name('headworker.internship_details.update_worker');
+    Route::get('/headworker/internship-show/{id}', [HeadWorkerController::class, 'show'])->name('headworker.internship_show');
+    Route::get('/headworker/company', [HeadWorkerController::class, 'company_index'])->name('headworker.company');
+    Route::get('/headworker/company/{id}', [HeadWorkerController::class, 'company_show'])->name('headworker.company_show');
+    Route::get('/headworker/report', [HeadWorkerController::class, 'report'])->name('headworker.report');
 });
 
 Route::middleware(['Poverený pracovník pracoviska'])->group(function () {

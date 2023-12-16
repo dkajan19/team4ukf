@@ -44,7 +44,7 @@
 @if($role == 'Vedúci pracoviska')
     <style>
         :root {
-            --link-count: 1;
+            --link-count: 4;
         }
     </style>
 @endif
@@ -87,7 +87,9 @@
                 <li><a href="{{ route('worker.company') }}">Firma</a></li>
             @endif
             @if($role == 'Vedúci pracoviska')
-                
+                <li><a href="{{ route('headworker.internship_details') }}">Prax</a></li>
+                <li><a href="{{ route('headworker.company') }}">Firma</a></li>
+                <li><a href="{{ route('headworker.report') }}">Výkaz</a></li>
             @endif
             @if($role == 'Zástupca firmy alebo organizácie')
                 

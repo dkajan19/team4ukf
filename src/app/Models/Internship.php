@@ -77,4 +77,9 @@ class Internship extends Model
     {
         return $this->belongsTo(User::class,'kontaktna_osoba_id');
     }
+
+    public function headworker(): BelongsTo
+    {
+        return $this->belongsTo(User::class,'veduci_pracoviska_id');
+    }
 }
