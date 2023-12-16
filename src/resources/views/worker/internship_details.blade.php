@@ -141,101 +141,72 @@
 </div>
     <script>
         var praxes = @json($praxes);
-        console.log(praxes);
 
-        var companyDetailsContainer;
-        var selectedPrax;
+        function displayInternshipDetails() {
+            var internshipId = document.getElementById("internshipSelect").value;
+            var CompanyDetailsContainer = document.getElementById("CompanyDetailsContainer");
 
-        document.addEventListener('DOMContentLoaded', function () {
-            var internshipSelect = document.getElementById('internshipSelect');
-            var companyDetailsContainer = document.getElementById('CompanyDetailsContainer');
+            selectedPrax = praxes.find(prax => prax.id == internshipId);
 
-            if (internshipSelect && companyDetailsContainer) {
-                internshipSelect.addEventListener('change', displayInternshipDetails);
-            } else {
-                console.error('Niektoré elementy neboly nájdené!');
-            }
-        });
-            function displayInternshipDetails() {
+            if (selectedPrax) {
+                var rawDateStart = selectedPrax.datum_zaciatku;
+                var formattedDateStart = new Date(rawDateStart).toLocaleDateString('sk-SK');
+                var rawDateEnd = selectedPrax.datum_konca;
+                var formattedDateEnd = new Date(rawDateEnd).toLocaleDateString('sk-SK');
 
+                var subjectHtml = (selectedPrax.school_subject.nazov !== 'NULL')
+                    ? "<p><strong>Predmet pokrývajúci prax:</strong> " + selectedPrax.school_subject.nazov + "</p>"
+                    : "<p style='display:inline;'><strong>Predmet pokrývajúci prax:</strong></p><p style='color:red;display:inline;'> Je potrebné vybrať  <a href='" + '{{ route("student.program_and_subject") }}' + "'>TU</a></p>";                var detailsHtml = "<h2>Detaily praxe</h2>" +
+                    "<p><strong>Aktuálny stav:</strong> " + selectedPrax.aktualny_stav + "</p>" +
+                    "<p><strong>Číslo zmluvy:</strong> " + selectedPrax.contract.zmluva + "</p>" +
+                    "<p><strong>Dokumenty:</strong> " + selectedPrax.documents.id + "</p>" +
+                    subjectHtml +
+                    "<p><strong>Popis:</strong> " + selectedPrax.popis_praxe + "</p>" +
+                    "<p><strong>Dátum začiatku:</strong> " + formattedDateStart + "</p>" +
+                    "<p><strong>Dátum konca:</strong> " + formattedDateEnd + "</p>" +
+                    "<p><strong>Vedúci pracoviska:</strong> " + selectedPrax.head.meno + " " + selectedPrax.head.priezvisko + "</p>" +
+                    "<p><strong>Poverený pracovník pracoviska:</strong> " + selectedPrax.worker.meno + " " + selectedPrax.worker.priezvisko + "</p>";
 
-                var internshipId = document.getElementById('internshipSelect').value;
-                var companyDetailsContainer = document.getElementById('CompanyDetailsContainer');
-                internshipId = parseInt(internshipId, 10);
+                detailsHtml += "<h2>Detaily firmy</h2>" +
+                    "<p><strong>Názov firmy:</strong> " + selectedPrax.contract.company.nazov_firmy + "</p>" +
+                    "<p><strong>Kontaktná osoba:</strong> " + selectedPrax.contract.company.meno_kontaktnej_osoby + " " + selectedPrax.contract.company.priezvisko_kontaktnej_osoby + "</p>" +
+                    "<p><strong>Email:</strong> " + selectedPrax.contract.company.email + "</p>" +
+                    "<p><strong>Telefónne číslo:</strong> " + selectedPrax.contract.company.tel_cislo + "</p>" +
+                    "<h2>Adresa firmy</h2>" +
+                    "<select id='addressesSelect' onchange='displayAddressDetails()'>" +
+                    "<option value='' disabled selected>Vyberte mesto</option>";
 
-                var selectedPrax = praxes.find(function (prax) {
-                    return prax.id === internshipId;
+                selectedPrax.contract.company.addresses.forEach(address => {
+                    detailsHtml += "<option value='" + address.id + "'>" + address.mesto + "</option>";
                 });
 
-                if (companyDetailsContainer) {
-                    companyDetailsContainer.innerHTML = '';
-                    if (selectedPrax) {
-                        var rawDateStart = selectedPrax.datum_zaciatku;
-                        var formattedDateStart = new Date(rawDateStart).toLocaleDateString('sk-SK');
-                        var rawDateEnd = selectedPrax.datum_konca;
-                        var formattedDateEnd = new Date(rawDateEnd).toLocaleDateString('sk-SK');
+                detailsHtml += "</select><div id='addressDetailsContainer'></div>";
 
-                        var subjectHtml = "";
-                        if (selectedPrax.school_subject && 'nazov' in selectedPrax.school_subject) {
-                            subjectHtml = selectedPrax.school_subject.nazov !== 'NULL'
-                                ? "<p><strong>Predmet pokrývajúci prax:</strong> " + selectedPrax.school_subject.nazov + "</p>"
-                                : "<p style='display:inline;'><strong>Predmet pokrývajúci prax:</strong></p><p style='color:red;display:inline;'> Je potrebné vybrať  <a href='" + '{{ route("worker.internship_details") }}' + "'>TU</a></p>";
-                        var detailsHtml = "<h2>Detaily praxe</h2>" +
-                            "<p><strong>Aktuálny stav:</strong> " + selectedPrax.aktualny_stav + "</p>" +
-                            "<p><strong>Číslo zmluvy:</strong> " + selectedPrax.contract.zmluva + "</p>" +
-                            "<p><strong>Dokumenty:</strong> " + selectedPrax.documents.id + "</p>" +
-                            subjectHtml +
-                            "<p><strong>Popis:</strong> " + selectedPrax.popis_praxe + "</p>" +
-                            "<p><strong>Dátum začiatku:</strong> " + formattedDateStart + "</p>" +
-                            "<p><strong>Dátum konca:</strong> " + formattedDateEnd + "</p>" +
-                            "<p><strong>Vedúci pracoviska:</strong> " + selectedPrax.head.meno + " " + selectedPrax.head.priezvisko + "</p>" +
-                            "<p><strong>Poverený pracovník pracoviska:</strong> " + selectedPrax.worker.meno + " " + selectedPrax.worker.priezvisko + "</p>";
-
-                        detailsHtml += "<h2>Detaily firmy</h2>" +
-                            "<p><strong>Názov firmy:</strong> " + selectedPrax.contract.company.nazov_firmy + "</p>" +
-                            "<p><strong>Kontaktná osoba:</strong> " + selectedPrax.contract.company.meno_kontaktnej_osoby + " " + selectedPrax.contract.company.priezvisko_kontaktnej_osoby + "</p>" +
-                            "<p><strong>Email:</strong> " + selectedPrax.contract.company.email + "</p>" +
-                            "<p><strong>Telefónne číslo:</strong> " + selectedPrax.contract.company.tel_cislo + "</p>" +
-                            "<h2>Adresa firmy</h2>" +
-                            "<select id='addressesSelect' onchange='displayAddressDetails()'>" +
-                            "<option value='' disabled selected>Vyberte mesto</option>";
-
-                        selectedPrax.contract.company.addresses.forEach(address => {
-                            detailsHtml += "<option value='" + address.id + "'>" + address.mesto + "</option>";
-                        });
-
-                        detailsHtml += "</select><div id='addressDetailsContainer'></div>";
-
-                        CompanyDetailsContainer.innerHTML = detailsHtml;
-                    } else {
-                        companyDetailsContainer.innerHTML = '<p>Detaily pre zvolenú prax nie sú dostupné.</p>';
-                    }
-                } else {
-                    console.error('Element CompanyDetailsContainer nebyl nalezen!');
-                }
+                CompanyDetailsContainer.innerHTML = detailsHtml;
             }
-            function displayAddressDetails() {
-                var addressId = document.getElementById("addressesSelect").value;
-                var addressDetailsContainer = document.getElementById("addressDetailsContainer");
-                addressDetailsContainer.innerHTML = "";
+        }
 
-                var selectedAddress = selectedPrax.contract.company.addresses.find(address => address.id == addressId);
+        function displayAddressDetails() {
+            var addressId = document.getElementById("addressesSelect").value;
+            var addressDetailsContainer = document.getElementById("addressDetailsContainer");
+            addressDetailsContainer.innerHTML = "";
 
-                if (selectedAddress) {
-                    var addressHtml =
-                        "<p><strong>Mesto:</strong> " + selectedAddress.mesto + "</p>" +
-                        "<p><strong>PSČ:</strong> " + selectedAddress.PSČ + "</p>" +
-                        "<p><strong>Ulica a číslo domu:</strong> " + selectedAddress.ulica + " " + selectedAddress.č_domu + "</p>";
+            var selectedAddress = selectedPrax.contract.company.addresses.find(address => address.id == addressId);
 
-                    addressDetailsContainer.innerHTML = addressHtml;
-                }
+            if (selectedAddress) {
+                var addressHtml =
+                    "<p><strong>Mesto:</strong> " + selectedAddress.mesto + "</p>" +
+                    "<p><strong>PSČ:</strong> " + selectedAddress.PSČ + "</p>" +
+                    "<p><strong>Ulica a číslo domu:</strong> " + selectedAddress.ulica + " " + selectedAddress.č_domu + "</p>";
+
+                addressDetailsContainer.innerHTML = addressHtml;
             }
+        }
 
-            function toggleCustomInternshipForm() {
-                var customInternshipForm = document.getElementById("customInternshipForm");
-                customInternshipForm.style.display = (customInternshipForm.style.display === "none") ? "block" : "none";
-            }
-
+        function toggleCustomInternshipForm() {
+            var customInternshipForm = document.getElementById("customInternshipForm");
+            customInternshipForm.style.display = (customInternshipForm.style.display === "none") ? "block" : "none";
+        }
     </script>
 </body>
 

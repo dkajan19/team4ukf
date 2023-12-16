@@ -140,7 +140,7 @@ class WorkerController extends Controller
             $companies_all = Company::all();
             //$praxes = $user->prax()->all();
             $userId = Auth::id();
-            $praxes = Internship::where('pracovnik_fpvai_id', $userId)->get();
+            $praxes = Internship::where('pracovnik_fpvai_id', $userId)->with(['schoolSubject', 'contract', 'contract.company.addresses','head','worker','documents'])->get();
 
             return view('worker.internship_details', compact('user', 'praxes', 'companies_all', 'role'));
         }
