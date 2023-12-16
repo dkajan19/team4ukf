@@ -13,30 +13,28 @@ use Illuminate\Support\Facades\Auth;
 class InternshipController extends Controller
 {
     public function index()
-{
-    $user = Auth::user();
-    $praxe = Internship::all();
-    if ($user) {
-        $praxInternships = $user->prax;
-        $praxeInternships = $user->praxe;
-        $praxeaInternships = $user->praxea;
-        $praxebInternships = $user->praxeb;
+    {
+        $praxe = Internship::all();
+        $users = User::all();
+        $userr = $users->first();
+        $praxInternships = $userr->prax;
+        $praxeInternships = $userr->praxe;
+        $praxeaInternships = $userr->praxea;
+        $praxebInternships = $userr->praxeb;
         $documents = Documents::with('internships')->get();
         $schoolSubjects = SchoolSubject::with('praxess')->get();
         $contracts = Contract::with('praxee')->get();
 
+        $user = Auth::user();
         $role = $user->user_roles->rola;
 
-        return view('prax.index', compact('praxe','praxInternships', 'praxeInternships', 'praxeaInternships', 'praxebInternships', 'documents', 'schoolSubjects', 'contracts', 'role'));
-    } else {
+        return view('prax.index', compact('praxe', 'praxInternships', 'praxeInternships', 'praxeaInternships', 'praxebInternships', 'documents', 'schoolSubjects', 'contracts', 'role', 'users'));
     }
-}
-
 
     public function edit($id)
-    {   
+    {
         $prax = Internship::all();
-        $userr = User::findOrFail($id);
+        $user = User::findOrFail($id);
         $praxInternship = $user->prax;
         $praxeInternship = $user->praxe;
         $praxeaInternship = $user->praxea;
@@ -45,9 +43,8 @@ class InternshipController extends Controller
         $schoolSubject = SchoolSubject::with('praxess')->findOrFail($id);
         $contract = Contract::with('praxee')->findOrFail($id);
 
-        return view('prax.index', compact('prax','praxInternship','praxeInternship','praxeaInternship','praxebInternship','document','schoolSubject','contract'));
+        return view('prax.edit', compact('prax', 'praxInternship', 'praxeInternship', 'praxeaInternship', 'praxebInternship', 'document', 'schoolSubject', 'contract'));
     }
-
     public function show($id)
     {
         $prax = Internship::findOrFail($id);
@@ -58,14 +55,14 @@ class InternshipController extends Controller
     {
         $validatedData = $request->validate([
         'popis_praxe' => 'required|string|max:255',
-        'datum_zaciatku'=> 'required|date|date_format:Y-m-d',
-        'datum_konca'=> 'required|date|date_format:Y-m-d',
+        'datum_zaciatku' => 'required|date|date_format:d-m-Y',
+        'datum_konca'=> 'required|date|date_format:d-m-Y',
         'aktualny_stav'=> 'sometimes|string|max:255',
-        'predmety_id' => 'required|exists:predmety,id',
         'student_id' => 'required|exists:student,id',
         'veduci_pracoviska_id'=> 'required|exists:veduci_pracoviska,id',
         'pracovnik_fpvai_id'=> 'required|exists:pracovnik_fpvai,id',
         'kontaktna_osoba_id'=> 'required|exists:kontaktna_osoba,id',
+        'predmety_id' => 'required|exists:predmety,id',
         'dokumenty_id'=> 'required|exists:dokumenty,id',
         'zmluva_id'=> 'required|exists:zmluva,id',
         ]);
@@ -79,14 +76,14 @@ class InternshipController extends Controller
     {
         $validatedData = $request->validate([
         'popis_praxe' => 'required|string|max:255',
-        'datum_zaciatku'=> 'required|date|date_format:Y-m-d',
-        'datum_konca'=> 'required|date|date_format:Y-m-d',
+        'datum_zaciatku' => 'required|date|date_format:d-m-Y',
+        'datum_konca'=> 'required|date|date_format:d-m-Y',
         'aktualny_stav'=> 'sometimes|string|max:255',
-        'predmety_id' => 'required|exists:predmety,id',
         'student_id' => 'required|exists:student,id',
         'veduci_pracoviska_id'=> 'required|exists:veduci_pracoviska,id',
         'pracovnik_fpvai_id'=> 'required|exists:pracovnik_fpvai,id',
         'kontaktna_osoba_id'=> 'required|exists:kontaktna_osoba,id',
+        'predmety_id' => 'required|exists:predmety,id',
         'dokumenty_id'=> 'required|exists:dokumenty,id',
         'zmluva_id'=> 'required|exists:zmluva,id',
         ]);

@@ -138,4 +138,9 @@ Route::middleware(['admin'])->group(function () {
     Route::put('/feedback/{id}', [FeedbackController::class, 'update'])->name('feedback.update');
     Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy'])->name('feedback.destroy');
     Route::get('/prax', [InternshipController::class, 'index'])->name('prax.index');
+    Route::get('/prax/{id}', [InternshipController::class, 'show'])->name('prax.show');
+    Route::post('/prax', [InternshipController::class, 'store'])->name('prax.store');
+    Route::get('/prax/{id}/edit', [InternshipController::class, 'edit'])->name('prax.edit');
+    Route::put('/prax/{id}', [InternshipController::class, 'update'])->name('prax.update');
+    Route::delete('/prax/{id}', [InternshipController::class, 'destroy'])->name('prax.destroy');
 });

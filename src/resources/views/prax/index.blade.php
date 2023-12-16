@@ -7,7 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Firmy</title>
+    <title>Praxe</title>
     <script src="https://kit.fontawesome.com/361bfee177.js" crossorigin="anonymous"></script>
     <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -21,14 +21,6 @@
                 });
             });
     </script>
-@if($role == 'admin')
-    <style>
-        :root {
-            --link-count: 10;
-        }
-    </style>
-@endif
-</head>
 <body>
 
     <nav class="navbar">
@@ -37,7 +29,6 @@
         </a>
         <i class="fa-solid fa-bars menu-icon" style="color: #000205;"></i>
         <ul class="nav-links">
-            @if($role == 'admin')
             <li><a href="{{ route('dashboard') }}">Domov</a></li>
             <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
             <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
@@ -49,7 +40,6 @@
             <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
             <li><a href="{{ route('feedback.index') }}">Feedback</a></li>
             <li><a href="{{ route('prax.index') }}">Prax</a></li>
-            @endif
         </ul>
 
         <div class="user-actions">
@@ -103,43 +93,73 @@
                 <input type="text" name="popis_praxe" required>
 
                 <label for="datum_zaciatku">Dátum začiatku:</label>
-                <input type="text" name="datum_zaciatku" required>
+                <input type="date" name="datum_zaciatku" required>
 
                 <label for="datum_konca">Dátum konca:</label>
-                <input type="text" name="datum_konca" required>
+                <input type="date" name="datum_konca" required>
 
                 <label for="aktualny_stav">Aktuálny stav:</label>
                 <input type="text" name="aktualny_stav">
-
+                @csrf
             <label for="student_id">Vybrať študenta:</label>
             <select name="student_id">
                 @foreach($users as $user)
                     <option value="{{ $user->id }}">
-                         {{ $user->id }}
+                        {{ $user->id }} - {{ $user->meno }} {{ $user->priezvisko }}
                     </option>
                 @endforeach
-
+            </select>
+            @csrf
                 <label for="veduci_pracoviska_id">Vybrať vedúceho pracoviska:</label>
             <select name="veduci_pracoviska_id">
                 @foreach($users as $user)
                     <option value="{{ $user->id }}">
-                         {{ $user->id }}
+                         {{ $user->id }} - {{ $user->meno }} {{ $user->priezvisko }}
                     </option>
                 @endforeach
-
-                <label for="pracovnik_fpvai_id">Vybrať študenta pracovníka FPVaI:</label>
+            </select>
+            @csrf
+                <label for="pracovnik_fpvai_id">Vybrať pracovníka FPVaI:</label>
             <select name="pracovnik_fpvai_id">
                 @foreach($users as $user)
                     <option value="{{ $user->id }}">
-                         {{ $user->id }}
+                         {{ $user->id }} - {{ $user->meno }} {{ $user->priezvisko }}
                     </option>
                 @endforeach
-
+            </select>
+            @csrf
                 <label for="kontaktna_osoba_id">Vybrať kontaktú osobu firmy:</label>
             <select name="kontaktna_osoba_id">
                 @foreach($users as $user)
                     <option value="{{ $user->id }}">
-                         {{ $user->id }}
+                        {{ $user->id }} - {{ $user->meno }} {{ $user->priezvisko }}
+                    </option>
+                @endforeach
+            </select>
+            @csrf
+                <label for="id">Document:</label>
+            <select name="id">
+                @foreach($documents as $document)
+                    <option value="{{ $document->id }}">
+                        {{ $document->id }} - {{ $document->typ_dokumentu }} | {{ $document->dokument }}
+                    </option>
+                @endforeach
+            </select>
+            @csrf
+                <label for="predmet_id">Predmet:</label>
+            <select name="predmet_id">
+                @foreach($schoolSubjects as $subject)
+                    <option value="{{ $subject->id }}">
+                        {{ $subject->id }} - {{ $subject->nazov }} 
+                    </option>
+                @endforeach
+            </select>
+            @csrf
+                <label for="zmluva_id">Zmluva:</label>
+            <select name="zmluva_id">
+                @foreach($contracts as $contract)
+                    <option value="{{ $contract->id }}">
+                        {{ $contract->id }} {{ $contract->zmluva }}
                     </option>
                 @endforeach
             </select>
