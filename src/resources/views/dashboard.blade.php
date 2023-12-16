@@ -23,7 +23,7 @@
 @if($role == 'admin')
     <style>
         :root {
-            --link-count: 9;
+            --link-count: 10;
         }
     </style>
 @endif
@@ -75,6 +75,7 @@
                 <li><a href="{{ route('company.index') }}">Firmy</a></li>
                 <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
                 <li><a href="{{ route('feedback.index') }}">Feedback</a></li>
+                <li><a href="{{ route('prax.index') }}">Prax</a></li>
             @endif
             @if($role == 'Študent')
                 <li><a href="{{ route('student.internship_details') }}">Prax</a></li>

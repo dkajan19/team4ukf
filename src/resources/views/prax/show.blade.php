@@ -6,7 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Zobrazenie feedbacku</title>
+    <title>Zobrazenie praxe</title>
     <script src="https://kit.fontawesome.com/361bfee177.js" crossorigin="anonymous"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -39,6 +39,7 @@
         <li><a href="{{ route('company.index') }}">Firmy</a></li>
         <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
         <li><a href="{{ route('feedback.index') }}">Feedback</a></li>
+        <li><a href="{{ route('prax.index') }}">Prax</a></li>
     </ul>
 
     <div class="user-actions">
@@ -53,13 +54,13 @@
 </nav>
 
 <div class="container">
-    <h1>Zobrazenie feedbacku</h1>
+    <h1>Zobrazenie Praxe</h1>
     <hr>
-    <h2>{{ $feedback->internship->id }} - {{ $feedback->internship->popis_praxe }}</h2>
+    <h2>{{ $prax->id }} - {{ $prax->popis_praxe }}</h2>
 
-    <p><strong>Feedback:</strong> {{ $feedback->feedback }}</p>
+    <p><strong>Prax:</strong> {{ $prax->prax }}</p>
 
-    <a href="{{ route('feedback.index') }}">Naspäť na Feedbacky</a>
+    <a href="{{ route('prax.index') }}">Naspäť na Praxe</a>
 </div>
 
 </body>

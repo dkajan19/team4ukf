@@ -19,7 +19,11 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\SchoolSubjectController;
 use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\FeedbackController;
+<<<<<<< HEAD
 use App\Http\Controllers\HeadWorkerController;
+=======
+use App\Http\Controllers\InternshipController;
+>>>>>>> feature/Pridanie_funkcionality_Prax
 
 
 Route::get('/', function () {
@@ -143,4 +147,10 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/feedback/{id}/edit', [FeedbackController::class, 'edit'])->name('feedback.edit');
     Route::put('/feedback/{id}', [FeedbackController::class, 'update'])->name('feedback.update');
     Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy'])->name('feedback.destroy');
+    Route::get('/prax', [InternshipController::class, 'index'])->name('prax.index');
+    Route::get('/prax/{id}', [InternshipController::class, 'show'])->name('prax.show');
+    Route::post('/prax', [InternshipController::class, 'store'])->name('prax.store');
+    Route::get('/prax/{id}/edit', [InternshipController::class, 'edit'])->name('prax.edit');
+    Route::put('/prax/{id}', [InternshipController::class, 'update'])->name('prax.update');
+    Route::delete('/prax/{id}', [InternshipController::class, 'destroy'])->name('prax.destroy');
 });
