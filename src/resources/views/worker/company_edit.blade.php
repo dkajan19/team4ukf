@@ -70,6 +70,9 @@
             @endif
             @if($role == 'Poverený pracovník pracoviska')
                 <li><a href="{{ route('worker.company') }}">Firma</a></li>
+                <li><a href="{{ route('worker.internship_details') }}">Prax</a></li>
+                <li><a href="{{ route('worker.student') }}">Študent</a></li>
+                <li><a href="{{ route('worker.documents') }}">Dokumenty</a></li>
             @endif
         </ul>
 

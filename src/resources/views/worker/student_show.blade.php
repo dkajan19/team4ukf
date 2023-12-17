@@ -88,52 +88,21 @@
     </nav>
 
     <div class="container">
-        <h1>{{ $company->nazov_firmy }}</h1>
+        <h1>{{ $user->meno, $user->priezvisko  }}</h1>
 
-        <p><strong>Názov firmy:</strong> {{ $company->nazov_firmy }}</p>
-        <p><strong>IČO:</strong> {{ $company->IČO }}</p>
-        <p><strong>Meno kontaktnej osoby:</strong> {{ $company->meno_kontaktnej_osoby }}</p>
-        <p><strong>Priezvisko kontaktnej osoby:</strong> {{ $company->priezvisko_kontaktnej_osoby }}</p>
-        <p><strong>Email:</strong> {{ $company->email }}</p>
-        <p><strong>Telefónne číslo:</strong> {{ $company->tel_cislo }}</p>
-
-        <select id="citySelect" onchange="displayCompanyAddresses()">
-            <option value="" disabled selected>Vyberte mesto</option>
-            @foreach($company->addresses as $address)
-                <option value="{{ $address->mesto }}">{{ $address->mesto }}</option>
-            @endforeach
-        </select>
+        <p><strong>Meno:</strong> {{ $user->meno }}</p>
+        <p><strong>Priezvisko:</strong> {{ $user->priezvisko }}</p>
+        <p><strong>Telefónne číslo:</strong> {{ $user->tel_cislo }}</p>
+        <p><strong>Email:</strong> {{ $user->email }}</p>
+        <p><strong>Firma ID:</strong> {{ $user->firma_id }}</p>
 
         <div id="companyAddressInfo" style="display: none;">
         </div>
 
-        <a href="{{ route('worker.company_store', ['id' => $company->id]) }}">Naspäť na firmy</a>
+        <a href="{{ route('worker.student_store', ['id' => $user->id]) }}">Naspäť na študentov</a>
     </div>
 
-    <script>
-        function displayCompanyAddresses() {
-            const citySelect = document.getElementById('citySelect');
-            const selectedCity = citySelect.value;
-            const companyAddresses = @json($company->addresses);
 
-            const selectedAddress = companyAddresses.find(address => address.mesto === selectedCity);
-
-            if (selectedAddress) {
-                const companyAddressInfo = document.getElementById('companyAddressInfo');
-                companyAddressInfo.style.display = 'block';
-                companyAddressInfo.innerHTML = `
-                    <h2>${selectedAddress.mesto}</h2>
-                    <p><strong>Mesto:</strong> ${selectedAddress.mesto}</p>
-                    <p><strong>PSČ:</strong> ${selectedAddress.PSČ}</p>
-                    <p><strong>Ulica:</strong> ${selectedAddress.ulica}</p>
-                    <p><strong>Číslo domu:</strong> ${selectedAddress.č_domu}</p>
-                `;
-            } else {
-                const companyAddressInfo = document.getElementById('companyAddressInfo');
-                companyAddressInfo.style.display = 'none';
-            }
-        }
-    </script>
 
 
 </body>

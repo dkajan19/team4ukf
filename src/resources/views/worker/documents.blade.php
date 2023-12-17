@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
-    <title>Zobrazenie firmy</title>
+    <title>Firmy</title>
     <script src="https://kit.fontawesome.com/361bfee177.js" crossorigin="anonymous"></script>
     <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -34,13 +35,6 @@
         }
     </style>
 @endif
-    @if($role == 'Poverený pracovník pracoviska')
-        <style>
-            :root {
-                --link-count: 2;
-            }
-        </style>
-    @endif
 </head>
 <body>
 
@@ -73,6 +67,7 @@
                 <li><a href="{{ route('worker.internship_details') }}">Prax</a></li>
                 <li><a href="{{ route('worker.student') }}">Študent</a></li>
                 <li><a href="{{ route('worker.documents') }}">Dokumenty</a></li>
+
             @endif
         </ul>
 
@@ -88,53 +83,56 @@
     </nav>
 
     <div class="container">
-        <h1>{{ $company->nazov_firmy }}</h1>
+        <h1>Všetky dokumenty</h1>
 
-        <p><strong>Názov firmy:</strong> {{ $company->nazov_firmy }}</p>
-        <p><strong>IČO:</strong> {{ $company->IČO }}</p>
-        <p><strong>Meno kontaktnej osoby:</strong> {{ $company->meno_kontaktnej_osoby }}</p>
-        <p><strong>Priezvisko kontaktnej osoby:</strong> {{ $company->priezvisko_kontaktnej_osoby }}</p>
-        <p><strong>Email:</strong> {{ $company->email }}</p>
-        <p><strong>Telefónne číslo:</strong> {{ $company->tel_cislo }}</p>
+            @if($errors->any())
+                <div style="color: red;">
+                    @foreach($errors->all() as $error)
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fas fa-minus-circle alert__icon"></i>  {{ $error }}
+                        </div>
+                    @endforeach
+                </div>
+            @endif
 
-        <select id="citySelect" onchange="displayCompanyAddresses()">
-            <option value="" disabled selected>Vyberte mesto</option>
-            @foreach($company->addresses as $address)
-                <option value="{{ $address->mesto }}">{{ $address->mesto }}</option>
-            @endforeach
-        </select>
+            @if(session('success'))
+                <div class="alert alert-success" role="alert">
+                    <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
+                </div>
+            @endif
 
-        <div id="companyAddressInfo" style="display: none;">
-        </div>
+        <ul>
+        @foreach($documentss as $documents)
+        <br>
+            <li>
+                <p><strong>ID: {{ $documents->id }} </strong>
+                @csrf
+                <p><strong>Typ dokumentu: {{ $documents->typ_dokumentu }} </strong>
+                @csrf
+                <form method="post" action="{{ route('worker.documents_destroy', $documents->id) }}" style="display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">Vymazať</button>
 
-        <a href="{{ route('worker.company_store', ['id' => $company->id]) }}">Naspäť na firmy</a>
+                </form>
+
+            </li>
+        @endforeach
+        </ul>
+
+
     </div>
 
     <script>
-        function displayCompanyAddresses() {
-            const citySelect = document.getElementById('citySelect');
-            const selectedCity = citySelect.value;
-            const companyAddresses = @json($company->addresses);
-
-            const selectedAddress = companyAddresses.find(address => address.mesto === selectedCity);
-
-            if (selectedAddress) {
-                const companyAddressInfo = document.getElementById('companyAddressInfo');
-                companyAddressInfo.style.display = 'block';
-                companyAddressInfo.innerHTML = `
-                    <h2>${selectedAddress.mesto}</h2>
-                    <p><strong>Mesto:</strong> ${selectedAddress.mesto}</p>
-                    <p><strong>PSČ:</strong> ${selectedAddress.PSČ}</p>
-                    <p><strong>Ulica:</strong> ${selectedAddress.ulica}</p>
-                    <p><strong>Číslo domu:</strong> ${selectedAddress.č_domu}</p>
-                `;
-            } else {
-                const companyAddressInfo = document.getElementById('companyAddressInfo');
-                companyAddressInfo.style.display = 'none';
-            }
-        }
+        $(document).ready(function() {
+            $("#create-form, #address-fields").hide();
+            $("#toggle-form").click(function() {
+                $("#create-form, #address-fields").toggle();
+            });
+        });
     </script>
 
+</script>
 
 </body>
 </html>

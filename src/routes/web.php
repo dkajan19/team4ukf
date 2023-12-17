@@ -59,6 +59,7 @@ Route::middleware(['Vedúci pracoviska'])->group(function () {
     Route::get('/headworker/company/{id}', [HeadWorkerController::class, 'company_show'])->name('headworker.company_show');
     Route::get('/headworker/report', [HeadWorkerController::class, 'report'])->name('headworker.report');
     Route::get('/headworker/feedback', [HeadWorkerController::class, 'feedback'])->name('headworker.feedback');
+
 });
 
 Route::middleware(['Poverený pracovník pracoviska'])->group(function () {
@@ -68,6 +69,19 @@ Route::middleware(['Poverený pracovník pracoviska'])->group(function () {
     Route::get('/worker/company/{id}/edit', [WorkerController::class, 'company_edit'])->name('worker.company_edit');
     Route::put('/worker/company/{id}', [WorkerController::class, 'company_update'])->name('worker.company_update');
     Route::delete('/worker/company/{id}', [WorkerController::class, 'company_destroy'])->name('worker.company_destroy');
+    Route::get('/worker/internship-details', [WorkerController::class, 'internshipDetails'])->name('worker.internship_details');
+    Route::post('/worker/add-custom-internship', [WorkerController::class, 'addCustomInternship'])->name('worker.add_custom_internship');
+    Route::post('/update-internship-status', [WorkerController::class, 'updateInternshipStatus'])->name('update-internship-status');
+    Route::get('/worker/student', [WorkerController::class, 'student_index'])->name('worker.student');
+    Route::post('/worker/student', [WorkerController::class, 'student_store'])->name('worker.student_store');
+    Route::get('/worker/student/{id}', [WorkerController::class, 'student_show'])->name('worker.student_show');
+    Route::delete('/worker/student/{id}', [WorkerController::class, 'student_destroy'])->name('worker.student_destroy');
+
+    Route::get('/worker/documents', [WorkerController::class, 'documents_index'])->name('worker.documents');
+ //   Route::post('/worker/documents', [WorkerController::class, 'documents_store'])->name('worker.documents_store');
+    Route::delete('/worker/documents/{id}', [WorkerController::class, 'documents_destroy'])->name('worker.documents_destroy');
+
+
 });
 
 Route::middleware(['Študent'])->group(function () {
