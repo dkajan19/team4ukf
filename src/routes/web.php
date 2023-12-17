@@ -61,6 +61,7 @@ Route::middleware(['Poverený pracovník pracoviska'])->group(function () {
     Route::get('/worker/internship-details', [WorkerController::class, 'internshipDetails'])->name('worker.internship_details');
     Route::post('/worker/student', [WorkerController::class, 'student_store'])->name('worker.student_store');
     Route::post('/worker/add-custom-internship', [WorkerController::class, 'addCustomInternship'])->name('worker.add_custom_internship');
+    Route::post('/update-internship-status', [WorkerController::class, 'updateInternshipStatus'])->name('update-internship-status');
 
 });
 

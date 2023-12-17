@@ -201,5 +201,18 @@ class WorkerController extends Controller
         return redirect()->route('worker.internship_details')->with('success', 'Prax bola úspešne pridaná.');
     }
 
+    public function updateInternshipStatus(Request $request)
+    {
+        $internshipId = $request->input('internship_id');
+        $newStatus = $request->input('new_status');
+
+        $internship = Internship::findOrFail($internshipId);
+        $internship->aktualny_stav = $newStatus;
+        $internship->save();
+
+        return response()->json(['message' => 'Stav praxe bol úspešne aktualizovaný.']);
+    }
+
+
 
 }

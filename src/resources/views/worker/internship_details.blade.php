@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-8Bl9kEdA9lCm0OSNYAnleCqZIDbhUVJ-0AC1rADdHvy2QIwMz8TnMa2AI5O3ukbzNhC2/GfQlZGpzQP9LrYGGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{{ asset('images/logo_2.png') }}" type="image/png">
@@ -72,6 +73,8 @@
             @endif
             @if($role == 'Poverený pracovník pracoviska')
                 <li><a href="{{ route('worker.company') }}">Firma</a></li>
+                <li><a href="{{ route('worker.internship_details') }}">Prax</a></li>
+
             @endif
         </ul>
 
@@ -157,7 +160,10 @@
                 var subjectHtml = (selectedPrax.school_subject.nazov !== 'NULL')
                     ? "<p><strong>Predmet pokrývajúci prax:</strong> " + selectedPrax.school_subject.nazov + "</p>"
                     : "<p style='display:inline;'><strong>Predmet pokrývajúci prax:</strong></p><p style='color:red;display:inline;'> Je potrebné vybrať  <a href='" + '{{ route("student.program_and_subject") }}' + "'>TU</a></p>";                var detailsHtml = "<h2>Detaily praxe</h2>" +
-                    "<p><strong>Aktuálny stav:</strong> " + selectedPrax.aktualny_stav + "</p>" +
+
+                    "<p><strong>Aktuálny stav:</strong> <span id= aktualnyStav>" + selectedPrax.aktualny_stav + "</span></p>" +
+                    "<button onclick= zmenitStav() >Zmeniť stav</button>" +
+
                     "<p><strong>Číslo zmluvy:</strong> " + selectedPrax.contract.zmluva + "</p>" +
                     "<p><strong>Dokumenty:</strong> " + selectedPrax.documents.id + "</p>" +
                     subjectHtml +
@@ -185,6 +191,29 @@
                 CompanyDetailsContainer.innerHTML = detailsHtml;
             }
         }
+
+        function zmenitStav() {
+            var internshipId = selectedPrax.id; // Predpokladáme, že máme ID praxe
+            var aktualnyStav = document.getElementById('aktualnyStav').innerHTML;
+            var novyStav = aktualnyStav === 'schválená' ? 'navrhnutá' : 'schválená';
+
+            fetch('/update-internship-status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // CSRF token je potrebný pre Laravel aplikácie
+                },
+                body: JSON.stringify({ internship_id: internshipId, new_status: novyStav })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    document.getElementById('aktualnyStav').innerHTML = novyStav;
+                })
+                .catch(error => console.error('Chyba: ', error));
+        }
+
+
 
         function displayAddressDetails() {
             var addressId = document.getElementById("addressesSelect").value;
