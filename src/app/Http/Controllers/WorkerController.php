@@ -214,15 +214,36 @@ class WorkerController extends Controller
         ]);
         return redirect()->route('worker.student')->with('success', 'Študent bol úspešne pridaný!');
     }
+
     public function student_index()
     {
+        $rola_pouzivatela_id = 1;
+        $users = User::where('rola_pouzivatela_id', $rola_pouzivatela_id)->get();
+
+        $user = Auth::user();
+        $role = $user->user_roles->rola;
+        //$prax = $user->prax()->latest()->first();
+
+        return view('worker.student', compact('users', 'role'));
+    }
+
+    public function student_show($id)
+    {
+        $user = User::findOrFail($id);
+
         $user = Auth::user();
         $role = $user->user_roles->rola;
 
-        return view('worker.student', compact('role'));
+        return view('worker.student_show', compact('user', 'role'));
     }
 
+    public function student_destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
 
+        return redirect()->route('worker.student')->with('success', 'Používateľ bol úspešne odstránený.');
+    }
     public function documents_index()
     {
         $documentss = Documents::all();

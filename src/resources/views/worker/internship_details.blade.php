@@ -173,7 +173,15 @@
                     "<p><strong>Dátum začiatku:</strong> " + formattedDateStart + "</p>" +
                     "<p><strong>Dátum konca:</strong> " + formattedDateEnd + "</p>" +
                     "<p><strong>Vedúci pracoviska:</strong> " + selectedPrax.head.meno + " " + selectedPrax.head.priezvisko + "</p>" +
-                    "<p><strong>Poverený pracovník pracoviska:</strong> " + selectedPrax.worker.meno + " " + selectedPrax.worker.priezvisko + "</p>";
+                    "<p><strong>Poverený pracovník pracoviska:</strong> " + selectedPrax.worker.meno + " " + selectedPrax.worker.priezvisko + "</p>" +
+
+                    "<p><strong>Priradiť študenta</strong> " +
+                       "<select id="internshipSelect" onchange="displayInternshipDetails()">" +
+                    "<option value="" disabled selected>Vyberte ID praxe</option>" +
+                     @foreach ($users as $user) +
+                         "<option value="{{ $user->name }}">{{ $user->id }}</option>" +
+                      @endforeach
+                      </select>;
 
                 detailsHtml += "<h2>Detaily firmy</h2>" +
                     "<p><strong>Názov firmy:</strong> " + selectedPrax.contract.company.nazov_firmy + "</p>" +
