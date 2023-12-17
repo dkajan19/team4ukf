@@ -56,9 +56,20 @@
 <div class="container">
     <h1>Zobrazenie Praxe</h1>
     <hr>
-    <h2>{{ $prax->id }} - {{ $prax->popis_praxe }}</h2>
+    <h2> ID: {{ $prax->id }}</h2>
+    <p><strong>Popis praxe:</strong> {{ $prax->popis_praxe }}</p>
+    <p><strong>Dátum začiatku:</strong> {{ $prax->datum_zaciatku }}</p>
+    <p><strong>Dátum konca:</strong> {{ $prax->datum_konca }}</p>
+    <p><strong>Aktuálny stav:</strong> {{ $prax->aktualny_stav }}</p>
+    <p><strong>Študent:</strong> {{ $prax->student->meno }} {{ $prax->student->priezvisko }}</p>
+    <p><strong>Vedúci pracoviska:</strong> {{ $prax->headworker->meno }} {{ $prax->headworker->priezvisko }}</p>
+    <p><strong>Pracovník FPVaI:</strong> {{ $prax->worker->meno }} {{ $prax->worker->priezvisko }}</p>
+    <p><strong>Kontaktná osoba:</strong> {{ $prax->contact->meno }} {{ $prax->contact->priezvisko }}</p>
+    <p><strong>Dokumenty:</strong> <a href="{{ route('documents.show', $prax->documents->id) }}" target="_blank">{{ $prax->documents->typ_dokumentu }}</a></p>
+    <p><strong>Predmet:</strong> {{ $prax->schoolSubject->nazov }} - {{ $prax->schoolSubject->skratka }}</p>
+    <p><strong>Zmluva:</strong> <a href="{{ route('contract.show', $prax->contract->id) }}" target="_blank">{{ $prax->contract->zmluva }}</a></p>
 
-    <p><strong>Prax:</strong> {{ $prax->prax }}</p>
+
 
     <a href="{{ route('prax.index') }}">Naspäť na Praxe</a>
 </div>
