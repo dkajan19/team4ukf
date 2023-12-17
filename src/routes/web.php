@@ -76,9 +76,9 @@ Route::middleware(['Poverený pracovník pracoviska'])->group(function () {
     Route::post('/worker/student', [WorkerController::class, 'student_store'])->name('worker.student_store');
     Route::get('/worker/student/{id}', [WorkerController::class, 'student_show'])->name('worker.student_show');
     Route::delete('/worker/student/{id}', [WorkerController::class, 'student_destroy'])->name('worker.student_destroy');
-
+    Route::post('/update-internship-student', [WorkerController::class, 'updateInternshipStudent2'])->name('update-internship-student');
+    Route::get('/worker/report', [WorkerController::class, 'report'])->name('worker.report');
     Route::get('/worker/documents', [WorkerController::class, 'documents_index'])->name('worker.documents');
- //   Route::post('/worker/documents', [WorkerController::class, 'documents_store'])->name('worker.documents_store');
     Route::delete('/worker/documents/{id}', [WorkerController::class, 'documents_destroy'])->name('worker.documents_destroy');
 
 

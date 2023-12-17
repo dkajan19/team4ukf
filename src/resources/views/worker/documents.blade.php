@@ -67,6 +67,8 @@
                 <li><a href="{{ route('worker.internship_details') }}">Prax</a></li>
                 <li><a href="{{ route('worker.student') }}">Študent</a></li>
                 <li><a href="{{ route('worker.documents') }}">Dokumenty</a></li>
+                <li><a href="{{ route('worker.report') }}">Výkaz</a></li>
+
 
             @endif
         </ul>

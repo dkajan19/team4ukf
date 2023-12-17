@@ -122,7 +122,11 @@ class WorkerController extends Controller
             $userId = Auth::id();
             $praxes = Internship::where('pracovnik_fpvai_id', $userId)->with(['schoolSubject', 'contract', 'contract.company.addresses','head','worker','documents'])->get();
 
-            return view('worker.internship_details', compact('user', 'praxes', 'companies_all', 'role'));
+            $users = User::whereHas('user_roles', function ($query) {
+                $query->where('rola', 'Študent');
+            })->get();
+
+            return view('worker.internship_details', compact('user', 'praxes', 'companies_all', 'role','users'));
         }
     }
 
@@ -193,6 +197,18 @@ class WorkerController extends Controller
         return response()->json(['message' => 'Stav praxe bol úspešne aktualizovaný.']);
     }
 
+    public function updateInternshipStudent2(Request $request)
+    {
+        $internshipId = $request->input('internship_id');
+        $studentId = $request->input('student_id');
+
+        $internship = Internship::findOrFail($internshipId);
+        $internship->student_id = $studentId;
+        $internship->save();
+
+        return response()->json(['message' => 'Student byl úspěšně přiřazen k praxi.']);
+    }
+
     public function student_store(Request $request)
     {
         $request->validate([
@@ -217,7 +233,7 @@ class WorkerController extends Controller
 
     public function student_index()
     {
-        $rola_pouzivatela_id = 1;
+        $rola_pouzivatela_id = 2;
         $users = User::where('rola_pouzivatela_id', $rola_pouzivatela_id)->get();
 
         $user = Auth::user();
@@ -290,4 +306,12 @@ class WorkerController extends Controller
         return redirect()->route('worker.documents')->with('success', 'Dokumenty boli úspešne odstránené.');
     }
 
+    public function report()
+    {
+        $worker = auth()->user();
+        $role = $worker->user_roles->rola;
+        $praxe = Internship::all();
+
+        return view('worker.report', compact('praxe','role'));
+    }
 }

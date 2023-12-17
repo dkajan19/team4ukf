@@ -76,6 +76,8 @@
                 <li><a href="{{ route('worker.internship_details') }}">Prax</a></li>
                 <li><a href="{{ route('worker.student') }}">Študent</a></li>
                 <li><a href="{{ route('worker.documents') }}">Dokumenty</a></li>
+                <li><a href="{{ route('worker.report') }}">Výkaz</a></li>
+
 
             @endif
         </ul>
@@ -173,15 +175,23 @@
                     "<p><strong>Dátum začiatku:</strong> " + formattedDateStart + "</p>" +
                     "<p><strong>Dátum konca:</strong> " + formattedDateEnd + "</p>" +
                     "<p><strong>Vedúci pracoviska:</strong> " + selectedPrax.head.meno + " " + selectedPrax.head.priezvisko + "</p>" +
-                    "<p><strong>Poverený pracovník pracoviska:</strong> " + selectedPrax.worker.meno + " " + selectedPrax.worker.priezvisko + "</p>" +
+                    "<p><strong>Poverený pracovník pracoviska:</strong> " + selectedPrax.worker.meno + " " + selectedPrax.worker.priezvisko + "</p>" ;
 
-                    "<p><strong>Priradiť študenta</strong> " +
-                       "<select id="internshipSelect" onchange="displayInternshipDetails()">" +
-                    "<option value="" disabled selected>Vyberte ID praxe</option>" +
-                     @foreach ($users as $user) +
-                         "<option value="{{ $user->name }}">{{ $user->id }}</option>" +
-                      @endforeach
-                      </select>;
+                var currentStudentId = selectedPrax.student_id;
+
+                var selectOptions = "<option value='' disabled>Vyberte ID praxe</option>";
+
+                @foreach ($users as $user)
+                var isSelected = currentStudentId === {{ $user->id }} ? ' selected' : '';
+                selectOptions += "<option value='{{ $user->id }}'" + isSelected + ">{{ $user->meno }}</option>";
+                @endforeach
+
+                    detailsHtml += "<p><strong>Priradiť študenta</strong> " +
+                    "<select id='studentSelect' onchange='updateAssignedStudent()'>" +
+                    selectOptions +
+                    "</select>";
+
+
 
                 detailsHtml += "<h2>Detaily firmy</h2>" +
                     "<p><strong>Názov firmy:</strong> " + selectedPrax.contract.company.nazov_firmy + "</p>" +
@@ -205,7 +215,7 @@
         function zmenitStav() {
             var internshipId = selectedPrax.id; // Predpokladáme, že máme ID praxe
             var aktualnyStav = document.getElementById('aktualnyStav').innerHTML;
-            var novyStav = aktualnyStav === 'schválená' ? 'navrhnutá' : 'schválená';
+            var novyStav = aktualnyStav === 'prebiehajúca' ? 'archivovaná' : 'prebiehajúca';
 
             fetch('/update-internship-status', {
                 method: 'POST',
@@ -219,6 +229,26 @@
                 .then(data => {
                     console.log(data.message);
                     document.getElementById('aktualnyStav').innerHTML = novyStav;
+                })
+                .catch(error => console.error('Chyba: ', error));
+        }
+
+        function updateAssignedStudent() {
+            var selectedStudentId = document.getElementById("studentSelect").value;
+            var internshipId = selectedPrax.id; // ID praxe
+
+            fetch('/update-internship-student', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ internship_id: internshipId, student_id: selectedStudentId })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    // Případně aktualizujte UI
                 })
                 .catch(error => console.error('Chyba: ', error));
         }
