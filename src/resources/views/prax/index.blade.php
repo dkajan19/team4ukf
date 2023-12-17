@@ -70,7 +70,7 @@
         <ul>
             @foreach($praxe as $prax)
                 <li>
-                    {{ $prax->popis_praxe }} - {{ $prax->datum_zaciatku }} to {{ $prax->datum_konca }}
+                    {{ $prax->id }} - Popis praxe: {{ $prax->popis_praxe }} |Študent: {{ $prax->student->meno }} {{ $prax->student->priezvisko }}  | {{ $prax->datum_zaciatku }} to {{ $prax->datum_konca }} | firma: {{ $prax->contract->company->nazov_firmy }}
                     <form method="get" action="{{ route('prax.show', $prax->id) }}" style="display: inline;">
                         @csrf
                         <button type="submit">Zobraziť</button>
@@ -109,36 +109,44 @@
             <label for="student_id">Vybrať študenta:</label>
             <select name="student_id">
                 @foreach($users as $user)
+                    @if($user->rola_pouzivatela_id == 2)
                     <option value="{{ $user->id }}">
-                        {{ $user->id }} - {{ $user->meno }} {{ $user->priezvisko }}
+                        ID: {{ $user->id }} - {{ $user->meno }} {{ $user->priezvisko }}
                     </option>
+                    @endif
                 @endforeach
             </select>
             @csrf
                 <label for="veduci_pracoviska_id">Vybrať vedúceho pracoviska:</label>
             <select name="veduci_pracoviska_id">
                 @foreach($users as $user)
-                    <option value="{{ $user->id }}">
-                         {{ $user->id }} - {{ $user->meno }} {{ $user->priezvisko }}
-                    </option>
+                    @if($user->rola_pouzivatela_id == 4)
+                        <option value="{{ $user->id }}">
+                            ID: {{ $user->id }} - {{ $user->meno }} {{ $user->priezvisko }}
+                        </option>
+                    @endif
                 @endforeach
             </select>
             @csrf
                 <label for="pracovnik_fpvai_id">Vybrať pracovníka FPVaI:</label>
             <select name="pracovnik_fpvai_id">
                 @foreach($users as $user)
-                    <option value="{{ $user->id }}">
-                         {{ $user->id }} - {{ $user->meno }} {{ $user->priezvisko }}
-                    </option>
+                    @if($user->rola_pouzivatela_id == 3)
+                        <option value="{{ $user->id }}">
+                            ID: {{ $user->id }} - {{ $user->meno }} {{ $user->priezvisko }}
+                        </option>
+                    @endif
                 @endforeach
             </select>
             @csrf
                 <label for="kontaktna_osoba_id">Vybrať kontaktú osobu firmy:</label>
             <select name="kontaktna_osoba_id">
                 @foreach($users as $user)
-                    <option value="{{ $user->id }}">
-                        {{ $user->id }} - {{ $user->meno }} {{ $user->priezvisko }}
-                    </option>
+                    @if($user->rola_pouzivatela_id == 5)
+                        <option value="{{ $user->id }}">
+                            ID: {{ $user->id }} - {{ $user->meno }} {{ $user->priezvisko }}
+                        </option>
+                    @endif
                 @endforeach
             </select>
             @csrf
@@ -146,7 +154,7 @@
             <select name="dokumenty id">
                 @foreach($documents as $document)
                     <option value="{{ $document->id }}">
-                        {{ $document->id }} - {{ $document->typ_dokumentu }} | {{ $document->dokument }}
+                        ID: {{ $document->id }} - {{ $document->typ_dokumentu }} | {{ $document->dokument }}
                     </option>
                 @endforeach
             </select>
@@ -155,7 +163,7 @@
             <select name="predmety id">
                 @foreach($schoolSubjects as $subject)
                     <option value="{{ $subject->id }}">
-                        {{ $subject->id }} - {{ $subject->nazov }} 
+                        ID: {{ $subject->id }} - {{ $subject->nazov }} 
                     </option>
                 @endforeach
             </select>
@@ -164,7 +172,7 @@
             <select name="zmluva id">
                 @foreach($contracts as $contract)
                     <option value="{{ $contract->id }}">
-                        {{ $contract->id }} {{ $contract->zmluva }}
+                        ID: {{ $contract->id }} {{ $contract->zmluva }}
                     </option>
                 @endforeach
             </select>
