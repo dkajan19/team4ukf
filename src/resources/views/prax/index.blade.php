@@ -21,6 +21,13 @@
                 });
             });
     </script>
+    @if($role == 'admin')
+    <style>
+        :root {
+            --link-count: 10;
+        }
+    </style>
+@endif
 <body>
 
     <nav class="navbar">
@@ -29,17 +36,19 @@
         </a>
         <i class="fa-solid fa-bars menu-icon" style="color: #000205;"></i>
         <ul class="nav-links">
-            <li><a href="{{ route('dashboard') }}">Domov</a></li>
-            <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
-            <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
-            <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
-            <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
-            <li><a href="{{ route('user.index') }}">Používatelia</a></li>
-            <li><a href="{{ route('address.index') }}">Adresy</a></li>
-            <li><a href="{{ route('company.index') }}">Firmy</a></li>
-            <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
-            <li><a href="{{ route('feedback.index') }}">Feedback</a></li>
-            <li><a href="{{ route('prax.index') }}">Prax</a></li>
+            @if($role == 'admin')
+                <li><a href="{{ route('dashboard') }}">Domov</a></li>
+                <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
+                <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
+                <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
+                <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
+                <li><a href="{{ route('user.index') }}">Používatelia</a></li>
+                <li><a href="{{ route('address.index') }}">Adresy</a></li>
+                <li><a href="{{ route('company.index') }}">Firmy</a></li>
+                <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
+                <li><a href="{{ route('feedback.index') }}">Feedback</a></li>
+                <li><a href="{{ route('prax.index') }}">Prax</a></li>
+            @endif
         </ul>
 
         <div class="user-actions">
@@ -77,12 +86,12 @@
                     </form>
                     <form method="get" action="{{ route('prax.edit', $prax->id) }}" style="display: inline;">
                         @csrf
-                        <button type="submit">Upraviť</button>
+                        <button type="submit" class="upravit">Upraviť</button>
                     </form>
                     <form method="post" action="{{ route('prax.destroy', $prax->id) }}" style="display: inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit">Vymazať</button>
+                        <button type="submit" class="vymazat">Vymazať</button>
                     </form>
                 </li>
             @endforeach

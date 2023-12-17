@@ -65,9 +65,11 @@
     <p><strong>Vedúci pracoviska:</strong> {{ $prax->headworker->meno }} {{ $prax->headworker->priezvisko }}</p>
     <p><strong>Pracovník FPVaI:</strong> {{ $prax->worker->meno }} {{ $prax->worker->priezvisko }}</p>
     <p><strong>Kontaktná osoba:</strong> {{ $prax->contact->meno }} {{ $prax->contact->priezvisko }}</p>
-    <p><strong>Dokumenty:</strong> {{ $prax->documents->typ_dokumentu }}</p>
+    <p><strong>Dokumenty:</strong> <a href="{{ route('documents.show', $prax->documents->id) }}" target="_blank">{{ $prax->documents->typ_dokumentu }}</a></p>
     <p><strong>Predmet:</strong> {{ $prax->schoolSubject->nazov }} - {{ $prax->schoolSubject->skratka }}</p>
-    <p><strong>Zmluva:</strong> {{ $prax->contract->zmluva }}</p>
+    <p><strong>Zmluva:</strong> <a href="{{ route('contract.show', $prax->contract->id) }}" target="_blank">{{ $prax->contract->zmluva }}</a></p>
+
+
 
     <a href="{{ route('prax.index') }}">Naspäť na Praxe</a>
 </div>

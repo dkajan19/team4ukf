@@ -20,11 +20,13 @@
             });
         });
     </script>
+    @if($role == 'admin')
     <style>
         :root {
             --link-count: 10;
         }
     </style>
+@endif
 </head>
 <body>
 
@@ -34,17 +36,19 @@
     </a>
     <i class="fa-solid fa-bars menu-icon" style="color: #000205;"></i>
     <ul class="nav-links">
-        <li><a href="{{ route('dashboard') }}">Domov</a></li>
-        <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
-        <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
-        <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
-        <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
-        <li><a href="{{ route('user.index') }}">Používatelia</a></li>
-        <li><a href="{{ route('address.index') }}">Adresy</a></li>
-        <li><a href="{{ route('company.index') }}">Firmy</a></li>
-        <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
-        <li><a href="{{ route('feedback.index') }}">Feedback</a></li>
-        <li><a href="{{ route('prax.index') }}">Prax</a></li>
+        @if($role == 'admin')
+            <li><a href="{{ route('dashboard') }}">Domov</a></li>
+            <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
+            <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
+            <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
+            <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
+            <li><a href="{{ route('user.index') }}">Používatelia</a></li>
+            <li><a href="{{ route('address.index') }}">Adresy</a></li>
+            <li><a href="{{ route('company.index') }}">Firmy</a></li>
+            <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
+            <li><a href="{{ route('feedback.index') }}">Feedback</a></li>
+            <li><a href="{{ route('prax.index') }}">Prax</a></li>
+        @endif
     </ul>
 
     <div class="user-actions">
@@ -72,7 +76,7 @@
     @endif
     @if($errors->any())
         <div class="alert alert-danger" role="alert">
-            <i class="fas fa-times-circle alert__icon"></i> Chyba pri vytváraní praxe:
+            <i class="fas fa-times-circle alert__icon"></i> Chyba pri vytváraní feedbacku:
             <ul>
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
