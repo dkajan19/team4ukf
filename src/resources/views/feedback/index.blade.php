@@ -64,6 +64,16 @@
         <i class="fas fa-times-circle alert__icon"></i> {{ session('error') }}
     </div>
     @endif
+    @if($errors->any())
+        <div class="alert alert-danger" role="alert">
+            <i class="fas fa-times-circle alert__icon"></i> Chyba pri vytváraní praxe:
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <ul>
         @foreach($feedbacks ->sortBy(function($feedback) {

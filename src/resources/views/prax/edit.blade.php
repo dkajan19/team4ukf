@@ -77,9 +77,79 @@
         @method('PUT')
 
         
-
+        <input type="text" name="id" value=" ID: {{ $prax->id }}" readonly required>
         <label for="popis_praxe">Popis praxe:</label>
-        <input type="text" name="popis_praxe" value="{{ $prax->popis_praxe }}" required>
+        <input type="text" name="popis_praxe" value=" {{ $prax->popis_praxe }}" required>
+
+        <label for="datum_zaciatku">Dátum začiatku:</label>
+        <input type="text" name="datum_zaciatku" value=" {{ $prax->datum_zaciatku }}" required>
+
+        <label for="datum_konca">Dátum konca:</label>
+        <input type="text" name="datum_konca" value=" {{ $prax->datum_konca }}" required>
+
+        <label for="aktualny_stav">Aktuálny stav:</label>
+        <input type="text" name="aktualny_stav" value="{{ $prax->aktualny_stav }}">
+
+        <label for="student_id">Vybrať študenta:</label>
+            <select name="student_id">
+                @foreach($users as $user)
+                    <option value="{{ $user->id }}" {{ $user->id == $prax->student_id ? 'selected' : '' }}>
+                        {{ $user->id }}
+                    </option>
+                @endforeach
+            </select>
+            <label for="veduci_pracoviska_id">Vybrať vedúceho pracoviska:</label>
+                <select name="veduci_pracoviska_id">
+                    @foreach($users as $user)
+                        <option value="{{ $user->id }}" {{ $user->id == $prax->veduci_pracoviska_id ? 'selected' : '' }}>
+                            {{ $user->id }} - {{ $user->meno }} {{ $user->priezvisko }}
+                        </option>
+                    @endforeach
+                </select>
+                <label for="pracovnik_fpvai_id">Vybrať pracovníka FPVaI:</label>
+<select name="pracovnik_fpvai_id">
+    @foreach($users as $user)
+        <option value="{{ $user->id }}" {{ $user->id == $prax->pracovnik_fpvai_id ? 'selected' : '' }}>
+            {{ $user->id }} - {{ $user->meno }} {{ $user->priezvisko }}
+        </option>
+    @endforeach
+</select>
+
+<label for="kontaktna_osoba_id">Vybrať kontaktú osobu firmy:</label>
+<select name="kontaktna_osoba_id">
+    @foreach($users as $user)
+        <option value="{{ $user->id }}" {{ $user->id == $prax->kontaktna_osoba_id ? 'selected' : '' }}>
+            {{ $user->id }} - {{ $user->meno }} {{ $user->priezvisko }}
+        </option>
+    @endforeach
+</select>
+
+<label for="dokumenty id">Document:</label>
+<select name="dokumenty id">
+    @foreach($documents as $document)
+        <option value="{{ $document->id }}" {{ $document->id == $prax->dokumenty_id ? 'selected' : '' }}>
+            {{ $document->id }} - {{ $document->typ_dokumentu }} | {{ $document->dokument }}
+        </option>
+    @endforeach
+</select>
+
+<label for="predmety id">Predmet:</label>
+<select name="predmety id">
+    @foreach($schoolSubjects as $subject)
+        <option value="{{ $subject->id }}" {{ $subject->id == $prax->predmety_id ? 'selected' : '' }}>
+            {{ $subject->id }} - {{ $subject->nazov }} 
+        </option>
+    @endforeach
+</select>
+
+<label for="zmluva id">Zmluva:</label>
+<select name="zmluva id">
+    @foreach($contracts as $contract)
+        <option value="{{ $contract->id }}" {{ $contract->id == $prax->zmluva_id ? 'selected' : '' }}>
+            {{ $contract->id }} {{ $contract->zmluva }}
+        </option>
+    @endforeach
+</select>
 
         <button type="submit">Aktualizovať</button>
     </form>

@@ -61,6 +61,11 @@
                 <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
             </div>
         @endif
+        @if(session('error'))
+        <div class="alert alert-danger" role="alert">
+            <i class="fas fa-times-circle alert__icon"></i>  {{ session('error') }}
+        </div>
+    @endif
 
         <ul>
             @foreach($praxe as $prax)
@@ -137,8 +142,8 @@
                 @endforeach
             </select>
             @csrf
-                <label for="id">Document:</label>
-            <select name="id">
+                <label for="dokumenty id">Document:</label>
+            <select name="dokumenty id">
                 @foreach($documents as $document)
                     <option value="{{ $document->id }}">
                         {{ $document->id }} - {{ $document->typ_dokumentu }} | {{ $document->dokument }}
@@ -146,8 +151,8 @@
                 @endforeach
             </select>
             @csrf
-                <label for="predmet_id">Predmet:</label>
-            <select name="predmet_id">
+                <label for="predmety id">Predmet:</label>
+            <select name="predmety id">
                 @foreach($schoolSubjects as $subject)
                     <option value="{{ $subject->id }}">
                         {{ $subject->id }} - {{ $subject->nazov }} 
@@ -155,8 +160,8 @@
                 @endforeach
             </select>
             @csrf
-                <label for="zmluva_id">Zmluva:</label>
-            <select name="zmluva_id">
+                <label for="zmluva id">Zmluva:</label>
+            <select name="zmluva id">
                 @foreach($contracts as $contract)
                     <option value="{{ $contract->id }}">
                         {{ $contract->id }} {{ $contract->zmluva }}
