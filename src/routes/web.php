@@ -18,6 +18,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\SchoolSubjectController;
 use App\Http\Controllers\WorkerController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\HeadWorkerController;
+use App\Http\Controllers\InternshipController;
+
 
 
 Route::get('/', function () {
@@ -48,7 +52,13 @@ Route::middleware(['Zástupca firmy alebo organizácie'])->group(function () {
 });
 
 Route::middleware(['Vedúci pracoviska'])->group(function () {
-
+    Route::get('/headworker/internship-details', [HeadWorkerController::class, 'index'])->name('headworker.internship_details');
+    Route::post('/headworker/internship-details/update-status', [HeadWorkerController::class, 'update_status'])->name('headworker.internship_details.update_status');
+    Route::post('/headworker/internship-details/update-worker', [HeadWorkerController::class, 'update_worker'])->name('headworker.internship_details.update_worker');
+    Route::get('/headworker/internship-show/{id}', [HeadWorkerController::class, 'show'])->name('headworker.internship_show');
+    Route::get('/headworker/company', [HeadWorkerController::class, 'company_index'])->name('headworker.company');
+    Route::get('/headworker/company/{id}', [HeadWorkerController::class, 'company_show'])->name('headworker.company_show');
+    Route::get('/headworker/report', [HeadWorkerController::class, 'report'])->name('headworker.report');
 });
 
 Route::middleware(['Poverený pracovník pracoviska'])->group(function () {
@@ -58,11 +68,6 @@ Route::middleware(['Poverený pracovník pracoviska'])->group(function () {
     Route::get('/worker/company/{id}/edit', [WorkerController::class, 'company_edit'])->name('worker.company_edit');
     Route::put('/worker/company/{id}', [WorkerController::class, 'company_update'])->name('worker.company_update');
     Route::delete('/worker/company/{id}', [WorkerController::class, 'company_destroy'])->name('worker.company_destroy');
-    Route::get('/worker/internship-details', [WorkerController::class, 'internshipDetails'])->name('worker.internship_details');
-    Route::post('/worker/student', [WorkerController::class, 'student_store'])->name('worker.student_store');
-    Route::post('/worker/add-custom-internship', [WorkerController::class, 'addCustomInternship'])->name('worker.add_custom_internship');
-    Route::post('/update-internship-status', [WorkerController::class, 'updateInternshipStatus'])->name('update-internship-status');
-
 });
 
 Route::middleware(['Študent'])->group(function () {
@@ -134,4 +139,16 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/school_subject/{id}/edit', [SchoolSubjectController::class, 'edit'])->name('school_subject.edit');
     Route::put('/school_subject/{id}', [SchoolSubjectController::class, 'update'])->name('school_subject.update');
     Route::delete('/school_subject/{id}', [SchoolSubjectController::class, 'destroy'])->name('school_subject.destroy');
+    Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
+    Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+    Route::get('/feedback/{id}', [FeedbackController::class, 'show'])->name('feedback.show');
+    Route::get('/feedback/{id}/edit', [FeedbackController::class, 'edit'])->name('feedback.edit');
+    Route::put('/feedback/{id}', [FeedbackController::class, 'update'])->name('feedback.update');
+    Route::delete('/feedback/{id}', [FeedbackController::class, 'destroy'])->name('feedback.destroy');
+    Route::get('/prax', [InternshipController::class, 'index'])->name('prax.index');
+    Route::get('/prax/{id}', [InternshipController::class, 'show'])->name('prax.show');
+    Route::post('/prax', [InternshipController::class, 'store'])->name('prax.store');
+    Route::get('/prax/{id}/edit', [InternshipController::class, 'edit'])->name('prax.edit');
+    Route::put('/prax/{id}', [InternshipController::class, 'update'])->name('prax.update');
+    Route::delete('/prax/{id}', [InternshipController::class, 'destroy'])->name('prax.destroy');
 });
