@@ -109,27 +109,7 @@ class WorkerController extends Controller
             ->with('success', 'Firma bola úspešne vymazaná!');
     }
 
-    public function student_store(Request $request)
-    {
-        $request->validate([
-            'meno' => 'required|string|max:255',
-            'priezvisko' => 'required|string|max:255',
-            'tel_cislo' => 'required|string|max:20',
-            'email' => 'required|string|max:255',
-            'password' => 'required|string|max:255',
 
-        ]);
-
-        $new_student = User::create([
-            'meno' => $request->input('meno'),
-            'priezvisko' => $request->input('priezvisko'),
-            'tel_cislo' => $request->input('tel_cislo'),
-            'email' => $request->input('email'),
-            'password' => $request->input('password'),
-            'rola_pouzivatela_id' => 1,
-        ]);
-        return redirect()->route('worker.student')->with('success', 'Študent bol úspešne pridaný!');
-    }
 
 
     public function internshipDetails()
@@ -213,6 +193,80 @@ class WorkerController extends Controller
         return response()->json(['message' => 'Stav praxe bol úspešne aktualizovaný.']);
     }
 
+    public function student_store(Request $request)
+    {
+        $request->validate([
+            'meno' => 'required|string|max:255',
+            'priezvisko' => 'required|string|max:255',
+            'tel_cislo' => 'required|string|max:20',
+            'email' => 'required|string|max:255',
+            'password' => 'required|string|max:255',
 
+        ]);
+
+        $new_student = User::create([
+            'meno' => $request->input('meno'),
+            'priezvisko' => $request->input('priezvisko'),
+            'tel_cislo' => $request->input('tel_cislo'),
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+            'rola_pouzivatela_id' => 1,
+        ]);
+        return redirect()->route('worker.student')->with('success', 'Študent bol úspešne pridaný!');
+    }
+    public function student_index()
+    {
+        $user = Auth::user();
+        $role = $user->user_roles->rola;
+
+        return view('worker.student', compact('role'));
+    }
+
+
+    public function documents_index()
+    {
+        $documentss = Documents::all();
+
+        $user = Auth::user();
+        $role = $user->user_roles->rola;
+        //$prax = $user->prax()->latest()->first();
+
+        return view('worker.documents', compact('documentss', 'role'));
+    }
+
+    /*
+    public function documents_update(Request $request)
+    {
+        $request->validate([
+            'dokument' => 'file|mimes:pdf,doc,docx|max:10240',
+        ]);
+
+        $student = auth()->user();
+        $documents = $student->prax()->latest()->first()->documents;
+
+        if ($request->hasFile('dokument')) {
+            if ($documents->dokument) {
+                Storage::disk('public')->delete('documents/' . basename($documents->dokument));
+            }
+
+            $documentPath = $request->file('dokument')->store('documents', 'public');
+            $documents->update([
+                'dokument' => $documentPath,
+            ]);
+        }
+
+        return redirect()->route('student.documents', $documents->id)->with('success', 'Dokumenty boli úspešne aktualizované.');
+    }
+*/
+    public function documents_destroy($id)
+    {
+        $documents = Documents::findOrFail($id);
+
+        Storage::disk('public')->delete('documents/' . basename($documents->dokument));
+
+        $documents->delete();
+
+        return redirect()->route('worker.documents')->with('success', 'Dokumenty boli úspešne odstránené.');
+    }
 
 }
