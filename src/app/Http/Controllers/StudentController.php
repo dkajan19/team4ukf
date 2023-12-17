@@ -24,7 +24,7 @@ class StudentController extends Controller
         $selectedProgram = null;
         $student = auth()->user();
         $role = $student->user_roles->rola;
-        $prax = $student->prax()->first();
+        $prax = $student->prax()->latest()->first();
 
         return view('student.program_and_subject', compact('studijneProgramy', 'selectedProgram', 'student','prax','role'));
     }

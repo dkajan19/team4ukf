@@ -19,11 +19,8 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\SchoolSubjectController;
 use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\FeedbackController;
-<<<<<<< HEAD
 use App\Http\Controllers\HeadWorkerController;
-=======
 use App\Http\Controllers\InternshipController;
->>>>>>> feature/Pridanie_funkcionality_Prax
 
 
 Route::get('/', function () {
