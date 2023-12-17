@@ -77,4 +77,13 @@ class HeadWorkerController extends Controller
         return view('headworker.report', compact('praxe','role'));
     }
 
+    public function feedback()
+    {
+        $headworker = auth()->user();
+        $role = $headworker->user_roles->rola;
+        $praxe = Internship::with('feedback')->get();
+
+        return view('headworker.feedback', compact('praxe','role'));
+    }
+
 }

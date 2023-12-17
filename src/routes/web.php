@@ -58,6 +58,7 @@ Route::middleware(['Vedúci pracoviska'])->group(function () {
     Route::get('/headworker/company', [HeadWorkerController::class, 'company_index'])->name('headworker.company');
     Route::get('/headworker/company/{id}', [HeadWorkerController::class, 'company_show'])->name('headworker.company_show');
     Route::get('/headworker/report', [HeadWorkerController::class, 'report'])->name('headworker.report');
+    Route::get('/headworker/feedback', [HeadWorkerController::class, 'feedback'])->name('headworker.feedback');
 });
 
 Route::middleware(['Poverený pracovník pracoviska'])->group(function () {
