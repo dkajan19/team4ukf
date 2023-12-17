@@ -155,8 +155,8 @@
         </div>
 
         <div class="controls">
-            <button class="add-row" onclick="pridatRiadok()">Pridať riadok +</button>
-            <button class="remove-row" onclick="odstranitRiadok()">Odstrániť riadok -</button>
+            <button class="add-row upravit" onclick="pridatRiadok()">Pridať riadok +</button>
+            <button class="remove-row vymazat" onclick="odstranitRiadok()">Odstrániť riadok -</button>
             <button onclick="generovatPDF()" style="float: right;">Generovať PDF</button>
         </div>
 @else

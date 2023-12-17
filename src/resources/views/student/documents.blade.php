@@ -97,12 +97,12 @@
             <p><a href="{{ route('student.documents_download', ['id' => $prax->documents->id]) }}">Stiahnuť dokumenty</a></p>
             
 
-            <button onclick="toggleCustomInternshipForm()">Aktualizácia dokumentov</button>
+            <button onclick="toggleCustomInternshipForm()" class="upravit">Aktualizácia dokumentov</button>
 
             <form method="post" action="{{ route('student.documents_destroy', $prax->documents->id) }}" style="display: inline;">
                 @csrf
                 @method('DELETE')
-                <button type="submit">Vymazať dokumenty</button>
+                <button type="submit" class="vymazat">Vymazať dokumenty</button>
             </form>
 
             <div id="update-form" style="display:none;">

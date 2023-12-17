@@ -44,6 +44,7 @@
         <li><a href="{{ route('company.index') }}">Firmy</a></li>
         <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
         <li><a href="{{ route('feedback.index') }}">Feedback</a></li>
+        <li><a href="{{ route('prax.index') }}">Prax</a></li>
     </ul>
 
     <div class="user-actions">

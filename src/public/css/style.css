@@ -67,9 +67,18 @@ button {
     cursor: pointer;
 }
 
+button.upravit {
+    background-color: #0437F2;
+}
+
+button.vymazat {
+    background-color: #D22B2B;
+}
+
 button:hover {
     background-color: #e0e0e0;
     color: #00a357;
+    outline: 1.5px solid #00a357;
 }
 
 a {

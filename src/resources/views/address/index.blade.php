@@ -23,7 +23,7 @@
 @if($role == 'admin')
     <style>
         :root {
-            --link-count: 8;
+            --link-count: 10;
         }
     </style>
 @endif
@@ -46,6 +46,8 @@
                 <li><a href="{{ route('address.index') }}">Adresy</a></li>
                 <li><a href="{{ route('company.index') }}">Firmy</a></li>
                 <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
+                <li><a href="{{ route('feedback.index') }}">Feedback</a></li>
+                <li><a href="{{ route('prax.index') }}">Prax</a></li>
             @endif
         </ul>
 
@@ -83,13 +85,13 @@
                 
                 <form method="get" action="{{ route('address.edit', $address->id) }}" style="display: inline;">
                     @csrf
-                    <button type="submit">Upraviť</button>
+                    <button type="submit" class="upravit">Upraviť</button>
                 </form>
                 
                 <form method="post" action="{{ route('address.destroy', $address->id) }}" style="display: inline;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit">Vymazať</button>
+                    <button type="submit" class="vymazat">Vymazať</button>
                 </form>
             </li>
             @endforeach

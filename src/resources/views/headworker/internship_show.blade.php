@@ -69,7 +69,7 @@
         <p><strong>Kontaktná osoba:</strong> {{ $internship->contact->meno }} {{ $internship->contact->priezvisko }}</p>
 
 
-        <a href="{{ route('headworker.internship_details') }}">Naspäť na Prax</a>
+        <a href="{{ route('headworker.internship_details') }}">Naspäť na Prax</a> alebo <a href="{{ route('headworker.feedback') }}">Naspäť na Spätnú väzbu</a>
     </div>
 
 </body>
