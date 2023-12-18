@@ -183,7 +183,7 @@
 
                 @foreach ($users as $user)
                 var isSelected = currentStudentId === {{ $user->id }} ? ' selected' : '';
-                selectOptions += "<option value='{{ $user->id }}'" + isSelected + ">{{ $user->meno }}</option>";
+                selectOptions += "<option value='{{ $user->id }}'" + isSelected + ">{{ $user->meno }} {{ $user->priezvisko }}</option>";
                 @endforeach
 
                     detailsHtml += "<p><strong>Priradiť študenta</strong> " +

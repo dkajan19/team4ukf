@@ -94,6 +94,7 @@
                 <li><a href="{{ route('headworker.feedback') }}">Spätná väzba</a></li>
             @endif
             @if($role == 'Zástupca firmy alebo organizácie')
+                <li><a href="{{ route('companyworker.feedback_index') }}">Spätná väzba</a></li>
                 
             @endif
         </ul>

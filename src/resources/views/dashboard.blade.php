@@ -99,7 +99,7 @@
                 <li><a href="{{ route('headworker.feedback') }}">Spätná väzba</a></li>
             @endif
             @if($role == 'Zástupca firmy alebo organizácie')
-
+                <li><a href="{{ route('companyworker.feedback_index') }}">Spätná väzba</a></li>
             @endif
         </ul>
 
@@ -147,7 +147,12 @@
             <p>Ak máte otázky alebo potrebujete ďalšie informácie o systéme, neváhajte sa obrátiť na svojich kolegov alebo administrátorov. Želáme vám úspešné vedenie pracoviska!</p>
         @endif
         @if($role == 'Zástupca firmy alebo organizácie')
-
+        <h2>Vitajte v prostredí pre Zástupcu firmy alebo organizácie</h2>
+            <p>Ako Zástupca firmy alebo organizácie máte k dispozícii pridávanie spätnej väzby k praxi študenta.</p>
+            <div class="alert alert-info" role="alert">
+                <i class="fas fa-info-circle alert__icon"></i>  Máte možnosť pridávať, upravovať a vymazať spätnú väzbu praxe študenta, ktorý u Vás absolvoval prax.
+            </div>
+            <p>Ak budete mať otázky alebo potrebujete ďalšie informácie o systéme, neváhajte sa obrátiť na administrátorov. Želáme vám úspešné riadenie pracoviska a jeho príslušných procesov!</p>
         @endif
     </div>
 

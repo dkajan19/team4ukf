@@ -21,6 +21,7 @@ use App\Http\Controllers\WorkerController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HeadWorkerController;
 use App\Http\Controllers\InternshipController;
+use App\Http\Controllers\CompanyWorkerController;
 
 
 Route::get('/', function () {
@@ -47,7 +48,12 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['Zástupca firmy alebo organizácie'])->group(function () {
-
+    Route::get('/companyworker/feedback_index', [CompanyWorkerController::class, 'index'])->name('companyworker.feedback_index');
+    Route::get('/companyworker/{id}', [CompanyWorkerController::class, 'feedback_show'])->name('companyworker.feedback_show');
+    Route::get('/companyworker/{id}/edit', [CompanyWorkerController::class, 'feedback_edit'])->name('companyworker.feedback_edit');
+    Route::put('/companyworker/{id}', [CompanyWorkerController::class, 'feedback_update'])->name('companyworker.feedback_update');
+    Route::delete('/companyworker/feedback_destroy/{id}', [CompanyWorkerController::class, 'feedback_destroy'])->name('companyworker.feedback_destroy');
+    Route::post('/companyworker', [CompanyWorkerController::class, 'feedback_store'])->name('companyworker.feedback_store');
 });
 
 Route::middleware(['Vedúci pracoviska'])->group(function () {
