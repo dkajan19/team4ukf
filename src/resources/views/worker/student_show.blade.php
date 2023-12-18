@@ -90,14 +90,20 @@
     </nav>
 
     <div class="container">
-        <h1>{{ $user->meno, $user->priezvisko  }}</h1>
+        <h1>{{ $user->meno}} {{$user->priezvisko}}</h1>
 
         <p><strong>Meno:</strong> {{ $user->meno }}</p>
         <p><strong>Priezvisko:</strong> {{ $user->priezvisko }}</p>
         <p><strong>Telefónne číslo:</strong> {{ $user->tel_cislo }}</p>
         <p><strong>Email:</strong> {{ $user->email }}</p>
-        <p><strong>Firma ID:</strong> {{ $user->firma_id }}</p>
-
+        @if($prax!=null)
+            <p><strong>Prax ID:</strong> {{ $prax->id }}</p>
+            <p><strong>Firma ID:</strong> {{ $prax->contract->company->id }}</p>
+        @else
+            <div class="alert alert-danger" role="alert">
+                <i class="fas fa-minus-circle alert__icon"></i>  Študent nemá doposiaľ žiadnu prax.
+            </div>
+        @endif
         <div id="companyAddressInfo" style="display: none;">
         </div>
 

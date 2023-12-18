@@ -209,6 +209,16 @@ class StudentController extends Controller
             'tel_cislo' => $request->input('tel_cislo'),
         ]);
 
+        $new_user = User::create([
+            'meno' => $request->input('meno_kontaktnej_osoby'),
+            'priezvisko' => $request->input('priezvisko_kontaktnej_osoby'),
+            'email' => $request->input('email'),
+            'tel_cislo' => $request->input('tel_cislo'),
+            'firma_id' => $new_company->id,
+            'rola_pouzivatela_id' => 5,
+            'password' => "password",
+        ]);
+
         $address = Address::create([
             'mesto' => $request->input('mesto'),
             'PSČ' => $request->input('PSČ'),

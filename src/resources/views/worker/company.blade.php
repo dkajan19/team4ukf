@@ -138,12 +138,12 @@
         <div id="create-form">
             <br>
             <form method="post" action="{{ route('worker.company_store') }}">
-                @csrf
+            @csrf
                 <label for="nazov_firmy">Názov firmy:</label>
                 <input type="text" name="nazov_firmy" required>
 
                 <label for="IČO">IČO:</label>
-                <input type="text" name="IČO" required>
+                <input type="text" name="IČO" pattern="[0-9]+" required>
 
                 <label for="meno_kontaktnej_osoby">Meno kontaktnej osoby:</label>
                 <input type="text" name="meno_kontaktnej_osoby" required>
@@ -152,26 +152,26 @@
                 <input type="text" name="priezvisko_kontaktnej_osoby" required>
 
                 <label for="email">Email:</label>
-                <input type="text" name="email" required>
+                <input type="email" name="email" required>
 
                 <label for="tel_cislo">Telefónne číslo:</label>
                 <input type="text" name="tel_cislo" required>
 
-                <!-- <div id = "address-fields">-->
+                <div id = "address-fields">
 
                     <label for="mesto">Mesto:</label>
                     <input type="text" name="mesto" required>
 
                     <label for="PSČ">PSČ:</label>
-                    <input type="text" name="PSČ" required>
+                    <input type="text" name="PSČ" pattern="[0-9]+" required>
 
                     <label for="ulica">Ulica:</label>
                     <input type="text" name="ulica" required>
 
                     <label for="č_domu">Číslo domu:</label>
-                    <input type="text" name="č_domu" required>
+                    <input type="text" name="č_domu" pattern="[0-9]+" required>
 
-                    <!-- </div>-->
+                </div>
 
                 <button type="submit">Pridať</button>
             </form>

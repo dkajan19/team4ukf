@@ -135,7 +135,7 @@
             @foreach($users as $user)
                 <br>
                 <li>
-                    {{ $user->meno, $user->priezvisko}}
+                    {{ $user->meno}} {{$user->priezvisko}}
 
                     <form method="get" action="{{ route('worker.student_show', $user->id) }}" style="display: inline;">
                         @csrf

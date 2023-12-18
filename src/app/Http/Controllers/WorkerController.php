@@ -61,6 +61,16 @@ class WorkerController extends Controller
             'tel_cislo' => $request->input('tel_cislo'),
         ]);
 
+        $new_user = User::create([
+            'meno' => $request->input('meno_kontaktnej_osoby'),
+            'priezvisko' => $request->input('priezvisko_kontaktnej_osoby'),
+            'email' => $request->input('email'),
+            'tel_cislo' => $request->input('tel_cislo'),
+            'firma_id' => $new_company->id,
+            'rola_pouzivatela_id' => 5,
+            'password' => "password",
+        ]);
+
         $address = Address::create([
             'mesto' => $request->input('mesto'),
             'PSČ' => $request->input('PSČ'),
@@ -226,7 +236,7 @@ class WorkerController extends Controller
             'tel_cislo' => $request->input('tel_cislo'),
             'email' => $request->input('email'),
             'password' => $request->input('password'),
-            'rola_pouzivatela_id' => 1,
+            'rola_pouzivatela_id' => 2,
         ]);
         return redirect()->route('worker.student')->with('success', 'Študent bol úspešne pridaný!');
     }
@@ -245,12 +255,13 @@ class WorkerController extends Controller
 
     public function student_show($id)
     {
-        $user = User::findOrFail($id);
-
         $user = Auth::user();
         $role = $user->user_roles->rola;
 
-        return view('worker.student_show', compact('user', 'role'));
+        $user = User::findOrFail($id);
+        $prax = Internship::where('student_id', $id)->latest()->first();
+
+        return view('worker.student_show', compact('user','prax', 'role'));
     }
 
     public function student_destroy($id)

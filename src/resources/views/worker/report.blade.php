@@ -142,7 +142,6 @@
                             <th>Dátum konca</th>
                             <th>Firma</th>
                             <th>Meno a priezvisko študenta</th>
-                            <th>Meno a priezvisko povereného pracovníka</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -154,7 +153,6 @@
                                 <td>{{ \Carbon\Carbon::parse($prax->datum_konca)->format('d.m.Y') }}</td>
                                 <td>{{ $prax->contract->company->nazov_firmy }}</td>
                                 <td>{{ $prax->student->meno }} {{ $prax->student->priezvisko }}</td>
-                                <td>{{ $prax->worker->meno }} {{ $prax->worker->priezvisko }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -170,15 +168,6 @@
                 $stavy = $praxStavy->pluck('aktualny_stav');
                 $pocetPraxi = $praxStavy->pluck('count');
 
-                $praxPovereni = \App\Models\Internship::join('pouzivatel', 'prax.pracovnik_fpvai_id', '=', 'pouzivatel.id')
-                    ->select('pracovnik_fpvai_id', \DB::raw('COUNT(*) as count'))
-                    ->groupBy('pracovnik_fpvai_id')
-                    ->get();
-
-                $povereniIds = $praxPovereni->pluck('pracovnik_fpvai_id');
-                $pocetPraxiPovereni = $praxPovereni->pluck('count');
-                $povereniNames = \App\Models\User::whereIn('id', $povereniIds)->get(['meno', 'priezvisko']);
-
                 $praxFirmy = \App\Models\Internship::join('zmluva', 'prax.zmluva_id', '=', 'zmluva.id')
                     ->join('firma', 'zmluva.firma_id', '=', 'firma.id')
                     ->select('firma_id', \DB::raw('COUNT(*) as count'))
@@ -192,7 +181,6 @@
 
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <canvas id="myChart" style="page-break-before: always;"></canvas>
-            <canvas id="mySecondChart" style="page-break-before: always;"></canvas>
             <canvas id="myThirdChart" style="page-break-before: always;"></canvas>
 
             <script>
@@ -230,31 +218,6 @@
                 });
             </script>
 
-            <script>
-                var povereniNames = {!! json_encode($povereniNames->pluck('priezvisko')) !!};
-                var povereniColors = generateRandomColors(povereniNames.length);
-
-                var ctx2 = document.getElementById('mySecondChart').getContext('2d');
-                var mySecondChart = new Chart(ctx2, {
-                    type: 'bar',
-                    data: {
-                        labels: povereniNames,
-                        datasets: [{
-                            label: 'Počet praxí podľa povereného pracovníka',
-                            data: {!! json_encode($pocetPraxiPovereni) !!},
-                            backgroundColor: povereniColors,
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            </script>
             <script>
                 var firmyNames = {!! json_encode($firmyNames->pluck('nazov_firmy')) !!};
                 var firmyColors = generateRandomColors(firmyNames.length);
