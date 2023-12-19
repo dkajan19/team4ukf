@@ -1,5 +1,17 @@
 # team4ukf
+![](documentation/fpvai_logo.png)
+
 Tento projekt je zameraný na evidenciu študentskej praxe, poskytujúci riešenie pre správu a monitorovanie praxí študentov.
+
+*[Stiahnutie dokumentácie vo formáte PDF](documentation/documentation.pdf)*
+
+**Projekt vypracovali nasledovní autori:**
+
+- Adam Bečka
+- Adrián Burza
+- Denis Ďuriač
+- Denis Kajan
+
 Nižšie sú uvedené detaily pre jednotlivé časti systému.
 
 ## Diagram komponentov
@@ -17,10 +29,9 @@ Zoznam požiadaviek obsahuje detailné informácie o funkcionalitách a vlastnos
 
 ![Zoznam požiadaviek](documentation/requirements.png)
 
-
+### Študent
 | Názov                                                     | Popis                                                                                              |
 |-----------------------------------------------------------|----------------------------------------------------------------------------------------------------|
-| Študent                                                   |                                                                                                    |
 | Spravovať študijný program                                | Ako Študent chcem mať možnosť spravovať študíjny program.                                          |
 | Vybrať študijný program                                   | Ako Študent chcem mať možnosť vybrať študíjny program.                                             |
 | Vybrať predmet pokrývajúci prax                           | Ako Študent chcem mať možnosť vybrať predmet pokrývajúci prax                                      |
@@ -35,7 +46,10 @@ Zoznam požiadaviek obsahuje detailné informácie o funkcionalitách a vlastnos
 | Spravovať zmluvy                                          | Ako Študent chcem mať možnosť spravovať zmluvy.                                                    |
 | Vybrať typ zmluvy o spolupráci                            | Ako Študent chcem mať možnosť vybrať typ zmluvy o spolupráci.                                      |
 | Vložiť dohodu o odbornej praxi študenta                   | Ako Študent chcem mať možnosť vložiť dohodu o odbornej praxi Študenta.                             |
-| Poverený pracovník pracoviska:                            |                                                                                                    |
+
+### Poverený pracovník pracoviska
+| Názov                                                     | Popis                                                                                              |
+|-----------------------------------------------------------|----------------------------------------------------------------------------------------------------|
 | Spravovať register firiem a organizácií                   | Ako poverený pracovník pracoviska chcem mať možnosť spravovať register firiem a organizácií.       |
 | Spravovať prax                                            | Ako poverený pracovník pracoviska chcem mať možnosť spravovať prax.                                |
 | Zmeniť stav z navrhnutá na schválená                      | Ako poverený pracovník pracoviska chcem mať možnosť zmeniť stav z navrhnutá na schválená.          |
@@ -48,21 +62,30 @@ Zoznam požiadaviek obsahuje detailné informácie o funkcionalitách a vlastnos
 | Viesť komunikáciu so študentom                            | Ako poverený pracovník pracoviska chcem mať možnosť viesť komunikáciu so študentom.                |
 | Priradiť študenta                                         | Ako poverený pracovník pracoviska chcem mať možnosť priradiť študenta.                             |
 | Pridať hodnotenie študenta                                | Ako poverený pracovník pracoviska chcem mať možnosť pridať hodnotenie študenta.                    |
-| Vedúci pracoviska:                                        |                                                                                                    |
-| Vidieť priebeh praxí                                      | Ako vedúci úracoviska chcem mať možnosť vidieť priebeh praxí.                                      |
-| Zobraziť aktuálny stav praxe                              | Ako vedúci úracoviska chcem mať možnosť zobraziť aktuálny stav praxe.                              |
-| Zobraziť schválené a ukončené praxe                       | Ako vedúci úracoviska chcem mať možnosť zobraziť schválené a ukončené praxe.                       |
-| Vidieť zoznam spolupracujúcich organizácií a firiem       | Ako vedúci úracoviska chcem mať možnosť vidieť zoznam spolupracujúcich organizácií a firiem.       |
-| Zobraziť zoznam osvedčení                                 | Ako vedúci úracoviska chcem mať možnosť                                                            |
-| Priradiť povereného pracovníka pracoviska                 | Ako vedúci úracoviska chcem mať možnosť priradiť povereného pracovníka pracoviska.                 |
-| Vytvoriť report za pracovisko                             | Ako vedúci úracoviska chcem mať možnosť vytvoriť report za pracovisko.                             |
-| Zobraziť spätnú väzbu od zástupcu firmy alebo organizácie | Ako vedúci úracoviska chcem mať možnosť zobraziť spätnú väzbu od zástupcu firmy alebo organizácie. |
-| Zástupca firmy alebo organizácie:                         |                                                                                                    |
+
+### Vedúci pracoviska
+| Názov                                                     | Popis                                                                                              |
+|-----------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| Vidieť priebeh praxí                                      | Ako vedúci pracoviska chcem mať možnosť vidieť priebeh praxí.                                      |
+| Zobraziť aktuálny stav praxe                              | Ako vedúci pracoviska chcem mať možnosť zobraziť aktuálny stav praxe.                              |
+| Zobraziť schválené a ukončené praxe                       | Ako vedúci pracoviska chcem mať možnosť zobraziť schválené a ukončené praxe.                       |
+| Vidieť zoznam spolupracujúcich organizácií a firiem       | Ako vedúci pracoviska chcem mať možnosť vidieť zoznam spolupracujúcich organizácií a firiem.       |
+| Zobraziť zoznam osvedčení                                 | Ako vedúci pracoviska chcem mať možnosť                                                            |
+| Priradiť povereného pracovníka pracoviska                 | Ako vedúci pracoviska chcem mať možnosť priradiť povereného pracovníka pracoviska.                 |
+| Vytvoriť report za pracovisko                             | Ako vedúci pracoviska chcem mať možnosť vytvoriť report za pracovisko.                             |
+| Zobraziť spätnú väzbu od zástupcu firmy alebo organizácie | Ako vedúci pracoviska chcem mať možnosť zobraziť spätnú väzbu od zástupcu firmy alebo organizácie. |
+
+### Zástupca firmy alebo organizácie
+| Názov                                                     | Popis                                                                                              |
+|-----------------------------------------------------------|----------------------------------------------------------------------------------------------------|
 | Odsúhlasiť pracovný výkaz                                 | Ako zástupca firmy alebo organizácie chcem mať možnosť odsúhlasiť pracovný výkaz.                  |
 | Spravovať spätnú väzbu po registrácii                     | Ako zástupca firmy alebo organizácie chcem mať možnosť spravovať spätnú väzbu po registrácii.      |
 | Vložiť spätnú väzbu k praxi študenta                      | Ako zástupca firmy alebo organizácie chcem mať možnosť vložiť spätnú väzbu k praxi študenta.       |
 | Vložiť spätnú väzbu k účelu praxe                         | Ako zástupca firmy alebo organizácie chcem mať možnosť vložiť spätnú väzbu k účelu praxe.          |
-| Administrátor:                                            |                                                                                                    |
+
+### Administrátor
+| Názov                                                     | Popis                                                                                              |
+|-----------------------------------------------------------|----------------------------------------------------------------------------------------------------|
 | Spravovať študentov                                       | Ako administrátor chcem mať možnosť spravovať študentov.                                           |
 | Spravovať pracoviská                                      | Ako administrátor chcem mať možnosť spravovať pracoviská.                                          |
 | Spravovať poverených pracovníkov a vedúcich pracovísk     | Ako administrátor chcem mať možnosť spravovať poverených pracovníkov a vedúcich pracovísk.         |
@@ -94,3 +117,42 @@ Doménový model reprezentuje hlavné entitné objekty a ich vzťahy v rámci sy
 Databázový model definuje štruktúru databázy, tabuliek a vzťahy medzi nimi, ktoré sú potrebné na ukladanie a správu dát v systéme.
 
 ![Databázový model](documentation/erd.png)
+
+## Frontend
+Frontend definuje štruktúru používateľského rozhrania, komponentov a vzťahy medzi nimi, ktoré sú potrebné na zobrazenie a interakciu s dátami v rámci webovej aplikácie.
+
+### Neprihlásený používateľ
+![](documentation/frontend/login.png)
+![](documentation/frontend/register.png)
+![](documentation/frontend/reset_password.png)
+### Používateľ
+![](documentation/frontend/reset_password_2.png)
+![](documentation/frontend/reset_password_3.png)
+![](documentation/frontend/user_profile.png)
+### Administrátor
+![](documentation/frontend/admin_subjects_1.png)
+![](documentation/frontend/admin_subjects_2.png)
+![](documentation/frontend/admin_user.png)
+![](documentation/frontend/admin_user_2.png)
+### Študent
+![](documentation/frontend/student_company.png)
+![](documentation/frontend/student_documents_1.png)
+![](documentation/frontend/student_documents_2.png)
+![](documentation/frontend/student_internship_1.png)
+![](documentation/frontend/student_internship_2.png)
+![](documentation/frontend/student_report_1.png)
+![](documentation/frontend/student_subject.png)
+### Poverený pracovník pracoviska
+![](documentation/frontend/worker_company.png)
+![](documentation/frontend/worker_documents.png)
+![](documentation/frontend/worker_internship.png)
+![](documentation/frontend/worker_report.png)
+![](documentation/frontend/worker_student.png)
+### Vedúci pracoviska
+![](documentation/frontend/headworker_company.png)
+![](documentation/frontend/headworker_feedback_1.png)
+![](documentation/frontend/headworker_feedback_2.png)
+![](documentation/frontend/headworker_internship.png)
+![](documentation/frontend/headworker_report.png)
+### Zástupca firmy alebo organizácie
+![](documentation/frontend/companyworker_feedback.png)
