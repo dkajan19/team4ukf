@@ -58,6 +58,14 @@
             margin-top: 20px;
         }
     </style>
+
+@if($role == 'Poverený pracovník pracoviska')
+    <style>
+        :root {
+            --link-count: 6;
+        }
+    </style>
+@endif
 </head>
 
 <body>

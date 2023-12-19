@@ -37,23 +37,6 @@
         <i class="fa-solid fa-bars menu-icon" style="color: #000205;"></i>
         <ul class="nav-links">
             <li><a href="{{ route('dashboard') }}">Domov</a></li>
-            @if($role == 'admin')
-                <li><a href="{{ route('user_role.index') }}">Role používateľov</a></li>
-                <li><a href="{{ route('study_program.index') }}">Študijné programy</a></li>
-                <li><a href="{{ route('contract.index') }}">Zmluvy</a></li>
-                <li><a href="{{ route('documents.index') }}">Dokumenty</a></li>
-                <li><a href="{{ route('user.index') }}">Používatelia</a></li>
-                <li><a href="{{ route('address.index') }}">Adresy</a></li>
-                <li><a href="{{ route('company.index') }}">Firmy</a></li>
-                <li><a href="{{ route('school_subject.index') }}">Predmety</a></li>
-            @endif
-            @if($role == 'Študent')
-                <li><a href="{{ route('student.internship_details') }}">Prax</a></li>
-                <li><a href="{{ route('student.company') }}">Firma</a></li>
-                <li><a href="{{ route('student.program_and_subject') }}">Predmet</a></li>
-                <li><a href="{{ route('student.report') }}">Výkaz</a></li>
-                <li><a href="{{ route('student.documents') }}">Dokumenty</a></li>
-            @endif
             @if($role == 'Poverený pracovník pracoviska')
                 <li><a href="{{ route('worker.company') }}">Firma</a></li>
                 <li><a href="{{ route('worker.internship_details') }}">Prax</a></li>
@@ -76,24 +59,33 @@
     </nav>
 
     <div class="container">
-        <h1>{{ $user->meno}} {{$user->priezvisko}}</h1>
-
-        <p><strong>Meno:</strong> {{ $user->meno }}</p>
-        <p><strong>Priezvisko:</strong> {{ $user->priezvisko }}</p>
-        <p><strong>Telefónne číslo:</strong> {{ $user->tel_cislo }}</p>
-        <p><strong>Email:</strong> {{ $user->email }}</p>
-        @if($prax!=null)
-            <p><strong>Prax ID:</strong> {{ $prax->id }}</p>
-            <p><strong>Firma ID:</strong> {{ $prax->contract->company->id }}</p>
-        @else
-            <div class="alert alert-danger" role="alert">
-                <i class="fas fa-minus-circle alert__icon"></i>  Študent nemá doposiaľ žiadnu prax.
+        <h1>Upraviť používateľa</h1>
+        @if(session('success'))
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-check-circle alert__icon"></i>  {{ session('success') }}
             </div>
         @endif
-        <div id="companyAddressInfo" style="display: none;">
-        </div>
 
-        <a href="{{ route('worker.student_store', ['id' => $user->id]) }}">Naspäť na študentov</a>
+        <form method="post" action="{{ route('worker.student_update', $user->id) }}">
+            @csrf
+            @method('PUT')
+
+            <label for="meno">Meno:</label>
+            <input type="text" name="meno" value="{{ $user->meno }}" required>
+
+            <label for="priezvisko">Priezvisko:</label>
+            <input type="text" name="priezvisko" value="{{ $user->priezvisko }}" required>
+
+            <label for="tel_cislo">Telefonné číslo:</label>
+            <input type="text" name="tel_cislo" value="{{ $user->tel_cislo}}" required>
+
+            <label for="email">Email:</label>
+            <input type="text" name="email" value="{{ $user->email }}" required>
+
+            <button type="submit">Aktualizovať</button>
+            
+        </form>
+        <a href="{{ route('worker.student') }}">Naspäť na študentov</a>   
     </div>
 
 

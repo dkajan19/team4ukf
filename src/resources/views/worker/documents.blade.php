@@ -21,14 +21,7 @@
                 });
             });
     </script>
-@if($role == 'admin')
-    <style>
-        :root {
-            --link-count: 8;
-        }
-    </style>
-@endif
-@if($role == 'Študent')
+@if($role == 'Poverený pracovník pracoviska')
     <style>
         :root {
             --link-count: 6;
@@ -103,36 +96,79 @@
                 </div>
             @endif
 
-        <ul>
-        @foreach($documentss as $documents)
+            <ul>
+    @foreach($documentss as $document)
         <br>
-            <li>
-                <p><strong>ID: {{ $documents->id }} </strong>
+        <li>
+            Dokumenty <strong>ID_{{ $document->id }}</strong> s číslom <strong>{{ $document->typ_dokumentu }}</strong>
+            @if($latestInternship = $latestInternships[$document->id])
+                patriace pod Prax s <strong>ID_{{ $latestInternship->id }}</strong>
+            @endif
+
+            <button onclick="toggleDocumentDetails({{ $document->id }})" class="zobrazit">Zobraziť</button>
+
+            <button onclick="toggleDocumentUpdate({{ $document->id }})" class="upravit">Upraviť</button>
+
+            <form method="post" action="{{ route('worker.documents_destroy', $document->id) }}" style="display: inline;" id="delete-form-{{ $document->id }}">
                 @csrf
-                <p><strong>Typ dokumentu: {{ $documents->typ_dokumentu }} </strong>
-                @csrf
-                <form method="post" action="{{ route('worker.documents_destroy', $documents->id) }}" style="display: inline;">
+                @method('DELETE')
+                <button type="submit" class="vymazat">Vymazať</button>
+            </form>
+
+            <div id="document-details-{{ $document->id }}" style="display:none;">
+                <br>
+                <p><strong>Číslo dokumentu:</strong> {{ $document->typ_dokumentu }}</p>
+                <p><strong>Dokument:</strong>
+                @if($document->dokument != null && $document->dokument != "null" )
+                    <a href="{{ route('worker.documents_download', ['id' => $document->id]) }}">Stiahnuť dokumenty</a>
+                    </p>
+                @else
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-minus-circle alert__icon"></i>  Dokument nebol doposiaľ nahraný!
+                    </div>
+                    </p>
+                @endif
+            </div>
+
+            <div id="update-form-{{ $document->id }}" style="display:none;">
+                <br>
+                <form method="post" action="{{ route('worker.documents_update',['id' => $document->id]) }}" enctype="multipart/form-data">
                     @csrf
-                    @method('DELETE')
-                    <button type="submit">Vymazať</button>
+                    @method('PUT')
 
+                    <label for="dokument">Vyberte súbor:</label>
+                    <input type="file" name="dokument">
+
+                    {{-- Add a hidden input for the document ID --}}
+                    <input type="hidden" name="document_id" value="{{ $document->id }}">
+                    
+                    {{-- Add the hidden method field for PUT request --}}
+                    <input type="hidden" name="_method" value="PUT">
+
+                    <button type="submit" class="upravit">Upraviť</button>
                 </form>
+            </div>
 
-            </li>
-        @endforeach
-        </ul>
+
+        </li>
+    @endforeach
+</ul>
+
+<script>
+    function toggleDocumentUpdate(documentId) {
+        var customInternshipForm = document.getElementById("update-form-" + documentId);
+        customInternshipForm.style.display = (customInternshipForm.style.display === "none") ? "block" : "none";
+    }
+    function toggleDocumentDetails(documentId) {
+        var customInternshipForm = document.getElementById("document-details-" + documentId);
+        customInternshipForm.style.display = (customInternshipForm.style.display === "none") ? "block" : "none";
+    }
+</script>
+
+
 
 
     </div>
-
-    <script>
-        $(document).ready(function() {
-            $("#create-form, #address-fields").hide();
-            $("#toggle-form").click(function() {
-                $("#create-form, #address-fields").toggle();
-            });
-        });
-    </script>
 
 </script>
 

@@ -22,24 +22,10 @@
                 });
             });
     </script>
-@if($role == 'admin')
-    <style>
-        :root {
-            --link-count: 8;
-        }
-    </style>
-@endif
-@if($role == 'Študent')
-    <style>
-        :root {
-            --link-count: 6;
-        }
-    </style>
-@endif
     @if($role == 'Poverený pracovník pracoviska')
         <style>
             :root {
-                --link-count: 2;
+                --link-count: 6;
             }
         </style>
     @endif
@@ -112,28 +98,35 @@
         <button id="addCustomInternship" onclick="toggleCustomInternshipForm()">Pridať prax</button>
 
         <div id="customInternshipForm" style="display: none;">
-            <br>
+    <br>
+    <form method="POST" action="{{ route('worker.add_custom_internship') }}">
+        @csrf
+        <label for="company_id_add">Vyberte firmu:</label>
+        <select name="company_id_add" style="width: 100%;" required>
+            <option value="" disabled selected>Vyberte firmu</option>
+            @foreach ($companies_all as $company)
+                <option value="{{ $company->id }}">{{ $company->nazov_firmy }}</option>
+            @endforeach
+        </select>
+        <label for="student_id_add">Vyberte študenta:</label>
+        <select name="student_id_add" style="width: 100%;" required>
+            <option value="" disabled selected>Vyberte študenta</option>
+            @foreach ($users as $student)
+                <option value="{{ $student->id }}">{{ $student->meno }} {{ $student->priezvisko }}</option>
+            @endforeach
+        </select>
+        <label for="description_add">Popis:</label>
+        <textarea name="description_add" style="width: 99%; height: 15em;" required></textarea>
+        <label for="datum_zaciatku_add">Dátum začiatku:</label>
+        <input type="date" name="datum_zaciatku_add" required>
+        <label for="datum_konca_add">Dátum konca:</label>
+        <input type="date" name="datum_konca_add" required>
+        <br>
+        <br>
+        <button type="submit">Pridať prax</button>
+    </form>
+</div>
 
-
-            <form method="POST" action="{{ route('worker.add_custom_internship') }}">
-                @csrf
-                <label for="company_id_add">Vyberte firmu:</label>
-                <select name="company_id_add" style="width: 100%;" required><option value="" disabled selected>Vyberte firmu</option>
-                    @foreach ($companies_all as $company)
-                        <option value="{{ $company->id }}">{{ $company->nazov_firmy }}</option>
-                    @endforeach
-                </select>
-                <label for="description_add">Popis:</label>
-                <textarea name="description_add" style="width: 99%; height: 15em;" required></textarea>
-                <label for="datum_zaciatku_add">Dátum začiatku:</label>
-                <input type="date" name="datum_zaciatku_add" required>
-                <label for="datum_konca_add">Dátum konca:</label>
-                <input type="date" name="datum_konca_add" required>
-                <br>
-                <br>
-                <button type="submit">Pridať prax</button>
-            </form>
-        </div>
 
 
             <h2>Zobraziť detaily o praxi</h2>
@@ -163,10 +156,11 @@
 
                 var subjectHtml = (selectedPrax.school_subject.nazov !== 'NULL')
                     ? "<p><strong>Predmet pokrývajúci prax:</strong> " + selectedPrax.school_subject.nazov + "</p>"
-                    : "<p style='display:inline;'><strong>Predmet pokrývajúci prax:</strong></p><p style='color:red;display:inline;'> Je potrebné vybrať  <a href='" + '{{ route("student.program_and_subject") }}' + "'>TU</a></p>";                var detailsHtml = "<h2>Detaily praxe</h2>" +
-
-                    "<p><strong>Aktuálny stav:</strong> <span id= aktualnyStav>" + selectedPrax.aktualny_stav + "</span></p>" +
-                    "<button onclick= zmenitStav() >Zmeniť stav</button>" +
+                    : "<p style='display:inline;'><strong>Predmet pokrývajúci prax:</strong></p><p style='color:red;display:inline;'> Doposiaľ nebol študentom vybraný!</p>";
+                    
+                    var detailsHtml = "<h2>Detaily praxe</h2>" +
+                    "<div><p><strong>Aktuálny stav:</strong> <span id= aktualnyStav>" + selectedPrax.aktualny_stav + "</span></p>" +
+                    "<button onclick= zmenitStav() >Zmeniť stav</button></div>" +
 
                     "<p><strong>Číslo zmluvy:</strong> " + selectedPrax.contract.zmluva + "</p>" +
                     "<p><strong>Dokumenty:</strong> " + selectedPrax.documents.id + "</p>" +
@@ -179,17 +173,17 @@
 
                 var currentStudentId = selectedPrax.student_id;
 
-                var selectOptions = "<option value='' disabled>Vyberte ID praxe</option>";
+                var selectOptions = "<option value='' disabled>Vyberte študenta</option>";
 
                 @foreach ($users as $user)
                 var isSelected = currentStudentId === {{ $user->id }} ? ' selected' : '';
                 selectOptions += "<option value='{{ $user->id }}'" + isSelected + ">{{ $user->meno }} {{ $user->priezvisko }}</option>";
                 @endforeach
 
-                    detailsHtml += "<p><strong>Priradiť študenta</strong> " +
-                    "<select id='studentSelect' onchange='updateAssignedStudent()'>" +
+                    detailsHtml += "<div><p><strong>Priradený študent</strong> " +
+                    "<select id='studentSelect' onchange='updateAssignedStudent()' style='width:auto;'>" +
                     selectOptions +
-                    "</select>";
+                    "</select></p></div>";
 
 
 

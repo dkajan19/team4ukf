@@ -21,38 +21,10 @@
                 });
             });
     </script>
-@if($role == 'admin')
-    <style>
-        :root {
-            --link-count: 8;
-        }
-    </style>
-@endif
-@if($role == 'Študent')
-    <style>
-        :root {
-            --link-count: 6;
-        }
-    </style>
-@endif
 @if($role == 'Poverený pracovník pracoviska')
     <style>
         :root {
-            --link-count: 2;
-        }
-    </style>
-@endif
-@if($role == 'Vedúci pracoviska')
-    <style>
-        :root {
-            --link-count: 1;
-        }
-    </style>
-@endif
-@if($role == 'Zástupca firmy alebo organizácie')
-    <style>
-        :root {
-            --link-count: 1;
+            --link-count: 6;
         }
     </style>
 @endif
@@ -140,14 +112,16 @@
                     <form method="get" action="{{ route('worker.student_show', $user->id) }}" style="display: inline;">
                         @csrf
                         <button type="submit">Zobraziť</button>
-
+                    </form>
+                    <form method="get" action="{{ route('worker.student_edit', $user->id) }}" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="upravit">Upraviť</button>
                     </form>
                     <form method="post" action="{{ route('worker.student_destroy', $user->id) }}" style="display: inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit">Vymazať</button>
+                        <button type="submit" class="vymazat">Vymazať</button>
                     </form>
-
                 </li>
             @endforeach
         </ul>

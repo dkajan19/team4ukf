@@ -20,24 +20,10 @@
                 });
             });
     </script>
-@if($role == 'admin')
-    <style>
-        :root {
-            --link-count: 8;
-        }
-    </style>
-@endif
-@if($role == 'Študent')
-    <style>
-        :root {
-            --link-count: 6;
-        }
-    </style>
-@endif
     @if($role == 'Poverený pracovník pracoviska')
         <style>
             :root {
-                --link-count: 2;
+                --link-count: 6;
             }
         </style>
     @endif

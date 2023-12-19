@@ -37,7 +37,7 @@
 @if($role == 'Poverený pracovník pracoviska')
     <style>
         :root {
-            --link-count: 2;
+            --link-count: 6;
         }
     </style>
 @endif
