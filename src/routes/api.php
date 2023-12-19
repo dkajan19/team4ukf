@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StudyProgramController;
+use App\Http\Controllers\UserRoleController;
+use App\Http\Controllers\DocumentsController;
+use App\Http\Controllers\CompanyController;
 
 /*
 |--------------------------------------------------------------------------

@@ -6,6 +6,15 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {
+
+    protected $routeMiddleware = [
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        'Študent' => \App\Http\Middleware\StudentMiddleware::class,
+        'Poverený pracovník pracoviska' => \App\Http\Middleware\WorkerMiddleware::class,
+        'Vedúci pracoviska' => \App\Http\Middleware\HeadWorkerMiddleware::class,
+        'Zástupca firmy alebo organizácie' => \App\Http\Middleware\CompanyWorkerMiddleware::class,
+    ];
+
     /**
      * The application's global HTTP middleware stack.
      *
