@@ -143,7 +143,7 @@
             <select id="internshipSelect" onchange="displayInternshipDetails()">
                 <option value="" disabled selected>Vyberte ID praxe</option>
                 @foreach ($praxes as $prax)
-                    <option value="{{ $prax->id }}">{{ $prax->id }}</option>
+                    <option value="{{ $prax->id }}">{{ $prax->id }} - {{ $prax->popis_praxe}} - {{ $prax->contract->company->nazov_firmy}}</option>
                 @endforeach
             </select>
             <div id="CompanyDetailsContainer"></div>

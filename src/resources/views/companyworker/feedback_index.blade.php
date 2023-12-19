@@ -92,12 +92,12 @@
                 </form>
                 <form method="get" action="{{ route('companyworker.feedback_edit', $feedback->id) }}" style="display: inline;">
                     @csrf
-                    <button type="submit">Upraviť</button>
+                    <button type="submit" class="upravit">Upraviť</button>
                 </form>
                 <form method="post" action="{{ route('companyworker.feedback_destroy', $feedback->id) }}" style="display: inline;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit">Vymazať</button>
+                    <button type="submit" class="vymazat">Vymazať</button>
                 </form>
 
             </li>
@@ -119,7 +119,9 @@
             </select>
 
                 <label for="feedback">Spätná väzba:</label>
+                @foreach($praxes as $prax)
             <textarea name="feedback" rows="25" cols="111" required>{{ old('feedback', $prax->feedback) }}</textarea>
+                @endforeach
 
             <button type="submit">Vytvoriť</button>
         </form>

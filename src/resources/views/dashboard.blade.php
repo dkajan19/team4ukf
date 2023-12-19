@@ -152,7 +152,7 @@
             <div class="alert alert-info" role="alert">
                 <i class="fas fa-info-circle alert__icon"></i>  Máte možnosť pridávať, upravovať a vymazať spätnú väzbu praxe študenta, ktorý u Vás absolvoval prax.
             </div>
-            <p>Ak budete mať otázky alebo potrebujete ďalšie informácie o systéme, neváhajte sa obrátiť na administrátorov. Želáme vám úspešné riadenie pracoviska a jeho príslušných procesov!</p>
+            <p>Ak budete mať otázky alebo potrebujete ďalšie informácie o systéme, neváhajte sa obrátiť na administrátorov.</p>
         @endif
     </div>
 

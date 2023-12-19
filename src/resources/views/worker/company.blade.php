@@ -107,12 +107,12 @@
                 </form>
                 <form method="get" action="{{ route('worker.company_edit', $company->id) }}" style="display: inline;">
                     @csrf
-                    <button type="submit">Upraviť</button>
+                    <button type="submit" class="upravit">Upraviť</button>
                 </form>
                 <form method="post" action="{{ route('worker.company_destroy', $company->id) }}" style="display: inline;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit">Vymazať</button>
+                    <button type="submit" class="vymazat">Vymazať</button>
                 </form>
 
             </li>
